@@ -87,7 +87,7 @@
   --dur-slow: 620ms;
   --dur-image: 900ms;
 
-  --header-h: 5.625rem;   /* 25% taller than the original 4.5rem */
+  --header-h: 6.1875rem;  /* 4.5rem base, +25%, then +10% thicker again */
   color-scheme: light;
 }
 
@@ -316,7 +316,7 @@ p:last-child { margin-bottom: 0; }
 }
 /* Condenses once the visitor leaves the hero. */
 .header[data-scrolled="true"] {
-  height: 4.375rem;
+  height: 4.8125rem;
   background: color-mix(in srgb, var(--bg) 94%, transparent);
   border-bottom-color: var(--border);
 }
