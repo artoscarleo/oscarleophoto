@@ -1,0 +1,348 @@
+/* ==========================================================================
+   Oscar Léo Photography — site behaviour
+   Vanilla JS, no dependencies. ~6KB unminified.
+
+   Deliberately not using GSAP: every animation here is a class toggle driving
+   a CSS transition on transform/opacity. A 70KB animation library would cost
+   more than the effects are worth on an image-heavy site, and the compositor
+   already does this work for free.
+
+   Every feature degrades to plain, fully usable HTML if this file fails.
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* Both the drawer and the lightbox are hidden with `visibility: hidden`, and
+     calling focus() on a still-hidden element is a silent no-op — the browser
+     has not applied the style change yet when the click handler runs. Waiting a
+     frame lets the visibility flip land first, so focus actually moves into the
+     dialog for keyboard and screen-reader users. */
+  function focusWhenVisible(el) {
+    if (!el) return;
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () { el.focus(); });
+    });
+  }
+
+  /* ---------- Theme -------------------------------------------------------
+     The inline script in <head> sets the initial theme before first paint so
+     there is no flash. This only handles the toggle and persistence.
+     -------------------------------------------------------------------- */
+  function initTheme() {
+    var toggle = document.querySelector('[data-theme-toggle]');
+    if (!toggle) return;
+
+    function current() {
+      var explicit = document.documentElement.getAttribute('data-theme');
+      if (explicit) return explicit;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function label() {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+      toggle.setAttribute('title', 'Switch to ' + next + ' theme');
+    }
+
+    label();
+
+    toggle.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('ol-theme', next); } catch (e) { /* private mode */ }
+      label();
+    });
+
+    // Follow the OS if the visitor has never chosen for themselves.
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+      var stored = null;
+      try { stored = localStorage.getItem('ol-theme'); } catch (e) {}
+      if (!stored) label();
+    });
+  }
+
+  /* ---------- Header condense on scroll ---------------------------------- */
+  function initHeader() {
+    var header = document.querySelector('[data-header]');
+    if (!header) return;
+    var ticking = false;
+
+    function update() {
+      header.setAttribute('data-scrolled', window.scrollY > 40 ? 'true' : 'false');
+      ticking = false;
+    }
+    update();
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }, { passive: true });
+  }
+
+  /* ---------- Mobile navigation ------------------------------------------ */
+  function initMobileNav() {
+    var nav = document.querySelector('[data-mobile-nav]');
+    var openBtn = document.querySelector('[data-nav-open]');
+    var closeBtn = document.querySelector('[data-nav-close]');
+    if (!nav || !openBtn) return;
+
+    function setOpen(open) {
+      nav.setAttribute('data-open', open ? 'true' : 'false');
+      nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.setAttribute('data-scroll-locked', open ? 'true' : 'false');
+      if (open) {
+        var first = nav.querySelector('a, button');
+        focusWhenVisible(first);
+      } else {
+        openBtn.focus();
+      }
+    }
+
+    openBtn.addEventListener('click', function () { setOpen(true); });
+    if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.getAttribute('data-open') === 'true') setOpen(false);
+    });
+
+    // Keep focus inside the drawer while it is open.
+    nav.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var items = nav.querySelectorAll('a, button');
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  /* ---------- Scroll reveals ---------------------------------------------
+     One shared observer, unobserved after firing. Elements are revealed
+     immediately if IntersectionObserver is missing or motion is reduced,
+     so content is never trapped behind an effect that did not run.
+     -------------------------------------------------------------------- */
+  function initReveals() {
+    var targets = document.querySelectorAll('[data-reveal], [data-reveal-img]');
+    if (!targets.length) return;
+
+    function showAll() {
+      Array.prototype.forEach.call(targets, function (el) {
+        el.setAttribute(el.hasAttribute('data-reveal-img') ? 'data-reveal-img' : 'data-reveal', 'is-visible');
+      });
+    }
+
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+      showAll();
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        el.setAttribute(el.hasAttribute('data-reveal-img') ? 'data-reveal-img' : 'data-reveal', 'is-visible');
+        observer.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    Array.prototype.forEach.call(targets, function (el, i) {
+      // Stagger within a group, capped so a long gallery never crawls.
+      if (!el.style.getPropertyValue('--i')) {
+        var group = el.getAttribute('data-reveal-group');
+        if (group) el.style.setProperty('--i', String(Math.min(i % 8, 7)));
+      }
+      observer.observe(el);
+    });
+
+    // If the visitor turns reduced-motion on mid-visit, stop hiding things.
+    reduceMotion.addEventListener('change', function (e) { if (e.matches) showAll(); });
+  }
+
+  /* ---------- Service list hover preview ---------------------------------
+     Purely decorative: pointer-fine devices only, aria-hidden, never
+     interactive. Position is written inside rAF to avoid layout thrash.
+     -------------------------------------------------------------------- */
+  function initServicePreview() {
+    var list = document.querySelector('[data-service-list]');
+    var preview = document.querySelector('[data-service-preview]');
+    if (!list || !preview) return;
+
+    // Evaluated per event, not once at load: a window that starts narrow and is
+    // later widened (or a visitor who turns reduced-motion on mid-visit) must
+    // get the correct behaviour without a reload.
+    var supported = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 68em)');
+    function enabled() { return supported.matches && !reduceMotion.matches; }
+
+    var images = preview.querySelectorAll('img');
+    var x = 0, y = 0, ticking = false;
+
+    // Write custom properties, not `transform` — the CSS owns the transform so
+    // the show/hide scale transition keeps working.
+    function render() {
+      preview.style.setProperty('--px', x + 'px');
+      preview.style.setProperty('--py', y + 'px');
+      ticking = false;
+    }
+
+    list.addEventListener('pointermove', function (e) {
+      if (!enabled()) return;
+      x = e.clientX + 140;
+      y = e.clientY;
+      // Keep it on screen near the right edge.
+      var maxX = window.innerWidth - preview.offsetWidth / 2 - 24;
+      if (x > maxX) x = e.clientX - 140;
+      if (!ticking) { ticking = true; window.requestAnimationFrame(render); }
+    });
+
+    Array.prototype.forEach.call(list.querySelectorAll('[data-preview-index]'), function (row) {
+      row.addEventListener('pointerenter', function () {
+        if (!enabled()) return;
+        var idx = row.getAttribute('data-preview-index');
+        Array.prototype.forEach.call(images, function (img, i) {
+          img.setAttribute('data-active', String(i) === idx ? 'true' : 'false');
+        });
+        preview.setAttribute('data-visible', 'true');
+      });
+    });
+
+    function hide() { preview.setAttribute('data-visible', 'false'); }
+    list.addEventListener('pointerleave', hide);
+    supported.addEventListener('change', hide);
+    reduceMotion.addEventListener('change', hide);
+  }
+
+  /* ---------- Lightbox ----------------------------------------------------
+     Tiles are real <button>s in the markup, so the gallery is keyboard
+     operable whether or not this initialises.
+     -------------------------------------------------------------------- */
+  function initLightbox() {
+    var box = document.querySelector('[data-lightbox]');
+    if (!box) return;
+    var tiles = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox-item]'));
+    if (!tiles.length) return;
+
+    var stage = box.querySelector('[data-lightbox-image]');
+    var caption = box.querySelector('[data-lightbox-caption]');
+    var counter = box.querySelector('[data-lightbox-count]');
+    var closeBtn = box.querySelector('[data-lightbox-close]');
+    var prevBtn = box.querySelector('[data-lightbox-prev]');
+    var nextBtn = box.querySelector('[data-lightbox-next]');
+    var index = 0;
+    var lastFocused = null;
+
+    function show(i) {
+      index = (i + tiles.length) % tiles.length;
+      var tile = tiles[index];
+      var img = tile.querySelector('img');
+      stage.src = tile.getAttribute('data-full') || img.currentSrc || img.src;
+      stage.alt = img.alt || '';
+      if (caption) caption.textContent = img.alt || '';
+      if (counter) counter.textContent = (index + 1) + ' / ' + tiles.length;
+    }
+
+    function open(i) {
+      lastFocused = document.activeElement;
+      show(i);
+      box.setAttribute('data-open', 'true');
+      box.setAttribute('aria-hidden', 'false');
+      document.body.setAttribute('data-scroll-locked', 'true');
+      focusWhenVisible(closeBtn);
+    }
+
+    function close() {
+      box.setAttribute('data-open', 'false');
+      box.setAttribute('aria-hidden', 'true');
+      document.body.setAttribute('data-scroll-locked', 'false');
+      if (lastFocused) lastFocused.focus();
+    }
+
+    tiles.forEach(function (tile, i) {
+      tile.addEventListener('click', function () { open(i); });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (prevBtn) prevBtn.addEventListener('click', function () { show(index - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { show(index + 1); });
+
+    /* The image element now fills the whole stage and letterboxes itself, so a
+       click in the empty margin beside a portrait still lands on the <img>.
+       Work out where the visible picture actually sits and only keep the click
+       if it is on the picture itself — otherwise it counts as a backdrop click. */
+    function pointIsOnPicture(e) {
+      var r = stage.getBoundingClientRect();
+      var nW = stage.naturalWidth, nH = stage.naturalHeight;
+      if (!nW || !nH) return true;
+      var scale = Math.min(r.width / nW, r.height / nH);
+      var w = nW * scale, h = nH * scale;
+      var left = r.left + (r.width - w) / 2;
+      var top = r.top + (r.height - h) / 2;
+      return e.clientX >= left && e.clientX <= left + w &&
+             e.clientY >= top && e.clientY <= top + h;
+    }
+
+    box.addEventListener('click', function (e) {
+      if (e.target === box || e.target.classList.contains('lightbox__stage')) { close(); return; }
+      if (e.target === stage && !pointIsOnPicture(e)) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (box.getAttribute('data-open') !== 'true') return;
+      if (e.key === 'Escape') { close(); }
+      else if (e.key === 'ArrowLeft') { show(index - 1); }
+      else if (e.key === 'ArrowRight') { show(index + 1); }
+      else if (e.key === 'Tab') {
+        var items = box.querySelectorAll('button');
+        if (!items.length) return;
+        var first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // Swipe between images on touch devices.
+    var startX = null;
+    box.addEventListener('touchstart', function (e) { startX = e.changedTouches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 55) show(index + (dx < 0 ? 1 : -1));
+      startX = null;
+    }, { passive: true });
+  }
+
+  /* ---------- Mark the current page in the nav --------------------------- */
+  function initCurrentNav() {
+    var path = window.location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-nav-link]'), function (a) {
+      var href = a.getAttribute('href').replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+      if (href === path) a.setAttribute('aria-current', 'page');
+    });
+  }
+
+  function init() {
+    initTheme();
+    initHeader();
+    initMobileNav();
+    initReveals();
+    initServicePreview();
+    initLightbox();
+    initCurrentNav();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+Build landscape hero crops from portrait source photographs.
+
+Why this exists
+---------------
+The hero is a full-bleed box whose shape follows the browser window. On a phone
+that box is tall and a portrait photograph fits it perfectly. On a desktop the
+box is wide — and `object-fit: cover` then scales a 3:4 portrait until it fills
+the width, hiding well over half its height. Measured on the headshots page at
+1440x900: 47% of the photo visible, 17% of it cut off the top. The subject's
+head is in that top 17%, so the hero showed a headshot with no head.
+
+The fix is art direction: a separate 16:9 crop for landscape-shaped windows,
+cut from the part of the frame that actually holds the subject. `FACE_Y` below
+is where the subject's face sits in the original, as a fraction of image height
+(measured by eye, once, per photograph). The crop is placed so the face lands at
+FACE_TARGET of the crop height — high enough to stay clear of the headline that
+overlays the lower half.
+
+Cropping needs compositing, which this machine has no library for, so each crop
+is written as a one-page PDF that embeds the JPEG losslessly inside a clipping
+rectangle and is then rasterised by `sips`.
+
+    python3 _build/hero_crops.py
+"""
+
+import os
+import subprocess
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+IMG = os.path.join(ROOT, "assets", "img")
+TMP = "/tmp/ol-hero-crops"
+
+WIDE_RATIO = 16 / 9      # matches the shape of most desktop windows
+FACE_TARGET = 0.35       # where the face should sit within the crop
+OUT_WIDTHS = [800, 1200, 1800]
+QUALITY = {800: 68, 1200: 58, 1800: 54}
+
+# folder, slug, face centre as a fraction of the full image height
+HEROES = [
+    ("headshots", "vancouver-headshot-corporate-04", 0.15),     # headshots page
+    ("headshots", "vancouver-headshot-editorial-08", 0.18),     # brand page
+    ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
+    ("concerts", "vancouver-concert-festival-15", 0.31),        # concerts page
+    ("concerts", "vancouver-concert-backstage-41", 0.27),       # BTS page
+]
+
+
+def dims(path):
+    out = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", path],
+                         capture_output=True, text=True).stdout
+    w = h = 0
+    for line in out.splitlines():
+        if "pixelWidth" in line:
+            w = int(line.split(":")[1])
+        elif "pixelHeight" in line:
+            h = int(line.split(":")[1])
+    return w, h
+
+
+def crop_pdf(src, out_pdf, crop_w, crop_h, off_x, off_y):
+    """One-page PDF showing only the requested window of `src`."""
+    with open(src, "rb") as fh:
+        data = fh.read()
+    iw, ih = dims(src)
+
+    objs = []
+
+    def add(body):
+        objs.append(body)
+        return len(objs)
+
+    img_num = add(
+        b"<< /Type /XObject /Subtype /Image /Width " + str(iw).encode()
+        + b" /Height " + str(ih).encode()
+        + b" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "
+        + str(len(data)).encode() + b" >>\nstream\n" + data + b"\nendstream"
+    )
+
+    # PDF's origin is bottom-left; off_y is measured from the top.
+    pdf_y = -(ih - crop_h - off_y)
+    content = (
+        b"q\n"
+        + f"0 0 {crop_w} {crop_h} re W n\n".encode()
+        + f"{iw} 0 0 {ih} {-off_x} {pdf_y} cm\n".encode()
+        + f"/Im{img_num} Do\n".encode()
+        + b"Q\n"
+    )
+    content_num = add(b"<< /Length " + str(len(content)).encode()
+                      + b" >>\nstream\n" + content + b"\nendstream")
+
+    page_num = len(objs) + 1
+    pages_num = page_num + 1
+    add(b"<< /Type /Page /Parent " + str(pages_num).encode()
+        + b" 0 R /MediaBox [0 0 " + str(crop_w).encode() + b" " + str(crop_h).encode()
+        + b"] /Resources << /XObject << /Im" + str(img_num).encode() + b" "
+        + str(img_num).encode() + b" 0 R >> >> /Contents "
+        + str(content_num).encode() + b" 0 R >>")
+    add(b"<< /Type /Pages /Kids [" + str(page_num).encode() + b" 0 R] /Count 1 >>")
+    cat_num = add(b"<< /Type /Catalog /Pages " + str(pages_num).encode() + b" 0 R >>")
+
+    out = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
+    offsets = {}
+    for i, body in enumerate(objs, start=1):
+        offsets[i] = len(out)
+        out += str(i).encode() + b" 0 obj\n" + body + b"\nendobj\n"
+    xref_at = len(out)
+    count = len(objs) + 1
+    out += b"xref\n0 " + str(count).encode() + b"\n0000000000 65535 f \n"
+    for i in range(1, count):
+        out += ("%010d 00000 n \n" % offsets[i]).encode()
+    out += (b"trailer\n<< /Size " + str(count).encode() + b" /Root "
+            + str(cat_num).encode() + b" 0 R >>\nstartxref\n"
+            + str(xref_at).encode() + b"\n%%EOF\n")
+    with open(out_pdf, "wb") as fh:
+        fh.write(bytes(out))
+
+
+def main():
+    os.makedirs(TMP, exist_ok=True)
+    manifest = []
+    for folder, slug, face_y in HEROES:
+        src = os.path.join(IMG, folder, slug + "-1800.jpg")
+        iw, ih = dims(src)
+
+        crop_w = iw
+        crop_h = int(round(crop_w / WIDE_RATIO))
+        if crop_h > ih:                      # already wide enough
+            crop_h = ih
+            crop_w = int(round(ih * WIDE_RATIO))
+
+        # place the crop so the face lands at FACE_TARGET of its height
+        off_y = int(round(face_y * ih - FACE_TARGET * crop_h))
+        off_y = max(0, min(off_y, ih - crop_h))
+        off_x = max(0, (iw - crop_w) // 2)
+
+        pdf = os.path.join(TMP, slug + ".pdf")
+        crop_pdf(src, pdf, crop_w, crop_h, off_x, off_y)
+
+        made = []
+        for w in OUT_WIDTHS:
+            if w > crop_w:
+                continue
+            dst = os.path.join(IMG, folder, f"{slug}-wide-{w}.jpg")
+            subprocess.run(["sips", "-s", "format", "jpeg",
+                            "-s", "formatOptions", str(QUALITY[w]),
+                            "--resampleWidth", str(w), pdf, "--out", dst],
+                           capture_output=True)
+            made.append(w)
+        face_in_crop = (face_y * ih - off_y) / crop_h
+        manifest.append(f"{slug}|{crop_w}|{crop_h}|{','.join(map(str, made))}")
+        print(f"{slug:42} crop {crop_w}x{crop_h} @y={off_y:4}  "
+              f"face at {face_in_crop*100:4.1f}% of crop  widths {made}")
+
+    with open(os.path.join(IMG, "hero-wide.txt"), "w") as fh:
+        fh.write("\n".join(manifest) + "\n")
+
+
+if __name__ == "__main__":
+    main()

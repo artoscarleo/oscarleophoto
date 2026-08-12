@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Local editor / tooling config (contains absolute paths from this machine)
+.claude/
+
+# Scratch output from the image scripts
+/tmp/
+*.pdf
