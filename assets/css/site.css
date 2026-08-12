@@ -88,6 +88,8 @@
   --dur-image: 900ms;
 
   --header-h: 6.1875rem;  /* 4.5rem base, +25%, then +10% thicker again */
+  --header-h-sm: 4.8125rem;  /* the condensed bar, once scrolled */
+  --logo-fill: 0.9;          /* how much of the bar the mark occupies */
   color-scheme: light;
 }
 
@@ -316,7 +318,7 @@ p:last-child { margin-bottom: 0; }
 }
 /* Condenses once the visitor leaves the hero. */
 .header[data-scrolled="true"] {
-  height: 4.8125rem;
+  height: var(--header-h-sm);
   background: color-mix(in srgb, var(--bg) 94%, transparent);
   border-bottom-color: var(--border);
 }
@@ -1306,7 +1308,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 .skip-link { min-height: 44px; display: inline-flex; align-items: center; }
 
 /* Brand wordmark: comfortable target without changing how it looks. */
-.brand { padding-block: var(--space-2xs); }
+.brand { padding-block: 0; }   /* the mark alone far exceeds the touch-target minimum */
 
 /* Inline links sit at the text's own 17px line box. Padding grows the tap
    target past the 24px minimum; the negative margin cancels it so line
@@ -1401,7 +1403,9 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 .brand { display: inline-flex; align-items: center; gap: var(--space-2xs); }
 
 .brand__mark {
-  width: 3.234rem;
+  /* Sized from the bar, not a fixed value: the mark fills 90% of the
+     header height and keeps that relationship if the bar changes again. */
+  width: calc(var(--header-h) * var(--logo-fill));
   flex: none;
   background-image: url("../img/logo/oscar-leo-photography-logo-light-240.png");
   transition: width var(--dur) var(--ease-out);
@@ -1418,5 +1422,5 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 :root[data-theme="light"] .header:not([data-scrolled="true"]) .brand__mark {
   background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
 }
-.header[data-scrolled="true"] .brand__mark { width: 2.75rem; }
-.mobile-nav .brand__mark { width: 3.234rem; }
+.header[data-scrolled="true"] .brand__mark { width: calc(var(--header-h-sm) * var(--logo-fill)); }
+.mobile-nav .brand__mark { width: calc(var(--header-h) * var(--logo-fill)); }
