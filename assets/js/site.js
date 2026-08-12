@@ -325,7 +325,9 @@
   function initCurrentNav() {
     var path = window.location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
     Array.prototype.forEach.call(document.querySelectorAll('[data-nav-link]'), function (a) {
-      var href = a.getAttribute('href').replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+      // a.pathname, not getAttribute('href') — the markup uses relative links so
+      // the browser has to resolve them before they can be compared.
+      var href = a.pathname.replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
       if (href === path) a.setAttribute('aria-current', 'page');
     });
   }

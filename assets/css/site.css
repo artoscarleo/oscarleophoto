@@ -1270,17 +1270,17 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 .logo-mark {
   display: block;
   aspect-ratio: 1 / 1;
-  background-image: url("/assets/img/logo/oscar-leo-photography-logo-light-480.png");
+  background-image: url("../img/logo/oscar-leo-photography-logo-light-480.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 :root[data-theme="dark"] .logo-mark {
-  background-image: url("/assets/img/logo/oscar-leo-photography-logo-dark-480.png");
+  background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .logo-mark {
-    background-image: url("/assets/img/logo/oscar-leo-photography-logo-dark-480.png");
+    background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
   }
 }
 
@@ -1403,20 +1403,20 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 .brand__mark {
   width: 2.94rem;
   flex: none;
-  background-image: url("/assets/img/logo/oscar-leo-photography-logo-light-240.png");
+  background-image: url("../img/logo/oscar-leo-photography-logo-light-240.png");
   transition: width var(--dur) var(--ease-out);
 }
 :root[data-theme="dark"] .brand__mark {
-  background-image: url("/assets/img/logo/oscar-leo-photography-logo-dark-240.png");
+  background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .brand__mark {
-    background-image: url("/assets/img/logo/oscar-leo-photography-logo-dark-240.png");
+    background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
   }
 }
 .header:not([data-scrolled="true"]) .brand__mark,
 :root[data-theme="light"] .header:not([data-scrolled="true"]) .brand__mark {
-  background-image: url("/assets/img/logo/oscar-leo-photography-logo-dark-240.png");
+  background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
 }
 .header[data-scrolled="true"] .brand__mark { width: 2.5rem; }
 .mobile-nav .brand__mark { width: 2.94rem; }

@@ -449,15 +449,46 @@ def render(page, body):
     return head(page) + header() + hero(page) + '  <main id="main">\n' + body + "  </main>\n" + footer() + lightbox()
 
 
+def relativize(html, depth):
+    """Rewrite root-relative URLs so the site works from any base path.
+
+    Served from a domain root, `/assets/...` is correct. Served from a subfolder
+    — which is what GitHub Pages does for a project repo — every one of those
+    URLs points outside the site and 404s. Relative paths are correct in both
+    places, so the same build can sit on Pages today and on the real domain
+    later without a rebuild.
+
+    Absolute URLs (canonical, og:image, JSON-LD) are deliberately left alone:
+    those must keep naming the production domain wherever the page is hosted.
+    """
+    prefix = "../" * depth
+    home = prefix if depth else "./"
+
+    def one(m):
+        attr, val = m.group(1), m.group(2)
+        return f'{attr}="{home}"' if val == "/" else f'{attr}="{prefix}{val[1:]}"'
+
+    html = re.sub(r'\b(href|src|data-full)="(/[^"]*)"', one, html)
+
+    def many(m):                      # srcset / imagesrcset hold several URLs
+        attr, val = m.group(1), m.group(2)
+        val = re.sub(r'(^|,\s*)/', lambda mm: mm.group(1) + prefix, val)
+        return f'{attr}="{val}"'
+
+    return re.sub(r'\b(srcset|imagesrcset)="([^"]*)"', many, html)
+
+
 def write(url, html):
     if url == "/":
         path = os.path.join(ROOT, "index.html")
+        depth = 0
     else:
         d = os.path.join(ROOT, url.strip("/"))
         os.makedirs(d, exist_ok=True)
         path = os.path.join(d, "index.html")
+        depth = url.strip("/").count("/") + 1
     with open(path, "w") as fh:
-        fh.write(html)
+        fh.write(relativize(html, depth))
     return path
 
 
