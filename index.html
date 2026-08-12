@@ -32,7 +32,7 @@
         imagesizes="100vw" href="assets/img/grid/vancouver-photographer-portrait-grid-1800.jpg">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/css/site.css?v=a3872e94">
+  <link rel="stylesheet" href="assets/css/site.css?v=e87d9120">
 
   <!-- Sets the theme before first paint so there is no flash of the wrong one. -->
   <script>
@@ -301,12 +301,20 @@
       </div>
     </section>
 
-    <section class="section container" id="services">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow">Services</span>
-        <h2>What I photograph</h2>
+    <section class="section services" id="services">
+      <div class="services__bg" data-service-bg aria-hidden="true">
+        <img src="assets/img/headshots/vancouver-headshot-business-07-1200.jpg" srcset="assets/img/headshots/vancouver-headshot-business-07-800.jpg 800w, assets/img/headshots/vancouver-headshot-business-07-1200.jpg 1200w, assets/img/headshots/vancouver-headshot-business-07-1800.jpg 1800w" sizes="100vw" alt="" width="400" height="533" loading="lazy" decoding="async" data-bg-index="0">
+        <img src="assets/img/concerts/vancouver-concert-crowd-12-1200.jpg" srcset="assets/img/concerts/vancouver-concert-crowd-12-800.jpg 800w, assets/img/concerts/vancouver-concert-crowd-12-1200.jpg 1200w, assets/img/concerts/vancouver-concert-crowd-12-1800.jpg 1800w" sizes="100vw" alt="" width="400" height="266" loading="lazy" decoding="async" data-bg-index="1">
+        <img src="assets/img/headshots/vancouver-headshot-corporate-20-1200.jpg" srcset="assets/img/headshots/vancouver-headshot-corporate-20-800.jpg 800w, assets/img/headshots/vancouver-headshot-corporate-20-1200.jpg 1200w, assets/img/headshots/vancouver-headshot-corporate-20-1800.jpg 1800w" sizes="100vw" alt="" width="400" height="600" loading="lazy" decoding="async" data-bg-index="2">
+        <img src="assets/img/concerts/vancouver-concert-backstage-23-1200.jpg" srcset="assets/img/concerts/vancouver-concert-backstage-23-800.jpg 800w, assets/img/concerts/vancouver-concert-backstage-23-1200.jpg 1200w, assets/img/concerts/vancouver-concert-backstage-23-1800.jpg 1800w" sizes="100vw" alt="" width="400" height="266" loading="lazy" decoding="async" data-bg-index="3">
+        <img src="assets/img/concerts/vancouver-concert-crowd-30-1200.jpg" srcset="assets/img/concerts/vancouver-concert-crowd-30-800.jpg 800w, assets/img/concerts/vancouver-concert-crowd-30-1200.jpg 1200w, assets/img/concerts/vancouver-concert-crowd-30-1800.jpg 1800w" sizes="100vw" alt="" width="400" height="266" loading="lazy" decoding="async" data-bg-index="4">
       </div>
-      <div class="service-index" data-service-list>
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Services</span>
+          <h2>What I photograph</h2>
+        </div>
+        <div class="service-index" data-service-list>
         <a class="service-row" href="vancouver-headshot-photographer/" data-preview-index="0" data-reveal style="--i:0">
           <span class="service-row__num">01</span>
           <h3 class="service-row__title">Headshots & Portraits</h3>
@@ -337,16 +345,9 @@
           <span class="service-row__price">From $700</span>
           <p class="service-row__desc">Film, television and commercial production</p>
         </a>
+        </div>
       </div>
     </section>
-
-    <div class="service-preview" data-service-preview aria-hidden="true">
-      <img src="assets/img/headshots/vancouver-headshot-business-07-800.jpg" alt="" width="400" height="533" loading="lazy" decoding="async">
-      <img src="assets/img/concerts/vancouver-concert-crowd-12-800.jpg" alt="" width="400" height="266" loading="lazy" decoding="async">
-      <img src="assets/img/headshots/vancouver-headshot-corporate-20-800.jpg" alt="" width="400" height="600" loading="lazy" decoding="async">
-      <img src="assets/img/concerts/vancouver-concert-backstage-23-800.jpg" alt="" width="400" height="266" loading="lazy" decoding="async">
-      <img src="assets/img/concerts/vancouver-concert-crowd-30-800.jpg" alt="" width="400" height="266" loading="lazy" decoding="async">
-    </div>
 
     <section class="section section--sunken">
       <div class="container">
@@ -553,6 +554,6 @@
     </div>
   </div>
 
-  <script src="assets/js/site.js?v=b5a02622" defer></script>
+  <script src="assets/js/site.js?v=5e15f98a" defer></script>
 </body>
 </html>

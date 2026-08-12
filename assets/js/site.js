@@ -169,57 +169,55 @@
     reduceMotion.addEventListener('change', function (e) { if (e.matches) showAll(); });
   }
 
-  /* ---------- Service list hover preview ---------------------------------
-     Purely decorative: pointer-fine devices only, aria-hidden, never
-     interactive. Position is written inside rAF to avoid layout thrash.
+  /* ---------- Service backdrop -------------------------------------------
+     Hovering a service row fades a full-bleed photograph in behind the list.
+     Decorative only: the layer is aria-hidden and never interactive, and the
+     list is perfectly usable if none of this runs.
      -------------------------------------------------------------------- */
-  function initServicePreview() {
+  function initServiceBackdrop() {
+    var section = document.querySelector('.services');
     var list = document.querySelector('[data-service-list]');
-    var preview = document.querySelector('[data-service-preview]');
-    if (!list || !preview) return;
+    var bg = document.querySelector('[data-service-bg]');
+    if (!section || !list || !bg) return;
 
-    // Evaluated per event, not once at load: a window that starts narrow and is
-    // later widened (or a visitor who turns reduced-motion on mid-visit) must
-    // get the correct behaviour without a reload.
-    var supported = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 68em)');
-    function enabled() { return supported.matches && !reduceMotion.matches; }
+    var images = bg.querySelectorAll('img');
+    if (!images.length) return;
 
-    var images = preview.querySelectorAll('img');
-    var x = 0, y = 0, ticking = false;
+    // Checked per event rather than once at load, so a window that starts
+    // narrow, or a visitor who turns reduced-motion on mid-visit, behaves.
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
 
-    // Write custom properties, not `transform` — the CSS owns the transform so
-    // the show/hide scale transition keeps working.
-    function render() {
-      preview.style.setProperty('--px', x + 'px');
-      preview.style.setProperty('--py', y + 'px');
-      ticking = false;
+    function clear() {
+      Array.prototype.forEach.call(images, function (img) {
+        img.setAttribute('data-active', 'false');
+      });
+      section.setAttribute('data-bg-active', 'false');
     }
-
-    list.addEventListener('pointermove', function (e) {
-      if (!enabled()) return;
-      x = e.clientX + 140;
-      y = e.clientY;
-      // Keep it on screen near the right edge.
-      var maxX = window.innerWidth - preview.offsetWidth / 2 - 24;
-      if (x > maxX) x = e.clientX - 140;
-      if (!ticking) { ticking = true; window.requestAnimationFrame(render); }
-    });
 
     Array.prototype.forEach.call(list.querySelectorAll('[data-preview-index]'), function (row) {
       row.addEventListener('pointerenter', function () {
-        if (!enabled()) return;
+        if (!fine.matches) return;
         var idx = row.getAttribute('data-preview-index');
-        Array.prototype.forEach.call(images, function (img, i) {
-          img.setAttribute('data-active', String(i) === idx ? 'true' : 'false');
+        Array.prototype.forEach.call(images, function (img) {
+          img.setAttribute('data-active', img.getAttribute('data-bg-index') === idx ? 'true' : 'false');
         });
-        preview.setAttribute('data-visible', 'true');
+        section.setAttribute('data-bg-active', 'true');
+      });
+      // Keyboard users get the same cue when tabbing through the list.
+      row.addEventListener('focus', function () {
+        var idx = row.getAttribute('data-preview-index');
+        Array.prototype.forEach.call(images, function (img) {
+          img.setAttribute('data-active', img.getAttribute('data-bg-index') === idx ? 'true' : 'false');
+        });
+        section.setAttribute('data-bg-active', 'true');
       });
     });
 
-    function hide() { preview.setAttribute('data-visible', 'false'); }
-    list.addEventListener('pointerleave', hide);
-    supported.addEventListener('change', hide);
-    reduceMotion.addEventListener('change', hide);
+    list.addEventListener('pointerleave', clear);
+    list.addEventListener('focusout', function (e) {
+      if (!list.contains(e.relatedTarget)) clear();
+    });
+    fine.addEventListener('change', clear);
   }
 
   /* ---------- Lightbox ----------------------------------------------------
@@ -337,7 +335,7 @@
     initHeader();
     initMobileNav();
     initReveals();
-    initServicePreview();
+    initServiceBackdrop();
     initLightbox();
     initCurrentNav();
   }

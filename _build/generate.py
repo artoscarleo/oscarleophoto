@@ -550,8 +550,13 @@ def build_home():
 
     preview_imgs = [HEADSHOTS[0], CONCERTS[11], HEADSHOTS[4], CONCERTS[2], CONCERTS[13]]
     previews = "\n".join(
-        f'      <img src="/assets/img/{im["folder"]}/{im["slug"]}-800.jpg" alt="" width="{im["w"]}" height="{im["h"]}" loading="lazy" decoding="async">'
-        for im in preview_imgs
+        f'        <img src="/assets/img/{im["folder"]}/{im["slug"]}-1200.jpg"'
+        f' srcset="/assets/img/{im["folder"]}/{im["slug"]}-800.jpg 800w,'
+        f' /assets/img/{im["folder"]}/{im["slug"]}-1200.jpg 1200w,'
+        f' /assets/img/{im["folder"]}/{im["slug"]}-1800.jpg 1800w"'
+        f' sizes="100vw" alt="" width="{im["w"]}" height="{im["h"]}"'
+        f' loading="lazy" decoding="async" data-bg-index="{i}">'
+        for i, im in enumerate(preview_imgs)
     )
 
     picks = [HEADSHOTS[1], CONCERTS[12], HEADSHOTS[7], CONCERTS[20],
@@ -591,18 +596,19 @@ def build_home():
       </div>
     </section>
 
-    <section class="section container" id="services">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow">Services</span>
-        <h2>What I photograph</h2>
-      </div>
-      <div class="service-index" data-service-list>
-{rows}      </div>
-    </section>
-
-    <div class="service-preview" data-service-preview aria-hidden="true">
+    <section class="section services" id="services">
+      <div class="services__bg" data-service-bg aria-hidden="true">
 {previews}
-    </div>
+      </div>
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Services</span>
+          <h2>What I photograph</h2>
+        </div>
+        <div class="service-index" data-service-list>
+{rows}        </div>
+      </div>
+    </section>
 
     <section class="section section--sunken">
       <div class="container">
