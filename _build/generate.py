@@ -73,6 +73,7 @@ WIDE = load_wide()
 
 HEADSHOTS = load_images("headshots")
 CONCERTS = load_images("concerts")
+WEDDINGS = load_images("weddings")
 
 WIDTHS = [400, 800, 1200, 1800]
 
@@ -89,6 +90,31 @@ HEADSHOT_ALT = [
     "Three-quarter portrait with warm sage tones and soft shadow falloff.",
     "Close portrait with the subject looking directly into the lens.",
 ]
+
+WEDDING_ALT = {
+    "vancouver-wedding-couple-portrait-01": "Bride and groom embracing in front of a stone chateau facade.",
+    "vancouver-wedding-getting-ready-02": "Bride in a white robe and veil standing in soft doorway light before the ceremony.",
+    "vancouver-wedding-dress-detail-03": "Wedding dress hanging in a mirrored dressing room as the bride prepares.",
+    "vancouver-wedding-couple-portrait-04": "Black and white photograph of a couple under the bride's veil, foreheads together.",
+    "vancouver-wedding-dress-detail-05": "Close view of a beaded gown being fastened at the back before the ceremony.",
+    "vancouver-wedding-couple-portrait-06": "Bride and groom outside a grand building, the bride holding her bouquet.",
+    "vancouver-wedding-bridal-portrait-07": "Black and white bridal portrait beside a window, veil catching the light.",
+    "vancouver-wedding-ring-detail-08": "Close view of the bride's hands and wedding ring resting against her gown.",
+    "vancouver-wedding-getting-ready-09": "A bridesmaid adjusting the bride's dress in front of a mirror.",
+    "vancouver-wedding-couple-portrait-10": "Couple beneath a veil lifted by the wind, open sky behind them.",
+    "vancouver-wedding-bridal-portrait-11": "Bridal portrait in a ruffled off-shoulder gown, soft natural light.",
+    "vancouver-wedding-venue-12": "Bride and groom framed by the stone archways of a historic venue.",
+    "vancouver-wedding-getting-ready-13": "Bride applying perfume during preparations, veil over her shoulder.",
+    "vancouver-wedding-couple-portrait-14": "Couple walking a long avenue of trees in parkland.",
+    "vancouver-wedding-couple-portrait-15": "Couple photographed close together through green foliage.",
+    "vancouver-wedding-couple-portrait-16": "Bride and groom beside still water at a parkland venue.",
+    "vancouver-wedding-bridal-portrait-17": "Bride standing on a garden path in autumn, holding her bouquet.",
+    "vancouver-wedding-couple-portrait-18": "Bride and groom walking together, the bride's train trailing behind.",
+    "vancouver-wedding-couple-portrait-19": "Black and white photograph of a couple under mature trees.",
+    "vancouver-wedding-venue-20": "Bride and groom holding hands in a gothic stone cloister.",
+    "vancouver-wedding-couple-portrait-21": "Couple in autumn woodland, warm fallen leaves underfoot.",
+    "vancouver-wedding-couple-portrait-22": "Bride and groom together outdoors, bride holding a white bouquet.",
+}
 
 CONCERT_ALT = [
     "Live music performance photographed from the audience under blue stage lighting.",
@@ -111,6 +137,8 @@ def srcset(img):
 
 
 def alt_for(img, i):
+    if img["folder"] == "weddings":
+        return WEDDING_ALT.get(img["slug"], "Wedding photograph by Oscar Leo Photography.")
     pool = HEADSHOT_ALT if img["folder"] == "headshots" else CONCERT_ALT
     return pool[i % len(pool)]
 
@@ -147,6 +175,7 @@ NAV = [
     ("/vancouver-headshot-photographer/", "Headshots", "From $395"),
     ("/vancouver-event-photographer/", "Events", "From $500"),
     ("/vancouver-brand-photography-video/", "Brand", "From $650"),
+    ("/vancouver-wedding-photographer/", "Weddings", "From $995"),
     ("/vancouver-concert-photographer/", "Concerts", "From $450"),
     ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes", "From $700"),
     ("/about/", "About", ""),
@@ -192,7 +221,7 @@ def head(page):
   <link rel="canonical" href="{canonical}">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Oscar Léo Photography">
+  <meta property="og:site_name" content="Oscar Leo Photography">
   <meta property="og:title" content="{page['title']}">
   <meta property="og:description" content="{page['desc']}">
   <meta property="og:url" content="{canonical}">
@@ -237,13 +266,14 @@ def head(page):
 
 
 def header():
+    NAV_SHORT = {"/vancouver-bts-unit-stills-photographer/": "BTS"}
     links = "\n".join(
-        f'          <a href="{url}" data-nav-link>{label}</a>'
+        f'          <a href="{url}" data-nav-link>{NAV_SHORT.get(url, label)}</a>'
         for url, label, _ in NAV if url != "/"
     )
     return f"""  <header class="header" data-header>
     <div class="header__inner">
-      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Léo <span>Photography</span></a>
+      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Leo <span>Photography</span></a>
       <nav class="nav" aria-label="Primary">
 {links}
       </nav>
@@ -262,7 +292,7 @@ def header():
 
   <div class="mobile-nav" id="mobile-nav" data-mobile-nav data-open="false" aria-hidden="true">
     <div class="mobile-nav__head">
-      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Léo <span>Photography</span></a>
+      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Leo <span>Photography</span></a>
       <button type="button" class="icon-btn" data-nav-close aria-label="Close menu">{ICON['close']}</button>
     </div>
     <nav aria-label="Mobile">
@@ -277,7 +307,7 @@ def header():
 def footer():
     services = "\n".join(
         f'            <li><a href="{url}">{label}</a></li>'
-        for url, label, _ in NAV[1:6]
+        for url, label, _ in NAV[1:7]
     )
     return f"""  <footer class="footer">
     <div class="container">
@@ -293,7 +323,7 @@ def footer():
 
       <div class="footer__grid">
         <div>
-          <span class="logo-mark footer__mark" role="img" aria-label="Oscar Léo Photography"></span>
+          <span class="logo-mark footer__mark" role="img" aria-label="Oscar Leo Photography"></span>
           <p class="fine-print">Professional photography in Vancouver, British Columbia.
              Serving Metro Vancouver and available across Canada.</p>
         </div>
@@ -319,7 +349,7 @@ def footer():
       </div>
 
       <div class="footer__bottom">
-        <p class="fine-print">© 2026 Oscar Léo Photography. All prices in Canadian dollars, plus GST.</p>
+        <p class="fine-print">© 2026 Oscar Leo Photography. All prices in Canadian dollars, plus GST.</p>
         <div class="footer__social">
           <a href="https://www.instagram.com/oscarleophotography/" rel="me noopener" target="_blank" aria-label="Instagram">{ICON['instagram']}</a>
           <a href="https://www.facebook.com/profile.php?id=61577219900688" rel="me noopener" target="_blank" aria-label="Facebook">{ICON['facebook']}</a>
@@ -516,14 +546,14 @@ def build_home():
     page = dict(
         url="/", tall=True,
         title="Vancouver Photographer | Headshots, Events & Brand Content",
-        desc="Professional photographer in Vancouver, BC. Headshots from $395, event coverage from $500, brand content and BTS. Transparent pricing. Book today.",
+        desc="Professional photographer in Vancouver, BC. Headshots from $395, events from $500, brand content, weddings from $995. Transparent pricing.",
         eyebrow="Vancouver, British Columbia",
         h1_lines=["Photography that", "feels like you."],
-        hero_sub="Headshots, events, brand content, live music and behind-the-scenes production work — with every price published before you make contact.",
+        hero_sub="Headshots, events, brand content, live music, weddings and behind-the-scenes production work — with every price published before you make contact.",
         hero_actions=[("/contact/", "Request a quote"), ("#services", "See services")],
         schema=["homepage-professionalservice.json"],
         hero_class="hero--grid",
-        **hero_fields(hero_img, "A grid of thirty-six portraits from Oscar Léo Photography\u2019s Vancouver studio work \u2014 headshots, personal branding and editorial portraits.")
+        **hero_fields(hero_img, "A grid of thirty-six portraits from Oscar Leo Photography\u2019s Vancouver portrait work \u2014 headshots, personal branding and editorial portraits.")
     )
 
     services = [
@@ -531,8 +561,10 @@ def build_home():
          "Corporate, LinkedIn and personal branding", "From $395"),
         ("/vancouver-event-photographer/", "Event Photography",
          "Conferences, galas and celebrations", "From $500"),
-        ("/vancouver-brand-photography-video/", "Brand Photography & Video",
-         "Content for web, social and marketing", "From $650"),
+        ("/vancouver-brand-photography-video/", "Brand &amp; Marketing",
+         "Photography, video and content for business", "From $650"),
+        ("/vancouver-wedding-photographer/", "Wedding Photography",
+         "Elopements to full-day coverage", "Packages from $995"),
         ("/vancouver-concert-photographer/", "Concert & Live Performance",
          "Artists, venues, promoters and festivals", "From $450"),
         ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes & Unit Stills",
@@ -548,7 +580,9 @@ def build_home():
         </a>
 """
 
-    preview_imgs = [HEADSHOTS[0], CONCERTS[11], HEADSHOTS[4], CONCERTS[2], CONCERTS[13]]
+    preview_imgs = [HEADSHOTS[0], CONCERTS[11], HEADSHOTS[4],
+                    next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-10"),
+                    CONCERTS[2], CONCERTS[13]]
     previews = "\n".join(
         f'        <img src="/assets/img/{im["folder"]}/{im["slug"]}-1200.jpg"'
         f' srcset="/assets/img/{im["folder"]}/{im["slug"]}-800.jpg 800w,'
@@ -565,21 +599,22 @@ def build_home():
     body = f"""    <section class="section container">
       <div class="section-head section-head--split">
         <div data-reveal>
-          <span class="eyebrow">The studio</span>
-          <h2>A professional photography studio in Vancouver.</h2>
+          <span class="eyebrow">The work</span>
+          <h2>Professional photography in Vancouver.</h2>
         </div>
-        <p class="lead" data-reveal style="--i:1">Oscar Léo Photography is a professional photography
-           studio based in Vancouver, British Columbia, serving Metro Vancouver and available for
-           projects across Canada. Services include headshots and portraits from $395, event
-           photography from $500, brand photography and video from $650, concert and live performance
-           coverage from $450, and behind-the-scenes production photography from $700. All prices are
-           published, and all packages include professional editing and high-resolution delivery.</p>
+        <p class="lead" data-reveal style="--i:1">Oscar Leo is a professional photographer based in
+           Vancouver, British Columbia, serving Metro Vancouver and available for projects across
+           Canada. Services include headshots and portraits from $395, event photography from $500,
+           brand and marketing content from $650, concert and live performance coverage from $450,
+           behind-the-scenes production photography from $700, and wedding photography from $995.
+           All prices are published, and every package includes professional editing and
+           high-resolution delivery.</p>
       </div>
 
       <div class="stat-row">
         <div data-reveal style="--i:0">
           <span class="stat__value">3–5</span>
-          <span class="stat__label">business days to your event gallery. Most Vancouver studios take 5–7.</span>
+          <span class="stat__label">business days to your event gallery.</span>
         </div>
         <div data-reveal style="--i:1">
           <span class="stat__value">$395</span>
@@ -590,8 +625,8 @@ def build_home():
           <span class="stat__label">Travel included around Vancouver, across the Lower Mainland.</span>
         </div>
         <div data-reveal style="--i:3">
-          <span class="stat__value">5</span>
-          <span class="stat__label">Specialisms, one photographer, one consistent style.</span>
+          <span class="stat__value">1</span>
+          <span class="stat__label">Photographer, one consistent style across every service.</span>
         </div>
       </div>
     </section>
@@ -644,11 +679,12 @@ def build_home():
             <p><strong>Published pricing.</strong> Every service page shows real numbers, so you know
                the cost before you make contact.</p>
             <p><strong>Fast delivery.</strong> Event galleries arrive within 3–5 business days.
-               Most Vancouver studios take 5–7.</p>
+              </p>
             <p><strong>Clear licensing.</strong> Business bookings include commercial digital usage for
                your website, social media, press and internal communications at no extra charge.</p>
-            <p><strong>One photographer, five specialisms.</strong> Consistent style whether you need a
-               headshot, an event covered or a production documented.</p>
+            <p><strong>One photographer, one consistent style.</strong> The same approach and the same
+               finish whether you need a headshot, an event covered, a wedding documented or a
+               production photographed.</p>
           </div>
         </div>
       </div>
@@ -672,7 +708,7 @@ def build_headshots():
     hero_img = HEADSHOTS[2]
     page = dict(
         url="/vancouver-headshot-photographer/",
-        title="Headshot Photographer Vancouver | From $395 | Oscar Léo",
+        title="Headshot Photographer Vancouver | From $395 | Oscar Leo",
         desc="Professional headshots in Vancouver from $395. Corporate, LinkedIn and personal branding portraits. Team rates from $135 per person. See full pricing.",
         eyebrow="Headshots & Portraits",
         h1_lines=["Headshot photographer", "in Vancouver, BC"],
@@ -698,7 +734,7 @@ def build_headshots():
 
     faqs = [
         ("How much do professional headshots cost in Vancouver?",
-         "Individual headshots in Vancouver generally run between $325 and $850 in 2026. At Oscar Léo Photography an individual session is $395 for three retouched images, and corporate team bookings drop to $135–$185 per person depending on group size."),
+         "Individual headshots in Vancouver generally run between $325 and $850 in 2026. At Oscar Leo Photography an individual session is $395 for three retouched images, and corporate team bookings drop to $135–$185 per person depending on group size."),
         ("How long does a headshot session take?",
          "45 minutes for an Essential Headshot and up to 90 minutes for a Personal Branding Portrait. Corporate team sessions run 10–15 minutes per person."),
         ("What should I wear for a headshot?",
@@ -740,6 +776,9 @@ def build_headshots():
              throughout the session, so the final photographs look natural rather than performed.</p>
           <p>Sessions run 45 to 90 minutes depending on the package. You review a private proof gallery
              afterwards and choose which images get retouched.</p>
+          <p>Sessions suit professionals, executives, entrepreneurs, actors, artists and creatives.
+             What you receive is a carefully selected, professionally finished set of your strongest
+             frames.</p>
         </div>
       </div>
     </section>
@@ -757,6 +796,10 @@ def build_headshots():
           Add-ons: additional retouched image $65 · additional location from $95 ·
           additional 30 minutes $150 · 48-hour priority delivery $95.
           All prices in CAD, plus GST.</p>
+        <p class="fine-print" style="margin-top: var(--space-m)" data-reveal>
+          Final delivery includes professionally selected and edited high-resolution images. RAW and
+          unedited files are not included unless specifically agreed as part of a commercial
+          production arrangement.</p>
       </div>
     </section>
 
@@ -806,7 +849,7 @@ def build_events():
 
     faqs = [
         ("How much does an event photographer cost in Vancouver?",
-         "Metro Vancouver event photography typically runs $150–$400 per hour, with most established professionals sitting in the $250–$300 range. Oscar Léo Photography starts at $250 per hour with a two-hour minimum, and the effective hourly rate drops to $225 on an eight-hour booking."),
+         "Metro Vancouver event photography typically runs $150–$400 per hour, with most established professionals sitting in the $250–$300 range. Oscar Leo Photography starts at $250 per hour with a two-hour minimum, and the effective hourly rate drops to $225 on an eight-hour booking."),
         ("How many photos will I receive?",
          "Roughly 40–60 professionally edited images per hour, depending on the event. A four-hour event typically produces 160–240 finished photographs."),
         ("Can we use the photos for marketing?",
@@ -857,7 +900,8 @@ def build_events():
           <div data-reveal>
             <div class="table-scroll">
               <table class="rate-table">
-                <caption>Minimum booking two hours. Additional hours beyond eight: $215.</caption>
+                <caption>Entry price $500 covers up to 2 hours. Minimum booking two hours.
+                  Additional hours beyond eight: $215.</caption>
                 <thead><tr><th scope="col">Coverage</th><th scope="col">Investment</th></tr></thead>
                 <tbody>
 {rows}
@@ -867,6 +911,10 @@ def build_events():
             <p class="fine-print" style="margin-top: var(--space-m)">
               Add-ons: 1-minute vertical highlight video $250 · 48-hour priority gallery $150 ·
               second photographer $175/hr · travel free within 30 km of Vancouver, $75 flat for 30–60 km.</p>
+            <p class="fine-print" style="margin-top: var(--space-m)">
+              Final delivery includes professionally selected and edited high-resolution images. RAW
+              and unedited files are not included unless specifically agreed as part of a commercial
+              production arrangement.</p>
           </div>
           <div class="price-card" data-reveal style="--i:1">
             <p class="price-card__tag">Included in every booking</p>
@@ -901,9 +949,9 @@ def build_brand():
     picks = [HEADSHOTS[i] for i in (3, 9, 13, 18, 6, 20)]
     page = dict(
         url="/vancouver-brand-photography-video/",
-        title="Brand Photography & Video Vancouver | From $650 | Oscar Léo",
+        title="Brand Photography & Video Vancouver | From $650 | Oscar Leo",
         desc="Brand photography and short-form video for Vancouver businesses. Packages from $650. Commercial licence included. Content for web, social and marketing.",
-        eyebrow="Brand Photography & Video",
+        eyebrow="Brand &amp; Marketing",
         h1_lines=["Brand content for", "Vancouver businesses"],
         hero_sub="Photography and vertical video built for websites, social media and marketing.",
         hero_actions=[("#packages", "See packages"), ("/contact/", "Start a project")],
@@ -916,35 +964,61 @@ def build_brand():
                    ["Planning consultation", "Up to 90 minutes", "One location",
                     "25+ edited photographs", "Commercial licence",
                     "Delivery in 5 business days"]),
-        price_card("Photo + video", "Brand Photo + Video", "$950", "2 hours",
-                   ["Planning consultation", "Up to 2 hours", "40+ edited photographs",
-                    "One edited vertical video up to 60 seconds", "Commercial licence",
-                    "Delivery in 5–7 business days"], featured=True),
+        price_card("Social-first", "Social Media Content Session", "$795", "2 hours",
+                   ["Two hours of social-first photography",
+                    "Short vertical clips for Reels, TikTok and Shorts",
+                    "Commercial licence",
+                    "Creates a professional content library — it does not include ongoing social account management"]),
+        price_card("Photo + video", "Brand Photo + Promotional Video", "$995", "2 hours",
+                   ["Up to 2 hours", "40+ edited photographs",
+                    "One edited video up to 60 seconds, vertical or horizontal according to project",
+                    "Commercial licence", "Delivery in 5–7 business days",
+                    "A concise professional marketing video, not a commercial film production"], featured=True),
         price_card("Content day", "Content Library", "$1,650", "4 hours",
                    ["Creative consultation", "Up to 4 hours", "Up to 2 locations",
                     "75+ edited photographs", "Two edited vertical videos",
                     "Commercial licence", "Delivery in 7 business days"]),
-        price_card("Ongoing", "Monthly Retainer", "from $1,200", "per month",
-                   ["One half-day session monthly", "Priority scheduling",
-                    "Minimum 3 months"]),
+
+    ])
+
+    support = "\n".join([
+        price_card("Planning and publishing", "Content Support", "from $750", "per month",
+                   ["Monthly content planning and content calendar",
+                    "Caption support, post preparation and scheduling support",
+                    "Brand consistency review",
+                    "Basic monthly performance review",
+                    "Photography and video production are not included in this package"]),
+        price_card("Content and marketing", "Content + Marketing", "from $1,250", "per month",
+                   ["Everything in Content Support",
+                    "One scheduled content session each month producing professional photography and short-form video clips",
+                    "Caption writing, post preparation and scheduling support",
+                    "Basic monthly performance review"], featured=True),
+        price_card("Ongoing partner", "Ongoing Brand Partner", "from $1,750", "per month",
+                   ["Expanded monthly photography and video creation",
+                    "Multiple short-form deliverables as agreed",
+                    "Content planning, scheduling and caption support",
+                    "Monthly performance review",
+                    "Priority scheduling"]),
     ])
 
     faqs = [
         ("How much does commercial photography cost in Vancouver?",
-         "Mid-tier commercial day rates in North America run roughly $1,500 to $5,000. Oscar Léo Photography sits at the accessible end: $650 for a half-session and $1,650 for a four-hour content day, aimed at small and mid-sized Vancouver businesses."),
+         "Mid-tier commercial day rates in North America run roughly $1,500 to $5,000. Oscar Leo Photography sits at the accessible end: $650 for a 90-minute brand session, $795 for a social media content session, $995 for photography with a promotional video, and $1,650 for a four-hour content day, aimed at small and mid-sized Vancouver businesses."),
         ("Do I own the photos?",
          "You receive a commercial digital-use licence covering your own website, social media and standard marketing. Copyright remains with the photographer. Paid advertising campaigns and third-party licensing are quoted separately."),
         ("Do you shoot video as well as photos?",
-         "Yes. The Photo + Video and Content Library packages both include professionally edited vertical video optimised for social platforms."),
+         "Yes. The Social Media Content Session includes short vertical clips, and the Brand Photo + Promotional Video and Content Library packages include professionally edited video."),
         ("How often should a business refresh its content?",
-         "Most businesses publishing weekly benefit from a quarterly shoot at minimum. The monthly retainer exists for businesses that publish more often than that."),
+         "Most businesses publishing weekly benefit from a quarterly shoot at minimum. Ongoing marketing support from $750 per month exists for businesses that publish more often than that."),
     ]
 
     body = f"""    <section class="section container">
-      <p class="lead" data-reveal>Brand content packages start at $650 for a 90-minute session with
-         25+ edited photographs, and run to $1,650 for a four-hour session producing 75+ photographs
-         and two edited vertical videos. Every package includes a commercial digital-use licence for
-         your own website, social media and marketing. A monthly retainer is available from $1,200.</p>
+      <p class="lead" data-reveal>Brand and marketing content starts at $650 for a 90-minute
+         session with 25+ edited photographs, $795 for a two-hour social media content session, $995
+         for photography with a promotional video, and $1,650 for a four-hour content day producing
+         75+ photographs and two edited vertical videos. Every package includes a commercial
+         digital-use licence for your own website, social media and marketing. Ongoing marketing
+         support is available from $750 per month.</p>
     </section>
 
     <section class="section--tight container">
@@ -980,6 +1054,38 @@ def build_brand():
         <p class="fine-print" style="margin-top: var(--space-l)" data-reveal>
           Add-ons: additional hour $395 · additional vertical video $250 ·
           48-hour priority delivery $150 · advanced retouching $95/hr.</p>
+      </div>
+    </section>
+
+    <section class="section container" id="marketing">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Marketing support</span>
+        <h2>Ongoing marketing support</h2>
+      </div>
+      <div class="grid-3">
+{support}
+      </div>
+      <p class="fine-print" style="margin-top: var(--space-l)" data-reveal>
+        Exact monthly deliverables are agreed with each client before the first month.
+        Paid Advertising Support is quoted individually, and advertising spend is billed
+        separately from service fees.</p>
+    </section>
+
+    <section class="section--tight container">
+      <div class="grid-2">
+        <div data-reveal>
+          <span class="eyebrow">Commercial projects</span>
+          <h2>Larger productions</h2>
+        </div>
+        <div class="prose" data-reveal style="--i:1">
+          <p><strong>Commercial Projects — custom quote.</strong> For larger companies, advertising
+             campaigns, multiple talent, multiple locations, larger crews, extensive paid-media usage
+             and complex licensing.</p>
+          <p>Commercial projects are quoted according to scope, production requirements and usage.</p>
+          <p class="fine-print">Final delivery includes professionally selected and edited
+             high-resolution images. RAW and unedited files are not included unless specifically
+             agreed as part of a commercial production arrangement.</p>
+        </div>
       </div>
     </section>
 
@@ -1045,8 +1151,10 @@ def build_concerts():
           <h2>Who I work with</h2>
         </div>
         <div class="prose" data-reveal style="--i:1">
-          <p>Individual artists, bands, concert promoters, venues, cultural performances, showcases and
-             festivals throughout Vancouver and British Columbia.</p>
+          <p>Professional performance and artist coverage for artists, bands, musicians, promoters,
+             venues, festivals, labels and management throughout Vancouver and British Columbia.</p>
+          <p>The photographs are made to be used: press and promotion, social media, artist websites,
+             tour marketing and venue marketing.</p>
           <p>Live work is about timing and low light. I shoot fast, quietly, and without blocking
              anyone's view of the stage.</p>
         </div>
@@ -1077,6 +1185,10 @@ def build_concerts():
           Add-ons: additional hour $215 · second photographer $175/hr ·
           48-hour priority selects $150. Record label, publication, sponsor and advertising usage
           quoted separately.</p>
+        <p class="fine-print" style="margin-top: var(--space-m)" data-reveal>
+          Final delivery includes professionally selected and edited high-resolution images. RAW and
+          unedited files are not included unless specifically agreed as part of a commercial
+          production arrangement.</p>
       </div>
     </section>
 
@@ -1145,11 +1257,15 @@ def build_bts():
           <h2>Set etiquette matters more than anything else.</h2>
         </div>
         <div class="prose" data-reveal style="--i:1">
-          <p>Film and television productions, music videos, recording sessions, commercial shoots,
-             advertising campaigns and creative projects — in Vancouver, across British Columbia and
-             throughout Canada.</p>
+          <p>Unit Stills &amp; Behind-the-Scenes Photography for film and television productions,
+             music videos, recording sessions, commercial shoots, advertising campaigns and creative
+             projects — in Vancouver, across British Columbia and throughout Canada.</p>
           <p>I work around the production without interrupting it, documenting the crew, the talent,
              the process and the atmosphere that never makes it into the final cut.</p>
+          <p><strong>Behind-the-Scenes:</strong> crew, process, working environment, candid moments
+             and production atmosphere — for social, promotion and production archives.</p>
+          <p><strong>Unit Stills:</strong> production stills of cast, scenes, characters and key
+             moments — for publicity, press, EPK and marketing.</p>
         </div>
       </div>
     </section>
@@ -1171,7 +1287,12 @@ def build_bts():
         </div>
         <p class="fine-print" style="margin-top: var(--space-l)" data-reveal>
           Add-ons: additional hour $175 · 24-hour priority selection $175 ·
-          advanced retouching $95/hr. Travel and accommodation may apply outside the Vancouver area.</p>
+          advanced retouching $95/hr. Travel and accommodation may apply outside the Vancouver area.
+          Custom project and day rates available for larger productions.</p>
+        <p class="fine-print" style="margin-top: var(--space-m)" data-reveal>
+          Final delivery includes professionally selected and edited high-resolution images. RAW and
+          unedited files are not included unless specifically agreed as part of a commercial
+          production arrangement.</p>
       </div>
     </section>
 
@@ -1191,23 +1312,23 @@ def build_about():
     hero_img = HEADSHOTS[16]
     page = dict(
         url="/about/",
-        title="About Oscar Léo | Vancouver Headshot & Event Photographer",
-        desc="Meet Oscar Léo, a Vancouver-based photographer specialising in headshots, events, brand content, concerts and behind-the-scenes production work.",
+        title="About Oscar Leo | Vancouver Headshot & Event Photographer",
+        desc="Meet Oscar Leo, a Vancouver-based photographer specialising in headshots, events, brand content, weddings, concerts and behind-the-scenes production work.",
         eyebrow="About",
-        h1_lines=["Oscar Léo"],
+        h1_lines=["Oscar Leo"],
         hero_sub="Photographer, Vancouver, British Columbia.",
         **hero_fields(hero_img, "Portrait photographed on location in Vancouver.")
     )
 
     services = "\n".join(
         f'            <li><a class="text-link" href="{url}">{label}</a> — {price.lower()}</li>'
-        for url, label, price in NAV[1:6]
+        for url, label, price in NAV[1:7]
     )
 
     body = f"""    <section class="section container">
-      <p class="lead" data-reveal>Oscar Léo is a professional photographer based in Vancouver, British
-         Columbia, working across headshots, events, brand content, live music and behind-the-scenes
-         production photography.
+      <p class="lead" data-reveal>Oscar Leo is a professional photographer based in Vancouver, British
+         Columbia, working across headshots, events, brand content, live music, weddings and
+         behind-the-scenes production photography.
          <mark class="todo">[ONE SENTENCE: how long you have been shooting professionally, and where
          you worked or trained before Vancouver.]</mark>
          <mark class="todo">[ONE SENTENCE: the kind of client you work with most — corporate teams,
@@ -1224,7 +1345,7 @@ def build_about():
           <p><mark class="todo">[Where you're from, how you came to photography, and what brought you
              to Vancouver. Two or three sentences. Concrete details work far better than adjectives —
              a place, a year, a first camera, a first paid job. This is the paragraph an AI engine
-             quotes when someone asks "who is Oscar Léo".]</mark></p>
+             quotes when someone asks "who is Oscar Leo".]</mark></p>
           <p><mark class="todo">[What you did before, or alongside, photography, if it informs the
              work. Delete this paragraph if it doesn't.]</mark></p>
         </div>
@@ -1284,7 +1405,7 @@ def build_contact():
     hero_img = CONCERTS[38]
     page = dict(
         url="/contact/",
-        title="Contact Oscar Léo Photography | Vancouver, British Columbia",
+        title="Contact Oscar Leo Photography | Vancouver, British Columbia",
         desc="Enquire about photography in Vancouver and across Canada. Tell me your date, location and project and I will reply with availability and a quote.",
         eyebrow="Contact",
         h1_lines=["Let's talk about", "your project."],
@@ -1294,11 +1415,11 @@ def build_contact():
 
     services = "\n".join(
         f'            <li><a class="text-link" href="{url}">{label}</a> — {price.lower()}</li>'
-        for url, label, price in NAV[1:6]
+        for url, label, price in NAV[1:7]
     )
 
     body = f"""    <section class="section container">
-      <p class="lead" data-reveal>Oscar Léo Photography is based in Vancouver, British Columbia,
+      <p class="lead" data-reveal>Oscar Leo Photography is based in Vancouver, British Columbia,
          serving Metro Vancouver and available across Canada. To request availability and a quote,
          send your preferred date, location, the type of photography you need and your approximate
          coverage time.</p>
@@ -1342,10 +1463,15 @@ def build_contact():
               <select id="f-type" name="type">
                 <option>Headshots &amp; portraits</option>
                 <option>Event photography</option>
-                <option>Brand photography &amp; video</option>
+                <option>Brand &amp; marketing photography</option>
+                <option>Photography + video</option>
+                <option>Social media content</option>
+                <option>Monthly marketing support</option>
                 <option>Concert &amp; live performance</option>
+                <option>Wedding photography</option>
                 <option>Behind the scenes / unit stills</option>
-                <option>Something else</option>
+                <option>Commercial project</option>
+                <option>Not sure — help me choose</option>
               </select>
             </div>
             <div class="field">
@@ -1353,6 +1479,8 @@ def build_contact():
               <input id="f-date" name="date" type="date">
             </div>
             <div class="field">
+              <p class="hint" style="margin:0">Planning a wedding? Include your venue, approximate
+                 guest count and the coverage you're considering.</p>
               <label for="f-detail">Your project</label>
               <textarea id="f-detail" name="detail" rows="5"></textarea>
               <span class="hint">Location, approximate coverage time, and how you plan to use the images.</span>
@@ -1376,6 +1504,7 @@ def build_contact():
           <span class="eyebrow">Services and starting prices</span>
           <ul>
 {services}
+            <li><a class="text-link" href="/vancouver-brand-photography-video/#marketing">Marketing support</a> — from $750/month</li>
           </ul>
         </div>
       </div>
@@ -1384,8 +1513,183 @@ def build_contact():
     return page, body
 
 
+
+
+def build_weddings():
+    """Wedding page. Built from the same structure as the other service pages —
+    hero, answer paragraph, gallery, approach, price cards, add-ons, FAQ — using
+    the existing components only. No new CSS."""
+    hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-01")
+    gallery_imgs = [i for i in WEDDINGS if i["slug"] != hero_img["slug"]]
+
+    page = dict(
+        url="/vancouver-wedding-photographer/",
+        title="Vancouver Wedding Photographer | Packages from $995 | Oscar Leo",
+        desc="Natural, polished wedding photography in Vancouver and across BC. Elopements to full-day coverage, packages from $995. Transparent pricing, published up front.",
+        eyebrow="Wedding Photography",
+        h1_lines=["Wedding photographer", "in Vancouver, BC"],
+        hero_sub="Natural wedding photography with thoughtful direction when you need it — and space to enjoy the day when you don't.",
+        hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
+        schema=["faq-weddings.json"],
+        **hero_fields(hero_img, WEDDING_ALT[hero_img["slug"]])
+    )
+
+    cards = "\n".join([
+        price_card("Up to 2 hours", "Elopement", "$995", "up to 2 hours",
+                   ["Pre-wedding consultation", "Up to 2 hours continuous coverage",
+                    "Ceremony, couple portraits and immediate family", "Details and candid moments",
+                    "Professionally selected and edited photographs",
+                    "High-resolution and web-ready files",
+                    "Private online gallery", "Personal printing rights"]),
+        price_card("Up to 4 hours", "Intimate", "$1,495", "up to 4 hours",
+                   ["Pre-wedding consultation and timeline guidance",
+                    "Up to 4 hours continuous photography",
+                    "Ceremony, couple portraits and wedding party",
+                    "Family photographs, guests and venue",
+                    "Cocktail hour and start of reception where timing allows",
+                    "High-resolution files and private online gallery",
+                    "Personal printing rights"]),
+        price_card("Up to 6 hours", "Essential", "$2,195", "up to 6 hours",
+                   ["Getting ready, details and first look where applicable",
+                    "Ceremony, couple portraits and wedding party",
+                    "Family photographs, guests and venue",
+                    "Cocktail hour and early reception",
+                    "Pre-wedding consultation and photography timeline guidance",
+                    "Documentary coverage with professional direction",
+                    "High-resolution files, private gallery, personal printing rights"]),
+        price_card("Most popular", "Signature", "$2,895", "up to 8 hours",
+                   ["Getting ready, details and first look",
+                    "Ceremony, couple portraits, wedding party and family portraits",
+                    "Guests, venue, cocktail hour and reception entrance",
+                    "Speeches, dinner atmosphere, cake cutting and first dance where the timeline allows",
+                    "Pre-wedding consultation and wedding photography timeline guidance",
+                    "Up to 8 hours continuous coverage",
+                    "Complimentary engagement session — approximately 45–60 minutes, one Vancouver-area location, private gallery"],
+                   featured=True),
+        price_card("Up to 10 hours", "Full Story", "$3,595", "up to 10 hours",
+                   ["Getting ready through evening dancing",
+                    "Ceremony, couple portraits, wedding party and family photographs",
+                    "Reception entrance, speeches, dinner, cake cutting, first dance and parent dances",
+                    "Pre-wedding consultation and detailed photography timeline guidance",
+                    "Up to 10 hours continuous coverage",
+                    "Complimentary engagement session",
+                    "Priority sneak peek"]),
+    ])
+
+    faqs = [
+        ("How much does wedding photography cost?",
+         "Wedding coverage ranges from $995 for a two-hour Elopement package to $3,595 for up to ten hours of Full Story coverage. Final cost depends on coverage length, additional photographers, travel and optional services."),
+        ("How many hours of coverage do we need?",
+         "Two hours suits very small ceremonies and elopements. Four to six hours suits shorter wedding days. Eight hours covers most of a traditional wedding day. Ten hours suits fuller getting-ready-through-evening coverage."),
+        ("When will we receive our photographs?",
+         "A small sneak peek is normally delivered within approximately 3–5 days. The complete professionally edited wedding gallery is targeted for delivery within approximately 4–6 weeks."),
+        ("Do you travel outside Vancouver?",
+         "Yes. Travel is available throughout British Columbia, with additional travel and accommodation costs where required. Travel is included within the existing local service radius and anything beyond that is confirmed before booking."),
+        ("Do we need a second photographer?",
+         "Not every wedding does. A second photographer is helpful for larger weddings, separate getting-ready locations, simultaneous events, additional ceremony perspectives and complex timelines."),
+        ("How far in advance should we book?",
+         "Enquire once your date and venue are reasonably confirmed. That gives enough time for a consultation and photography timeline planning before the day."),
+    ]
+
+    body = f"""    <section class="section container">
+      <p class="lead" data-reveal>Wedding photography in Vancouver from $995 for a two-hour elopement
+         to $3,595 for ten hours of full-day coverage. Every package includes a pre-wedding
+         consultation, professionally selected and edited high-resolution photographs, a private
+         online gallery and personal printing rights. A sneak peek arrives within approximately
+         3–5 days and the complete gallery within approximately 4–6 weeks. Available for weddings
+         across Metro Vancouver and throughout British Columbia, with travel quoted where required.</p>
+    </section>
+
+    <section class="section--tight container" id="work">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <span class="eyebrow">Selected work</span>
+          <h2>Weddings</h2>
+        </div>
+        <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
+      </div>
+{gallery(gallery_imgs, "(min-width: 78em) 21vw, (min-width: 48em) 30vw, 47vw", "gallery--wide")}
+    </section>
+
+    <section class="section container">
+      <div class="grid-2">
+        <div data-reveal>
+          <span class="eyebrow">Approach</span>
+          <h2>Polished, but never staged.</h2>
+        </div>
+        <div class="prose" data-reveal style="--i:1">
+          <p>Most of your wedding is photographed as it naturally unfolds. I watch for expressions,
+             interactions, movement and the smaller moments happening around you. When portraits or
+             family photographs need direction, I'll guide you clearly and efficiently — then let you
+             get back to your wedding.</p>
+          <p>Direction is used where it genuinely helps: couple portraits, wedding party photographs,
+             family groups, difficult lighting and the formal photographs that matter to you.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--sunken" id="pricing">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Pricing</span>
+          <h2>Wedding packages</h2>
+        </div>
+        <div class="grid-3">
+{cards}
+        </div>
+        <p class="fine-print" style="margin-top: var(--space-l)" data-reveal>
+          Add-ons: engagement session from $395 when booked separately, and already included with
+          Signature and Full Story · second photographer from $450, though not every wedding
+          requires one · additional wedding-day coverage $300/hour, best agreed before the wedding
+          day · rehearsal dinner or welcome party from $595 · wedding albums, wedding photo and
+          video, and multi-day or cultural weddings are quoted individually.
+          All prices in CAD, plus GST.</p>
+        <p class="fine-print" style="margin-top: var(--space-m)" data-reveal>
+          Final delivery includes professionally selected and edited high-resolution images. RAW and
+          unedited files are not included unless specifically agreed as part of a commercial
+          production arrangement.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="grid-2">
+        <div data-reveal>
+          <span class="eyebrow">Planning</span>
+          <h2>Timeline, family photographs and travel</h2>
+        </div>
+        <div class="prose" data-reveal style="--i:1">
+          <p>Timeline guidance covers the photography itself: getting ready, first look, ceremony,
+             family photographs, couple portraits, golden-hour portraits, reception, speeches, first
+             dance and the photographer end time.</p>
+          <p>Formal family photographs are available. Send a short list of the important family
+             combinations before the wedding and the group photographs stay organised and efficient
+             on the day.</p>
+          <p>For multi-day and cultural weddings, coverage is planned around your actual traditions,
+             schedule, family priorities and events.</p>
+          <p>Available across Vancouver, North Vancouver, West Vancouver, Burnaby, Richmond, New
+             Westminster, Coquitlam, Port Moody, Surrey, Delta, Langley and the wider Lower Mainland,
+             and for weddings in Squamish, Whistler, the Sunshine Coast, Vancouver Island, Victoria,
+             the Okanagan and Kelowna. Travel is included within the local service radius; additional
+             travel and accommodation may apply beyond it and are confirmed before booking.</p>
+          <p><a class="text-link" href="/contact/">Enquire about your date</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Questions</span>
+        <h2>Frequently asked</h2>
+      </div>
+      <div class="faq">
+{faq_block(faqs)}      </div>
+    </section>
+"""
+    return page, body
+
+
 BUILDERS = [build_home, build_headshots, build_events, build_brand,
-            build_concerts, build_bts, build_about, build_contact]
+            build_weddings, build_concerts, build_bts, build_about, build_contact]
 
 
 def main():

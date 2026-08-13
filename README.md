@@ -1,4 +1,4 @@
-# Oscar Léo Photography — website
+# Oscar Leo Photography — website
 
 A static, eight-page site. No framework, no build step, no dependencies: plain HTML, one stylesheet, one script. It deploys by copying the folder to any host.
 

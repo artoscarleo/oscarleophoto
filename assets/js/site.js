@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Oscar Léo Photography — site behaviour
+   Oscar Leo Photography — site behaviour
    Vanilla JS, no dependencies. ~6KB unminified.
 
    Deliberately not using GSAP: every animation here is a class toggle driving

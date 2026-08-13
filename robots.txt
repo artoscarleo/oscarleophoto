@@ -1,4 +1,4 @@
-# Oscar Léo Photography
+# Oscar Leo Photography
 # Everything is open, including AI answer engines — being cited by ChatGPT,
 # Claude, Perplexity and Google AI Mode is the point of the llms.txt below.
 # To opt out of a specific crawler, add a Disallow block for it here.
