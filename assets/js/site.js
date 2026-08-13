@@ -218,6 +218,62 @@
       if (!list.contains(e.relatedTarget)) clear();
     });
     fine.addEventListener('change', clear);
+
+    /* ----- Touch devices -------------------------------------------------
+       There is no hover on a phone, so the photographs would never appear at
+       all. Instead they cycle by themselves. Three seconds, not one: the
+       crossfade alone runs 620ms, so a shorter interval never lets an image
+       settle and keeps pulling files down.
+
+       The timer only runs while the section is actually on screen and the tab
+       is visible, so it costs nothing on the rest of the page and does not sit
+       burning battery in a background tab. */
+    var coarse = window.matchMedia('(hover: none), (pointer: coarse)');
+    var INTERVAL = 3000;
+    var timer = null;
+    var idx = 0;
+
+    function show(i) {
+      idx = (i + images.length) % images.length;
+      Array.prototype.forEach.call(images, function (img, n) {
+        img.setAttribute('data-active', n === idx ? 'true' : 'false');
+      });
+      section.setAttribute('data-bg-active', 'true');
+    }
+
+    function stop() {
+      if (timer) { window.clearInterval(timer); timer = null; }
+    }
+
+    function start() {
+      if (timer || !coarse.matches) return;
+      show(idx);
+      // Someone who asked for less motion still gets a photograph — it simply
+      // does not move.
+      if (reduceMotion.matches) return;
+      timer = window.setInterval(function () { show(idx + 1); }, INTERVAL);
+    }
+
+    if (coarse.matches && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) start(); else stop();
+        });
+      }, { threshold: 0.15 }).observe(section);
+    } else if (coarse.matches) {
+      start();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop(); else if (coarse.matches) start();
+    });
+
+    reduceMotion.addEventListener('change', function (e) {
+      if (e.matches) stop(); else if (coarse.matches) start();
+    });
+    coarse.addEventListener('change', function (e) {
+      if (!e.matches) { stop(); clear(); } else { start(); }
+    });
   }
 
   /* ---------- Lightbox ----------------------------------------------------

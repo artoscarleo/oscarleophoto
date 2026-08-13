@@ -1471,12 +1471,35 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   }
 }
 
-/* Touch devices never fire hover, so the photographs would only ever be dead
-   weight — they are not downloaded or shown there at all. */
-@media not all and (hover: hover) {
-  .services__bg img { display: none; }
-}
+/* Touch devices cannot hover, so on those the photographs cycle on their own
+   instead — see initServiceBackdrop(). They stay lazy, so nothing is fetched
+   until the section is actually scrolled to. */
 
 @media (prefers-reduced-motion: reduce) {
   .services__bg img { transition: opacity 1ms; transform: none !important; }
+}
+
+/* On a phone the type runs the full width, so the left-heavy desktop scrim just
+   buries the photograph — measured at 91% coverage, with contrast far higher
+   than it needed to be. Here the scrim is even and much lighter, so the picture
+   actually reads while the text stays well clear of AA. Desktop is untouched. */
+@media (hover: none) {
+  .services {
+    /* The small secondary text carries the least contrast, so it is lifted a
+       little here — that buys the scrim room to stay light enough to see the
+       photograph through. */
+    --fg-muted: #DCDCE1;
+    --fg-subtle: #CBCBD2;
+  }
+  .services__bg::after {
+    background:
+      linear-gradient(to right,
+        rgba(8, 8, 8, .68) 0%,
+        rgba(8, 8, 8, .63) 60%,
+        rgba(8, 8, 8, .60) 100%),
+      linear-gradient(to bottom,
+        rgba(8, 8, 8, .48) 0%,
+        rgba(8, 8, 8, .34) 40%,
+        rgba(8, 8, 8, .52) 100%);
+  }
 }
