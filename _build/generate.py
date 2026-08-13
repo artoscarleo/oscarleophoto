@@ -587,21 +587,29 @@ def build_home():
     # object-fit: cover scale each photograph by a different amount — 1.16x to
     # 2.60x — so they looked inconsistent as they swapped. One shared ratio
     # means they all scale identically, on desktop and mobile alike.
-    def sq_srcset(im):
-        # A square crop of a landscape source tops out at the source's height,
-        # so 1800 exists for some and not others. Offer whatever was produced.
+    def crop_srcset(im, tag):
+        """Whatever widths that crop actually produced. A 2:3 cut from a
+        landscape frame is narrow, so some only reach 800."""
         parts = []
         for w in (800, 1200, 1800):
             if os.path.exists(os.path.join(ROOT, "assets", "img", im["folder"],
-                                           f'{im["slug"]}-sq-{w}.jpg')):
-                parts.append(f'/assets/img/{im["folder"]}/{im["slug"]}-sq-{w}.jpg {w}w')
+                                           f'{im["slug"]}-{tag}-{w}.jpg')):
+                parts.append(f'/assets/img/{im["folder"]}/{im["slug"]}-{tag}-{w}.jpg {w}w')
         return ", ".join(parts)
 
+    # Art direction. The backdrop box is near square on desktop but very tall on
+    # a phone (0.32), where a square crop would lose 68% of its width. Phones get
+    # a 2:3 portrait cut of the same photograph instead, which keeps 48%.
+    # Within each breakpoint every photograph shares one shape, so they all scale
+    # by the same amount and none looks more zoomed in than the others.
     previews = "\n".join(
-        f'        <img src="/assets/img/{im["folder"]}/{im["slug"]}-sq-1200.jpg"'
-        f' srcset="{sq_srcset(im)}"'
-        f' sizes="100vw" alt="" width="1200" height="1200"'
-        f' loading="lazy" decoding="async" data-bg-index="{i}">'
+        f"""        <picture>
+          <source media="(max-width: 63.99em)" srcset="{crop_srcset(im, 'pt')}" sizes="100vw">
+          <img src="/assets/img/{im['folder']}/{im['slug']}-sq-1200.jpg"
+               srcset="{crop_srcset(im, 'sq')}" sizes="100vw"
+               alt="" width="1200" height="1200"
+               loading="lazy" decoding="async" data-bg-index="{i}">
+        </picture>"""
         for i, im in enumerate(preview_imgs)
     )
 

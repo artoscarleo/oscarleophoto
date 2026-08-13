@@ -1428,6 +1428,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   z-index: -1;
   pointer-events: none;
 }
+.services__bg picture { display: contents; }
 .services__bg img {
   position: absolute;
   inset: 0;

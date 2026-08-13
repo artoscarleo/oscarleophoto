@@ -29,7 +29,15 @@ IMG = os.path.join(ROOT, "assets", "img")
 TMP = "/tmp/ol-backdrop-crops"
 OUT_WIDTHS = [800, 1200, 1800]
 QUALITY = {800: 68, 1200: 58, 1800: 54}
-SUBJECT_AT = 0.34          # where the subject should land inside the square
+SUBJECT_AT = 0.34          # where the subject should land inside the crop
+
+# Two shapes, because the backdrop box changes shape dramatically:
+#   desktop  ~0.90-1.35 (near square)  -> a square crop barely needs cropping
+#   mobile   ~0.32      (very tall)    -> a square loses 68% of its width, so a
+#                                         2:3 portrait is used there instead,
+#                                         which keeps 48% and still yields
+#                                         800x1200 from a landscape source.
+SHAPES = [("sq", 1.0), ("pt", 2 / 3)]
 
 # folder, slug, subject centre as a fraction of the original's height
 SOURCES = [
@@ -104,24 +112,31 @@ def main():
     for folder, slug, focus in SOURCES:
         src = os.path.join(IMG, folder, slug + "-1800.jpg")
         iw, ih = dims(src)
-        side = min(iw, ih)                       # the largest square available
-        oy = int(round(focus * ih - SUBJECT_AT * side))
-        oy = max(0, min(oy, ih - side))
-        ox = max(0, (iw - side) // 2)
 
-        pdf = os.path.join(TMP, slug + ".pdf")
-        crop_pdf(src, pdf, side, side, ox, oy)
+        for tag, ratio in SHAPES:
+            # largest crop of this shape that fits inside the source
+            ch = min(ih, int(iw / ratio))
+            cw = int(round(ch * ratio))
+            if cw > iw:
+                cw = iw
+                ch = int(round(cw / ratio))
+            oy = int(round(focus * ih - SUBJECT_AT * ch))
+            oy = max(0, min(oy, ih - ch))
+            ox = max(0, (iw - cw) // 2)
 
-        made = []
-        for w in OUT_WIDTHS:
-            if w > side:
-                continue
-            dst = os.path.join(IMG, folder, f"{slug}-sq-{w}.jpg")
-            subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY[w]),
-                            "--resampleWidth", str(w), pdf, "--out", dst], capture_output=True)
-            made.append(w)
-        manifest.append(f"{slug}|{side}|{','.join(map(str, made))}")
-        print(f"{slug:40} {iw}x{ih} -> {side}x{side} @y={oy:4}  widths {made}")
+            pdf = os.path.join(TMP, f"{slug}-{tag}.pdf")
+            crop_pdf(src, pdf, cw, ch, ox, oy)
+
+            made = []
+            for w in OUT_WIDTHS:
+                if w > cw:
+                    continue
+                dst = os.path.join(IMG, folder, f"{slug}-{tag}-{w}.jpg")
+                subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY[w]),
+                                "--resampleWidth", str(w), pdf, "--out", dst], capture_output=True)
+                made.append(w)
+            manifest.append(f"{slug}|{tag}|{cw}x{ch}|{','.join(map(str, made))}")
+            print(f"{slug:38} {tag}  {iw}x{ih} -> {cw}x{ch} @y={oy:4}  widths {made}")
 
     with open(os.path.join(IMG, "backdrop-square.txt"), "w") as fh:
         fh.write("\n".join(manifest) + "\n")
