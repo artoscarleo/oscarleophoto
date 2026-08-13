@@ -583,12 +583,24 @@ def build_home():
     preview_imgs = [HEADSHOTS[0], CONCERTS[11], HEADSHOTS[4],
                     next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-10"),
                     CONCERTS[2], CONCERTS[13]]
+    # Square crops (see _build/backdrop_crops.py). Mixed source ratios made
+    # object-fit: cover scale each photograph by a different amount — 1.16x to
+    # 2.60x — so they looked inconsistent as they swapped. One shared ratio
+    # means they all scale identically, on desktop and mobile alike.
+    def sq_srcset(im):
+        # A square crop of a landscape source tops out at the source's height,
+        # so 1800 exists for some and not others. Offer whatever was produced.
+        parts = []
+        for w in (800, 1200, 1800):
+            if os.path.exists(os.path.join(ROOT, "assets", "img", im["folder"],
+                                           f'{im["slug"]}-sq-{w}.jpg')):
+                parts.append(f'/assets/img/{im["folder"]}/{im["slug"]}-sq-{w}.jpg {w}w')
+        return ", ".join(parts)
+
     previews = "\n".join(
-        f'        <img src="/assets/img/{im["folder"]}/{im["slug"]}-1200.jpg"'
-        f' srcset="/assets/img/{im["folder"]}/{im["slug"]}-800.jpg 800w,'
-        f' /assets/img/{im["folder"]}/{im["slug"]}-1200.jpg 1200w,'
-        f' /assets/img/{im["folder"]}/{im["slug"]}-1800.jpg 1800w"'
-        f' sizes="100vw" alt="" width="{im["w"]}" height="{im["h"]}"'
+        f'        <img src="/assets/img/{im["folder"]}/{im["slug"]}-sq-1200.jpg"'
+        f' srcset="{sq_srcset(im)}"'
+        f' sizes="100vw" alt="" width="1200" height="1200"'
         f' loading="lazy" decoding="async" data-bg-index="{i}">'
         for i, im in enumerate(preview_imgs)
     )
