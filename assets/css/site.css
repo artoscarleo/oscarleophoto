@@ -58,10 +58,14 @@
   --shadow-sm: none;
   --shadow-lg: none;
 
-  /* Two voices. A high-contrast didone carries the statements — it echoes the
-     hairline strokes of the monogram — and Archivo carries everything that has
-     to be read or clicked. */
-  --font-display: "Bodoni Moda", "Didot", "Times New Roman", Georgia, serif;
+  /* Two voices. A high-contrast serif carries the statements and Archivo
+     carries everything that has to be read or clicked.
+
+     The system named Bodoni Moda, a true didone. On screen its hairlines thin
+     out to roughly a pixel and the headings became hard to read, so the display
+     face is Playfair Display instead: the same didone lineage and the same
+     editorial feel, built with thick enough thins to survive at every size. */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body: "Archivo", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-ui: "Archivo", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
@@ -171,17 +175,20 @@ p, h1, h2, h3, h4 { overflow-wrap: break-word; }
 
 /* ---------- 03 TYPOGRAPHY ------------------------------------------------ */
 
-/* The didone carries the statements — h1 and h2 — set at its own weight and
-   tracked lightly (-0.02em, where the old grotesque wanted -0.045em; a
-   high-contrast serif comes apart when it is tracked in that hard).
+/* The serif carries the statements — h1 and h2 — tracked lightly (-0.02em,
+   where the old grotesque wanted -0.045em; a high-contrast serif comes apart
+   when it is tracked in that hard).
+
+   Leading is 1.02 rather than the system's 0.98: Playfair has longer
+   descenders and a taller x-height than the didone that number was written
+   for, and at 0.98 a "g" on one line touches the "l" below it.
 
    h3 and h4 stay in Archivo. The display face is specified for 24px and up,
-   and those two land at 18-22px and 17px, where a didone's hairlines start
-   to break up on an ordinary screen. */
+   and those two land at 18-22px and 17px. */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 400;
-  line-height: 0.98;
+  line-height: 1.02;
   letter-spacing: -0.02em;
   margin: 0 0 var(--space-m);
   text-wrap: balance;
