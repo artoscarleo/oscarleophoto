@@ -390,6 +390,7 @@ p:last-child { margin-bottom: 0; }
 /* 44x44 minimum touch target on every icon control. */
 .icon-btn {
   width: 52px; height: 52px;
+  flex: none;            /* never let a wide flex sibling crush the target */
   display: grid; place-items: center;
   background: none;
   border: 1px solid transparent;
@@ -1389,7 +1390,10 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
 }
 .header[data-scrolled="true"] .brand__mark { width: calc(var(--header-h-sm) * var(--logo-fill)); }
-.mobile-nav .brand__mark { width: calc(var(--header-h) * var(--logo-fill)); }
+/* Smaller than the page header's mark: the drawer row also has to hold the
+   wordmark and the close button, and the full-size mark left 21px for it. */
+.mobile-nav .brand__mark { width: 2.75rem; }
+.mobile-nav__head .brand { min-width: 0; overflow: hidden; }
 
 /* ---------- 23 SERVICE BACKDROP -------------------------------------------
    Hovering a service row fades a full-bleed photograph in behind the list.
@@ -1503,4 +1507,29 @@ body[data-scroll-locked="true"] { overflow: hidden; }
         rgba(8, 8, 8, .34) 40%,
         rgba(8, 8, 8, .52) 100%);
   }
+}
+
+/* ---------- 24 SMALL-SCREEN HEADER FIT ------------------------------------
+   The header row is logo + wordmark on the left and two 52px controls on the
+   right. The wordmark does not wrap, so on a narrow screen the row grew wider
+   than the viewport and pushed the theme toggle and the menu button off the
+   right edge — at 375px they sat at 406px and 466px. With overflow-x hidden
+   there was no way to scroll to them, so the menu was unreachable.
+
+   The mark stays large; the second word is what gives way.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 30em) {
+  /* :not(.brand__mark) matters — the logo mark is a <span> too, and a bare
+     `.brand span` rule hides the logo along with the word.
+     The drawer's own header row has the same problem: brand plus close button
+     overflowed and pushed the close button off screen. */
+  .header .brand span:not(.brand__mark),
+  .mobile-nav .brand span:not(.brand__mark) { display: none; }
+}
+
+@media (max-width: 22em) {
+  /* Smallest phones need the mark to give a little too. */
+  .header .brand__mark { width: 2.75rem; }
+  .header[data-scrolled="true"] .brand__mark { width: 2.5rem; }
 }
