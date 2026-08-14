@@ -316,7 +316,7 @@ def head(page):
         imagesrcset="{page['hero_srcset']}"
         imagesizes="100vw" href="{page['hero_src']}">
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Archivo:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="{asset('/assets/css/site.css')}">
 
   <!-- Marks that scripting is available before first paint, so the scroll

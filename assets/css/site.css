@@ -28,29 +28,40 @@
    ------------------------------------------------------------------------- */
 
 :root {
-  /* Monochrome. A photography site has all the colour it needs inside the
-     frames — the interface is black, white and the greys between them.
-     (The style database proposed a #2563EB accent; a chromatic accent competes
-     with the photographs, so the accent here is simply the foreground colour.) */
-  --bg:            #FFFFFF;
-  --bg-elevated:   #FFFFFF;
-  --bg-sunken:     #E5E5E8;   /* a real step down from white, for separation */
-  --fg:            #0A0A0A;   /* 19.8:1 on --bg */
-  --fg-muted:      #52525B;   /* 7.7:1  on --bg */
-  --fg-subtle:     #616169;   /* 6.1:1 on --bg, 4.9:1 on the darker sunken panel */
-  --border:        #E7E7E9;         /* hairline rules */
-  --border-strong: #D4D4D8;
-  --border-interactive: #8A8A8A;    /* 3.5:1 — real control boundaries, WCAG 1.4.11 */
-  --accent:        #0A0A0A;   /* 19.8:1 — the accent is the ink */
-  --accent-hover:  #3F3F46;
-  --on-accent:     #FFFFFF;
+  /* Read off the work itself: high-contrast monochrome stage photography and
+     low-key studio portraiture on warm olive/brass backdrops. Nothing
+     saturated — the photographs carry all the colour, and the shell is warm
+     paper, warm ink, and brass held back for lines. */
+  --bg:            #FAF8F5;   /* paper-100 — warm off-white, not paper-white */
+  --bg-elevated:   #FFFFFF;   /* paper-000 */
+  --bg-sunken:     #F2EFE9;   /* paper-200 — a step down, still warm */
+  --fg:            #0A0A0A;   /* ink-900   18.7:1 on --bg */
+  --fg-muted:      #4A4744;   /* ink-500    8.7:1 on --bg */
+  --fg-subtle:     #6D6862;   /* ink-400    5.2:1 on --bg, 4.8:1 on the sunken panel */
+  --border:        rgba(10, 10, 10, 0.12);   /* hairline rules */
+  --border-strong: rgba(10, 10, 10, 0.28);
+  /* Real control boundaries need 3:1 (WCAG 1.4.11). The system's own
+     --field-border (ink at .22) measures 1.9:1 against paper, so brass carries
+     the edge instead — 4.0:1 on paper, 3.7:1 on the sunken panel — which is
+     also the colour it uses for focus rings. */
+  --border-interactive: #8A7A55;
+  --accent:        #0A0A0A;   /* ink still fills; brass is a line colour, never a fill */
+  --accent-hover:  #2E2C29;   /* ink-600 */
+  --on-accent:     #FAF8F5;
+
+  /* Brass — the single accent, lifted from the studio backdrop wash.
+     Rules, focus rings and the occasional underline. It never fills. */
+  --brass:         #8A7A55;   /* brass-500 */
+  --brass-ink:     #6D5F3D;   /* brass-700 — 5.9:1, safe as text on paper */
+  --brass-light:   #B7A882;   /* brass-300 — 8.4:1 on ink, for dark bands */
   --overlay:       rgba(10, 10, 10, 0.72);
   --shadow-sm: none;
   --shadow-lg: none;
 
-  /* Type — one grotesque, used across the whole interface. A single family at
-     several weights is quieter than a pairing, and it is one less font request. */
-  --font-display: "Archivo", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  /* Two voices. A high-contrast didone carries the statements — it echoes the
+     hairline strokes of the monogram — and Archivo carries everything that has
+     to be read or clicked. */
+  --font-display: "Bodoni Moda", "Didot", "Times New Roman", Georgia, serif;
   --font-body: "Archivo", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-ui: "Archivo", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
@@ -123,8 +134,10 @@ input, button, textarea, select { font: inherit; color: inherit; }
 p, h1, h2, h3, h4 { overflow-wrap: break-word; }
 
 /* Visible, high-contrast focus for keyboard users — never removed. */
+/* Brass carries the focus ring, per the palette. It measures 4.0:1 against
+   paper, above the 3:1 that WCAG 1.4.11 asks of a non-text indicator. */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brass);
   outline-offset: 3px;
   border-radius: var(--radius);
 }
@@ -158,19 +171,38 @@ p, h1, h2, h3, h4 { overflow-wrap: break-word; }
 
 /* ---------- 03 TYPOGRAPHY ------------------------------------------------ */
 
+/* The didone carries the statements — h1 and h2 — set at its own weight and
+   tracked lightly (-0.02em, where the old grotesque wanted -0.045em; a
+   high-contrast serif comes apart when it is tracked in that hard).
+
+   h3 and h4 stay in Archivo. The display face is specified for 24px and up,
+   and those two land at 18-22px and 17px, where a didone's hairlines start
+   to break up on an ordinary screen. */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
   margin: 0 0 var(--space-m);
   text-wrap: balance;
 }
 
-h1 { font-size: var(--step-5); letter-spacing: -0.045em; }
-h2 { font-size: var(--step-3); letter-spacing: -0.04em; }
-h3 { font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.02em; }
-h4 { font-size: var(--step-0); font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: var(--step-5); }
+h2 { font-size: var(--step-3); }
+h3 {
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+h4 {
+  font-family: var(--font-ui);
+  font-size: var(--step-0);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
 
 p { margin: 0 0 var(--space-m); max-width: var(--measure); }
 p:last-child { margin-bottom: 0; }
@@ -179,7 +211,7 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--font-ui);
   font-size: var(--step--1);
   font-weight: 500;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-subtle);
   margin: 0 0 var(--space-m);
@@ -230,11 +262,11 @@ p:last-child { margin-bottom: 0; }
 .section--tight { padding-block: var(--space-2xl); }
 .section--sunken { background: var(--bg-sunken); }
 
-/* Photographs always sit on white. A tinted band behind a gallery tints the
-   space between the frames, which reads as a cast over the pictures rather
-   than as a background — the separation comes from the *next* section being
-   darker instead. Every gallery is authored on white already; this is the
-   guard so one cannot be put on a tinted band by accident. */
+/* Photographs always sit on the page surface, never on a tinted band: a tint
+   behind a gallery colours the space between the frames, which reads as a cast
+   over the pictures rather than as a background. The separation comes from the
+   *next* section being darker instead. Every gallery is authored that way
+   already; this is the guard against one being tinted by accident. */
 .section--sunken:has(.gallery) { background: var(--bg); }
 
 .section-head {
@@ -253,9 +285,10 @@ p:last-child { margin-bottom: 0; }
 
 .rule {
   height: 1px;
-  background: var(--border);
+  background: var(--brass);
   border: 0;
   margin: 0;
+  opacity: .5;
 }
 
 .grid-2 { display: grid; gap: var(--space-l); }
@@ -472,12 +505,12 @@ p:last-child { margin-bottom: 0; }
 
 .btn--on-image {
   background: transparent;
-  border-color: rgba(255,255,255,.55);
-  color: #fff;
+  border-color: rgba(250, 248, 245,.55);
+  color: #FAF8F5;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-.btn--on-image:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.btn--on-image:hover { background: rgba(250, 248, 245,.14); border-color: #FAF8F5; }
 
 .link-arrow {
   display: inline-flex;
@@ -561,15 +594,15 @@ p:last-child { margin-bottom: 0; }
   width: min(100% - 2 * var(--space-m), var(--container));
   margin-inline: auto;
   padding-block: var(--space-2xl) var(--space-xl);
-  color: #fff;
+  color: #FAF8F5;
 }
 @media (min-width: 48em) {
   .hero__inner { width: min(100% - 2 * var(--space-xl), var(--container)); }
 }
-.hero h1 { color: #fff; max-width: 16ch; margin-bottom: var(--space-m); }
-.hero .eyebrow { color: rgba(255,255,255,.96); }
+.hero h1 { color: #FAF8F5; max-width: 16ch; margin-bottom: var(--space-m); }
+.hero .eyebrow { color: rgba(250, 248, 245,.96); }
 .hero__sub {
-  color: rgba(255,255,255,.90);
+  color: rgba(250, 248, 245,.90);
   font-size: var(--step-1);
   max-width: 44ch;
   margin-bottom: var(--space-l);
@@ -588,13 +621,13 @@ p:last-child { margin-bottom: 0; }
   font-size: var(--step--1);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.7);
+  color: rgba(250, 248, 245,.7);
 }
 @media (min-width: 62em) { .hero__scroll { display: flex; } }
 .hero__scroll i {
   display: block;
   width: 1px; height: 3rem;
-  background: linear-gradient(to bottom, rgba(255,255,255,.7), transparent);
+  background: linear-gradient(to bottom, rgba(250, 248, 245,.7), transparent);
   transform-origin: top;
   animation: scroll-hint 2.4s var(--ease-in-out) infinite;
 }
@@ -643,12 +676,13 @@ p:last-child { margin-bottom: 0; }
 .feature__media img { width: 100%; }
 
 .callout {
-  border-left: 1px solid var(--fg);
+  border-left: 1px solid var(--brass);
   padding-left: var(--space-m);
+  font-family: var(--font-display);
   font-size: var(--step-2);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--fg);
   max-width: 22ch;
 }
@@ -785,7 +819,7 @@ p:last-child { margin-bottom: 0; }
   z-index: 1;
   font-family: var(--font-ui);
   font-size: var(--step--1);
-  color: #fff;
+  color: #FAF8F5;
   text-align: left;
   opacity: 0;
   transform: translateY(6px);
@@ -1013,7 +1047,7 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   justify-content: space-between;
   padding: var(--space-s) var(--space-m);
-  color: #fff;
+  color: #FAF8F5;
 }
 .lightbox__count { font-family: var(--font-ui); font-size: var(--step--1); letter-spacing: 0.1em; }
 .lightbox__stage {
@@ -1049,17 +1083,17 @@ p:last-child { margin-bottom: 0; }
   justify-content: center;
   gap: var(--space-m);
   padding: var(--space-m);
-  color: #fff;
+  color: #FAF8F5;
 }
 .lightbox__caption {
   font-family: var(--font-ui);
   font-size: var(--step--1);
-  color: rgba(255,255,255,.8);
+  color: rgba(250, 248, 245,.8);
   text-align: center;
   max-width: 52ch;
 }
-.lightbox .icon-btn { color: rgba(255,255,255,.8); }
-.lightbox .icon-btn:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+.lightbox .icon-btn { color: rgba(250, 248, 245,.8); }
+.lightbox .icon-btn:hover { color: #FAF8F5; border-color: rgba(250, 248, 245,.4); }
 body[data-scroll-locked="true"] { overflow: hidden; }
 
 /* ---------- 15 MOTION ------------------------------------------------------
@@ -1290,17 +1324,17 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   -webkit-backdrop-filter: none;
   border-bottom-color: transparent;
 }
-.header:not([data-scrolled="true"]) .brand { color: #fff; }
-.header:not([data-scrolled="true"]) .brand__sub { color: rgba(255, 255, 255, .86); }
-.header:not([data-scrolled="true"]) .nav a { color: rgba(255, 255, 255, .92); }
+.header:not([data-scrolled="true"]) .brand { color: #FAF8F5; }
+.header:not([data-scrolled="true"]) .brand__sub { color: rgba(250, 248, 245, .86); }
+.header:not([data-scrolled="true"]) .nav a { color: rgba(250, 248, 245, .92); }
 .header:not([data-scrolled="true"]) .nav a:hover,
-.header:not([data-scrolled="true"]) .nav a[aria-current="page"] { color: #fff; }
-.header:not([data-scrolled="true"]) .icon-btn { color: rgba(255, 255, 255, .9); }
+.header:not([data-scrolled="true"]) .nav a[aria-current="page"] { color: #FAF8F5; }
+.header:not([data-scrolled="true"]) .icon-btn { color: rgba(250, 248, 245, .9); }
 .header:not([data-scrolled="true"]) .icon-btn:hover {
-  color: #fff;
-  border-color: rgba(255, 255, 255, .38);
+  color: #FAF8F5;
+  border-color: rgba(250, 248, 245, .38);
 }
-.header:not([data-scrolled="true"]) :focus-visible { outline-color: #fff; }
+.header:not([data-scrolled="true"]) :focus-visible { outline-color: #FAF8F5; }
 
 /* The drawer is an opaque panel, so its own header keeps the normal colours. */
 .mobile-nav .brand { color: var(--fg); }
@@ -1533,18 +1567,19 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    -------------------------------------------------------------------------- */
 
 .footer {
-  --bg: #0A0A0A;
+  --bg: #0A0A0A;              /* ink-900 */
   --bg-sunken: #000000;
-  --bg-elevated: #141414;
-  --fg: #FAFAFA;
-  --fg-muted: #C6C6CE;
-  --fg-subtle: #ABABB4;
-  --border: #2A2A2F;
-  --border-strong: #3A3A41;
-  --border-interactive: #6E6E6E;
-  --accent: #FAFAFA;          /* the call-to-action inverts with the band */
-  --accent-hover: #D4D4D8;
+  --bg-elevated: #141414;     /* ink-800 */
+  --fg: #FAF8F5;              /* paper-100  18.7:1 */
+  --fg-muted: rgba(250, 248, 245, .72);    /*  9.7:1 */
+  --fg-subtle: rgba(250, 248, 245, .62);   /*  7.4:1 */
+  --border: rgba(250, 248, 245, .16);
+  --border-strong: rgba(250, 248, 245, .34);
+  --border-interactive: rgba(250, 248, 245, .52);  /* 5.4:1 */
+  --accent: #FAF8F5;          /* the call-to-action inverts with the band */
+  --accent-hover: #D8D3CB;    /* ink-100 */
   --on-accent: #0A0A0A;
+  --brass: #B7A882;           /* brass-300 reads on ink where brass-500 does not */
 
   background: var(--bg);
   color: var(--fg);
@@ -1597,13 +1632,14 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    -------------------------------------------------------------------------- */
 
 .section--photo {
-  --fg: #FFFFFF;
-  --fg-muted: rgba(255, 255, 255, .90);
-  --fg-subtle: rgba(255, 255, 255, .84);
-  --border: rgba(255, 255, 255, .28);
-  --border-strong: rgba(255, 255, 255, .40);
-  --accent: #FFFFFF;
-  --accent-hover: rgba(255, 255, 255, .82);
+  --fg: #FAF8F5;              /* paper-100, not paper-white — same warm ramp */
+  --fg-muted: rgba(250, 248, 245, .90);
+  --fg-subtle: rgba(250, 248, 245, .84);
+  --border: rgba(250, 248, 245, .28);
+  --border-strong: rgba(250, 248, 245, .40);
+  --accent: #FAF8F5;
+  --accent-hover: rgba(250, 248, 245, .82);
+  --brass: #B7A882;
 
   position: relative;
   isolation: isolate;
