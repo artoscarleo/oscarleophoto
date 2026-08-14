@@ -27,43 +27,6 @@
     });
   }
 
-  /* ---------- Theme -------------------------------------------------------
-     The inline script in <head> sets the initial theme before first paint so
-     there is no flash. This only handles the toggle and persistence.
-     -------------------------------------------------------------------- */
-  function initTheme() {
-    var toggle = document.querySelector('[data-theme-toggle]');
-    if (!toggle) return;
-
-    function current() {
-      var explicit = document.documentElement.getAttribute('data-theme');
-      if (explicit) return explicit;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    function label() {
-      var next = current() === 'dark' ? 'light' : 'dark';
-      toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-      toggle.setAttribute('title', 'Switch to ' + next + ' theme');
-    }
-
-    label();
-
-    toggle.addEventListener('click', function () {
-      var next = current() === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      try { localStorage.setItem('ol-theme', next); } catch (e) { /* private mode */ }
-      label();
-    });
-
-    // Follow the OS if the visitor has never chosen for themselves.
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-      var stored = null;
-      try { stored = localStorage.getItem('ol-theme'); } catch (e) {}
-      if (!stored) label();
-    });
-  }
-
   /* ---------- Header condense on scroll ---------------------------------- */
   function initHeader() {
     var header = document.querySelector('[data-header]');
@@ -387,7 +350,6 @@
   }
 
   function init() {
-    initTheme();
     initHeader();
     initMobileNav();
     initReveals();

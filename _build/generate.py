@@ -183,8 +183,6 @@ NAV = [
 ]
 
 ICON = {
-    "moon": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>',
-    "sun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
     "menu": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>',
     "close": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>',
     "arrow": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
@@ -232,8 +230,7 @@ def head(page):
   <meta name="twitter:description" content="{page['desc']}">
   <meta name="twitter:image" content="{SITE_URL}{og_image}">
 
-  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFFFFF">
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -247,17 +244,9 @@ def head(page):
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="{asset('/assets/css/site.css')}">
 
-  <!-- Sets the theme before first paint so there is no flash of the wrong one. -->
-  <script>
-    (function () {{
-      var d = document.documentElement;
-      d.classList.add('js');
-      try {{
-        var t = localStorage.getItem('ol-theme');
-        if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
-      }} catch (e) {{}}
-    }})();
-  </script>
+  <!-- Marks that scripting is available before first paint, so the scroll
+       reveals only hide content when they can also un-hide it. -->
+  <script>document.documentElement.classList.add('js');</script>
 
 {schema_blocks}</head>
 <body>
@@ -278,10 +267,6 @@ def header():
 {links}
       </nav>
       <div class="header__actions">
-        <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Switch theme">
-          <span class="icon-moon">{ICON['moon']}</span>
-          <span class="icon-sun">{ICON['sun']}</span>
-        </button>
         <button type="button" class="icon-btn nav-toggle" data-nav-open
                 aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
           {ICON['menu']}

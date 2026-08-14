@@ -93,47 +93,6 @@
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
-  --bg:            #0A0A0A;
-  --bg-elevated:   #141414;
-  --bg-sunken:     #000000;
-  --fg:            #FAFAFA;   /* 19.0:1 on --bg */
-  --fg-muted:      #A1A1AA;   /* 7.7:1  on --bg */
-  --fg-subtle:     #8E8E96;   /* 6.1:1  on --bg */
-  --border:        #232326;
-  --border-strong: #34343A;
-  --border-interactive: #6E6E6E;    /* 3.9:1 */
-  --accent:        #FAFAFA;   /* 19.0:1 */
-  --accent-hover:  #D4D4D8;
-  --on-accent:     #0A0A0A;
-  --overlay:       rgba(0, 0, 0, 0.80);
-  --shadow-sm: none;
-  --shadow-lg: none;
-  color-scheme: dark;
-}
-
-/* Follow the OS when the visitor has expressed no preference of their own. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:            #0A0A0A;
-    --bg-elevated:   #141414;
-    --bg-sunken:     #000000;
-    --fg:            #FAFAFA;
-    --fg-muted:      #A1A1AA;
-    --fg-subtle:     #8E8E96;
-    --border:        #232326;
-    --border-strong: #34343A;
-    --border-interactive: #6E6E6E;
-    --accent:        #FAFAFA;
-    --accent-hover:  #D4D4D8;
-    --on-accent:     #0A0A0A;
-    --overlay:       rgba(0, 0, 0, 0.80);
-    --shadow-sm: none;
-    --shadow-lg: none;
-    color-scheme: dark;
-  }
-}
-
 /* ---------- 02 RESET & BASE ---------------------------------------------- */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -358,6 +317,9 @@ p:last-child { margin-bottom: 0; }
     display: flex;
     align-items: center;
     gap: calc(var(--space-m) * 1.1);
+    /* The actions box is empty on desktop now that the theme toggle is gone,
+       so space-between would leave the nav floating short of the edge. */
+    margin-left: auto;
   }
 }
 .nav a {
@@ -404,16 +366,6 @@ p:last-child { margin-bottom: 0; }
 .icon-btn:hover { color: var(--fg); border-color: var(--border); }
 .icon-btn:active { background: var(--bg-sunken); }
 .icon-btn svg { width: 25px; height: 25px; stroke-width: 1.4; }
-
-/* Theme toggle shows the icon of the mode you would switch *to*. */
-.theme-toggle .icon-moon { display: block; }
-.theme-toggle .icon-sun  { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun  { display: block; }
-}
 
 .nav-toggle { display: grid; }
 @media (min-width: 76em) { .nav-toggle { display: none; } }
@@ -1244,14 +1196,6 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   background-size: contain;
   background-repeat: no-repeat;
 }
-:root[data-theme="dark"] .logo-mark {
-  background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .logo-mark {
-    background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
-  }
-}
 
 .footer__mark {
   width: 128px;
@@ -1377,16 +1321,10 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   background-image: url("../img/logo/oscar-leo-photography-logo-light-240.png");
   transition: width var(--dur) var(--ease-out);
 }
-:root[data-theme="dark"] .brand__mark {
-  background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .brand__mark {
-    background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
-  }
-}
-.header:not([data-scrolled="true"]) .brand__mark,
-:root[data-theme="light"] .header:not([data-scrolled="true"]) .brand__mark {
+/* Over the hero the header is transparent on a dark photograph, so the white
+   artwork is used there. This is not a dark theme — it is white line art on a
+   dark image. Once the header becomes a solid white surface it reverts. */
+.header:not([data-scrolled="true"]) .brand__mark {
   background-image: url("../img/logo/oscar-leo-photography-logo-dark-240.png");
 }
 .header[data-scrolled="true"] .brand__mark { width: calc(var(--header-h-sm) * var(--logo-fill)); }
