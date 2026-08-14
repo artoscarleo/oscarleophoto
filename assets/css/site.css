@@ -307,7 +307,7 @@ p:last-child { margin-bottom: 0; }
   white-space: nowrap;
   flex-shrink: 0;
 }
-.brand span { color: var(--fg-subtle); }
+.brand__sub { color: var(--fg-subtle); }
 
 .nav { display: none; }
 /* 76em, not 62em: at 25% larger the seven nav labels no longer fit on one
@@ -1284,7 +1284,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   border-bottom-color: transparent;
 }
 .header:not([data-scrolled="true"]) .brand { color: #fff; }
-.header:not([data-scrolled="true"]) .brand span { color: rgba(255, 255, 255, .86); }
+.header:not([data-scrolled="true"]) .brand__sub { color: rgba(255, 255, 255, .86); }
 .header:not([data-scrolled="true"]) .nav a { color: rgba(255, 255, 255, .92); }
 .header:not([data-scrolled="true"]) .nav a:hover,
 .header:not([data-scrolled="true"]) .nav a[aria-current="page"] { color: #fff; }
@@ -1297,7 +1297,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 
 /* The drawer is an opaque panel, so its own header keeps the normal colours. */
 .mobile-nav .brand { color: var(--fg); }
-.mobile-nav .brand span { color: var(--fg-subtle); }
+.mobile-nav .brand__sub { color: var(--fg-subtle); }
 
 /* ---------- 22 LOCAL SCRIM BEHIND HERO TEXT -------------------------------
    The full-frame gradient alone makes legibility depend on which photograph is
@@ -1467,16 +1467,20 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    right edge — at 375px they sat at 406px and 466px. With overflow-x hidden
    there was no way to scroll to them, so the menu was unreachable.
 
-   The mark stays large; the second word is what gives way.
+   The second word used to be hidden outright to buy that room. It no longer
+   has to be: the theme toggle is gone, so the row carries one 52px control
+   instead of two, and stacking the wordmark into two lines beside the mark
+   fits the full name with room to spare — 198px of brand against 251px of
+   space at 375px, and 153px against 196px at 320px.
    -------------------------------------------------------------------------- */
 
 @media (max-width: 30em) {
-  /* :not(.brand__mark) matters — the logo mark is a <span> too, and a bare
-     `.brand span` rule hides the logo along with the word.
-     The drawer's own header row has the same problem: brand plus close button
-     overflowed and pushed the close button off screen. */
-  .header .brand span:not(.brand__mark),
-  .mobile-nav .brand span:not(.brand__mark) { display: none; }
+  .header .brand__name,
+  .mobile-nav .brand__name {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
 }
 
 @media (max-width: 22em) {

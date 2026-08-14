@@ -298,7 +298,7 @@ def header():
     )
     return f"""  <header class="header" data-header>
     <div class="header__inner">
-      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Leo <span>Photography</span></a>
+      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span><span class="brand__name">Oscar Leo <span class="brand__sub">Photography</span></span></a>
       <nav class="nav" aria-label="Primary">
 {links}
       </nav>
@@ -313,7 +313,7 @@ def header():
 
   <div class="mobile-nav" id="mobile-nav" data-mobile-nav data-open="false" aria-hidden="true" tabindex="-1">
     <div class="mobile-nav__head">
-      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Leo <span>Photography</span></a>
+      <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span><span class="brand__name">Oscar Leo <span class="brand__sub">Photography</span></span></a>
       <button type="button" class="icon-btn" data-nav-close aria-label="Close menu">{ICON['close']}</button>
     </div>
     <nav aria-label="Mobile">
