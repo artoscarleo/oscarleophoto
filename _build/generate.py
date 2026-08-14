@@ -706,7 +706,7 @@ def build_home():
       </div>
     </section>
 
-    <section class="section section--sunken">
+    <section class="section">
       <div class="container">
         <div class="section-head section-head--split">
           <div data-reveal>
@@ -720,8 +720,9 @@ def build_home():
       </div>
     </section>
 
-    <section class="section container">
-      <div class="grid-2">
+    <section class="section section--sunken">
+      <div class="container">
+        <div class="grid-2">
         <div data-reveal>
           <span class="eyebrow">Approach</span>
           <h2>Polished, but never staged.</h2>
@@ -747,6 +748,7 @@ def build_home():
                finish whether you need a headshot, an event covered, a wedding documented or a
                production photographed.</p>
           </div>
+        </div>
         </div>
       </div>
     </section>

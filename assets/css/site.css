@@ -230,6 +230,13 @@ p:last-child { margin-bottom: 0; }
 .section--tight { padding-block: var(--space-2xl); }
 .section--sunken { background: var(--bg-sunken); }
 
+/* Photographs always sit on white. A tinted band behind a gallery tints the
+   space between the frames, which reads as a cast over the pictures rather
+   than as a background — the separation comes from the *next* section being
+   darker instead. Every gallery is authored on white already; this is the
+   guard so one cannot be put on a tinted band by accident. */
+.section--sunken:has(.gallery) { background: var(--bg); }
+
 .section-head {
   display: grid;
   gap: var(--space-m);
