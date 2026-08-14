@@ -1,8 +1,10 @@
-headshots|vancouver-headshot-professional-14|aw|1800x1012|800,1200,1800
+headshots|vancouver-headshot-studio-01|aw|1800x1200|800,1200,1800
+headshots|vancouver-headshot-studio-01|at|1600x2400|800,1200
+headshots|vancouver-headshot-professional-14|aw|1800x1200|800,1200,1800
 headshots|vancouver-headshot-professional-14|at|1600x2400|800,1200
-weddings|vancouver-wedding-bridal-portrait-11|aw|1800x1012|800,1200,1800
+weddings|vancouver-wedding-bridal-portrait-11|aw|1800x1200|800,1200,1800
 weddings|vancouver-wedding-bridal-portrait-11|at|800x1200|800
-concerts|vancouver-concert-backstage-14|aw|1800x1012|800,1200,1800
+concerts|vancouver-concert-backstage-14|aw|1800x1200|800,1200,1800
 concerts|vancouver-concert-backstage-14|at|800x1200|800
-concerts|vancouver-concert-lighting-27|aw|1800x1012|800,1200,1800
+concerts|vancouver-concert-lighting-27|aw|1800x1200|800,1200,1800
 concerts|vancouver-concert-lighting-27|at|800x1200|800

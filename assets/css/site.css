@@ -1668,6 +1668,11 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 
   position: relative;
   isolation: isolate;
+  /* The media box overhangs the band so the photograph can travel. Without
+     this it painted those 130px OUTSIDE the section — unscrimmed, over the
+     gallery above — and the scrim's own top edge showed as a hard horizontal
+     seam across the band. */
+  overflow: hidden;
   color: var(--fg);
   background: #0A0A0A;   /* holds the band before the first photograph paints */
 }
@@ -1696,13 +1701,15 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    layer alive for a band most of the page never looks at. */
 .section__media[data-parallax-active="true"] img { will-change: transform; }
 
-/* The scrim, set by measurement rather than by eye. Swept across all four
-   photographs at both crops, taking the worst single pixel under every piece
-   of text: .80/.74/.82 held 7.45:1 where 4.5 was needed, which is 1.7x more
-   margin than the text can spend and buries the photographs; .66/.58/.68
-   fails at 4.32:1. This is the lightest step that still clears the bar —
-   5.61:1 at the worst point, the 13px eyebrow on a phone over the
-   black-and-white stage frame. */
+/* The scrim is deliberately heavier than contrast alone would require.
+
+   With a stage photograph behind it the rule was "lightest step that still
+   clears AA", because showing the work mattered and nothing in the frame
+   competed with the copy. The band now carries a tight portrait, and a face
+   pulls the eye harder than any amount of contrast margin can offset — the
+   text sits directly across her eyes. Priority is the text, so the
+   photograph is pushed back to atmosphere rather than held at the edge of
+   legibility. */
 .section--photo::after {
   content: "";
   position: absolute;
@@ -1710,9 +1717,9 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(6, 6, 6, .72) 0%,
-    rgba(6, 6, 6, .66) 45%,
-    rgba(6, 6, 6, .74) 100%);
+    rgba(6, 6, 6, .86) 0%,
+    rgba(6, 6, 6, .82) 45%,
+    rgba(6, 6, 6, .88) 100%);
 }
 
 .section--photo > .container { position: relative; z-index: 2; }

@@ -27,13 +27,22 @@ import subprocess
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
 TMP = "/tmp/ol-approach-slides"
-SHAPES = [("aw", 16 / 9), ("at", 2 / 3)]
+# The landscape shape is 3:2 rather than 16:9. The media box is 24% taller than
+# the band (the parallax overhang), so at desktop widths it sits around 1.4-1.6
+# — a 16:9 crop had to be scaled up hard to cover that, which turned a portrait
+# into a close-up of a chin. 3:2 is close to the box, so almost nothing is
+# thrown away and the subject reads as a portrait.
+SHAPES = [("aw", 3 / 2), ("at", 2 / 3)]
 WIDTHS = [800, 1200, 1800]
 QUALITY = {800: 68, 1200: 58, 1800: 54}
 SUBJECT_AT = 0.40          # where the subject should land inside the crop
 
 # folder, slug, subject centre (fraction of source height)
 SLIDES = [
+    # The one in use. Face sits high in the frame, so the crop is pulled up to
+    # keep it in the band's quiet upper area rather than behind the paragraph.
+    ("headshots", "vancouver-headshot-studio-01", 0.30),
+    # Alternates, kept so swapping the pick is a one-line change in generate.py.
     ("headshots", "vancouver-headshot-professional-14", 0.19),
     ("weddings", "vancouver-wedding-bridal-portrait-11", 0.42),
     ("concerts", "vancouver-concert-backstage-14", 0.45),

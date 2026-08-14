@@ -137,11 +137,12 @@ APPROACH_SLIDES = load_hero_slides("approach-slides.txt")
 
 # The one frame the band uses. The others stay in _build/approach_slides.py so
 # a different pick only needs this constant changed and the script re-run.
-APPROACH_SLIDE = "vancouver-concert-backstage-14"
+APPROACH_SLIDE = "vancouver-headshot-studio-01"
 
 APPROACH_SLIDE_ALT = {
     "vancouver-headshot-professional-14": "Studio portrait of a woman in a tailored jacket against a painted backdrop.",
     "vancouver-wedding-bridal-portrait-11": "A bride having her veil arranged before the ceremony.",
+    "vancouver-headshot-studio-01": "Studio portrait of a woman in an olive turtleneck against a green backdrop.",
     "vancouver-concert-backstage-14": "A band performing under red stage light, photographed from the crowd.",
     "vancouver-concert-lighting-27": "Black and white photograph of a guitarist singing into the microphone on stage.",
 }
