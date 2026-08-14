@@ -275,7 +275,7 @@ def header():
     </div>
   </header>
 
-  <div class="mobile-nav" id="mobile-nav" data-mobile-nav data-open="false" aria-hidden="true">
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav data-open="false" aria-hidden="true" tabindex="-1">
     <div class="mobile-nav__head">
       <a class="brand" href="/"><span class="logo-mark brand__mark" aria-hidden="true"></span>Oscar Leo <span>Photography</span></a>
       <button type="button" class="icon-btn" data-nav-close aria-label="Close menu">{ICON['close']}</button>

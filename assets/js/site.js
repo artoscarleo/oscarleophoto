@@ -15,6 +15,16 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  /* Whether the last interaction came from the keyboard. Moving focus is right
+     for keyboard and screen-reader users, but doing it after a tap leaves a
+     visible outline around the logo or the menu button on iOS, which reads as
+     a stray box. */
+  var keyboardMode = false;
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') keyboardMode = true;
+  }, true);
+  document.addEventListener('pointerdown', function () { keyboardMode = false; }, true);
+
   /* Both the drawer and the lightbox are hidden with `visibility: hidden`, and
      calling focus() on a still-hidden element is a silent no-op — the browser
      has not applied the style change yet when the click handler runs. Waiting a
@@ -60,10 +70,9 @@
       openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.setAttribute('data-scroll-locked', open ? 'true' : 'false');
       if (open) {
-        var first = nav.querySelector('a, button');
-        focusWhenVisible(first);
-      } else {
-        openBtn.focus();
+        focusWhenVisible(nav);
+      } else if (keyboardMode) {
+        openBtn.focus();     // only return focus when it was a keyboard journey
       }
     }
 
