@@ -927,6 +927,11 @@ p:last-child { margin-bottom: 0; }
 }
 .footer__cta { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--border); margin-bottom: var(--space-xl); }
 .footer__cta h2 { max-width: 14ch; }
+/* "Request a quote" was breaking onto two lines at every width, making the
+   button 236x98 instead of a single row. It is the only button on the site
+   that wrapped, so this stays scoped to it rather than applying to .btn
+   generally, where longer labels do need to wrap. */
+.footer__cta .btn { white-space: nowrap; }
 .footer__grid {
   display: grid;
   gap: var(--space-xl);
@@ -1538,4 +1543,29 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    the same file the logo already uses over the hero photograph. */
 .footer .logo-mark {
   background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
+}
+
+/* ---------- 27 FOOTER ON SMALL SCREENS ------------------------------------
+   Stacked in one column the footer ran 1798px — 2.2 screens of scrolling —
+   with 72px of gap between each of the four blocks. The two short link lists
+   sit side by side instead, and the gaps come in, which removes roughly a
+   screen of it. The logo block and the areas list still span the full width,
+   since both carry a paragraph.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 47.99em) {
+  .footer { padding-block: var(--space-xl) var(--space-m); }
+
+  /* 128px of logo plus its margin was a sixth of the footer on its own. */
+  .footer__mark { width: 88px; margin-bottom: var(--space-s); }
+
+  .footer__cta { padding-bottom: var(--space-xl); margin-bottom: var(--space-l); }
+
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-l) var(--space-m);
+    margin-bottom: var(--space-l);
+  }
+  .footer__grid > :first-child,
+  .footer__grid > :last-child { grid-column: 1 / -1; }
 }
