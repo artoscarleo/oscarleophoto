@@ -40,30 +40,35 @@ def asset(path):
 # --------------------------------------------------------------------------
 
 def approach_slides():
-    """The photo slideshow behind the homepage "Approach" band.
+    """The photograph behind the homepage "Approach" band.
 
-    Cut twice like the hero — 16:9 for landscape boxes, 2:3 for portrait ones —
-    so the band never squeezes a wide frame into a tall box on a phone. The
-    photographs are decorative: the band's meaning is carried by its text, so
-    they are hidden from screen readers rather than described twice.
+    One frame, not a slideshow: the red stage photograph, parallaxed. It is cut
+    twice — 16:9 for landscape boxes, 2:3 for portrait ones — so the band never
+    squeezes a wide frame into a tall box on a phone.
+
+    The media box is taller than the band (see --parallax-overhang) so the image
+    can travel without ever showing an edge.
+
+    The photograph is decorative — the band's meaning is carried by its text —
+    so it is hidden from screen readers rather than described twice.
     """
-    if not APPROACH_SLIDES:
+    sl = next((x for x in APPROACH_SLIDES if x["slug"] == APPROACH_SLIDE), None)
+    if not sl:
         return ""
-    parts = []
-    for i, sl in enumerate(APPROACH_SLIDES):
-        def srcset(tag):
-            return ", ".join(
-                f'/assets/img/{sl["folder"]}/{sl["slug"]}-{tag}-{w}.jpg {w}w'
-                for w in sl[tag]["widths"])
-        parts.append(f"""        <picture>
+
+    def srcset(tag):
+        return ", ".join(
+            f'/assets/img/{sl["folder"]}/{sl["slug"]}-{tag}-{w}.jpg {w}w'
+            for w in sl[tag]["widths"])
+
+    return f"""      <div class="section__media" data-parallax aria-hidden="true">
+        <picture>
           <source media="(min-aspect-ratio: 1/1)" srcset="{srcset('aw')}" sizes="100vw">
           <img src="/assets/img/{sl['folder']}/{sl['slug']}-at-800.jpg"
                srcset="{srcset('at')}" sizes="100vw"
-               alt="" aria-hidden="true" loading="lazy" decoding="async"
-               data-hero-index="{i}"{' data-active="true"' if i == 0 else ''}>
-        </picture>""")
-    return ('      <div class="section__slides" data-hero-slides aria-hidden="true">\n'
-            + "\n".join(parts) + '\n      </div>')
+               alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>"""
 
 
 def load_images(folder):
@@ -129,6 +134,10 @@ HERO_SLIDES = load_hero_slides()
 # _build/approach_slides.py — one studio portrait, one wedding, and two live
 # frames that differ in treatment (colour and black-and-white).
 APPROACH_SLIDES = load_hero_slides("approach-slides.txt")
+
+# The one frame the band uses. The others stay in _build/approach_slides.py so
+# a different pick only needs this constant changed and the script re-run.
+APPROACH_SLIDE = "vancouver-concert-backstage-14"
 
 APPROACH_SLIDE_ALT = {
     "vancouver-headshot-professional-14": "Studio portrait of a woman in a tailored jacket against a painted backdrop.",

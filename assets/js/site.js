@@ -302,6 +302,70 @@
     });
   }
 
+  /* ---------- Parallax ----------------------------------------------------
+     The photograph behind a band drifts against the scroll. The CSS owns how
+     far it may travel (--parallax-overhang, which also sizes the overhang on
+     the media box); this reads that value rather than keeping its own copy, so
+     the two cannot drift apart and expose an edge.
+
+     Work happens on a rAF and only while the band is on screen.
+     -------------------------------------------------------------------- */
+  function initParallax() {
+    var boxes = document.querySelectorAll('[data-parallax]');
+    if (!boxes.length || reduceMotion.matches) return;
+    Array.prototype.forEach.call(boxes, initOneParallax);
+  }
+
+  function initOneParallax(box) {
+    var img = box.querySelector('img');
+    var section = box.parentElement;
+    if (!img || !section) return;
+
+    var ticking = false;
+
+    function travel(height) {
+      var pct = parseFloat(
+        window.getComputedStyle(section).getPropertyValue('--parallax-overhang'));
+      return height * (isNaN(pct) ? 0 : pct) / 100;
+    }
+
+    function frame() {
+      ticking = false;
+      var r = section.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      // Nowhere near the viewport: nothing to move. This is the cheap guard —
+      // the effect is never gated on the observer having reported, because a
+      // late or undelivered callback would freeze the photograph mid-travel.
+      if (r.bottom < -vh || r.top > vh * 2) return;
+      // +1 as the band enters from the bottom, 0 dead centre, -1 as it leaves
+      var progress = ((r.top + r.height / 2) - vh / 2) / ((vh + r.height) / 2);
+      if (progress > 1) progress = 1;
+      if (progress < -1) progress = -1;
+      img.style.transform =
+        'translate3d(0,' + (progress * travel(r.height)).toFixed(2) + 'px,0)';
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(frame);
+    }
+
+    // The observer's only job is the compositor hint, so nothing about whether
+    // the photograph moves depends on when its callback arrives.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          box.setAttribute('data-parallax-active', e.isIntersecting ? 'true' : 'false');
+        });
+      }).observe(section);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    frame();
+  }
+
   /* ---------- Lightbox ----------------------------------------------------
      Tiles are real <button>s in the markup, so the gallery is keyboard
      operable whether or not this initialises.
@@ -418,6 +482,7 @@
     initReveals();
     initServiceBackdrop();
     initHeroSlides();
+    initParallax();
     initLightbox();
     initCurrentNav();
   }

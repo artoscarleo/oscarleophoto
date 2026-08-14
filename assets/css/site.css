@@ -1668,18 +1668,29 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   background: #0A0A0A;   /* holds the band before the first photograph paints */
 }
 
-.section__slides { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-.section__slides picture { display: contents; }
-.section__slides img {
+/* The photograph travels as the band crosses the viewport. It can only do that
+   without showing an edge if it is taller than the band it sits in, so the media
+   box overhangs by --parallax-overhang top and bottom, and the script moves it
+   within exactly that range and no further. */
+.section--photo { --parallax-overhang: 12%; }
+
+.section__media {
+  position: absolute;
+  inset: calc(-1 * var(--parallax-overhang)) 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.section__media picture { display: contents; }
+.section__media img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 1200ms var(--ease-out);
 }
-.section__slides img[data-active="true"] { opacity: 1; }
+/* Only promoted while it is actually moving — a permanent will-change keeps a
+   layer alive for a band most of the page never looks at. */
+.section__media[data-parallax-active="true"] img { will-change: transform; }
 
 /* The scrim, set by measurement rather than by eye. Swept across all four
    photographs at both crops, taking the worst single pixel under every piece
@@ -1702,6 +1713,8 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 
 .section--photo > .container { position: relative; z-index: 2; }
 
+/* Someone who asked for less motion gets the photograph, held still. The script
+   also never starts, so no transform is ever written. */
 @media (prefers-reduced-motion: reduce) {
-  .section__slides img { transition: opacity 1ms; }
+  .section__media img { transform: none !important; }
 }
