@@ -34,10 +34,10 @@
      with the photographs, so the accent here is simply the foreground colour.) */
   --bg:            #FFFFFF;
   --bg-elevated:   #FFFFFF;
-  --bg-sunken:     #F4F4F5;
+  --bg-sunken:     #E5E5E8;   /* a real step down from white, for separation */
   --fg:            #0A0A0A;   /* 19.8:1 on --bg */
   --fg-muted:      #52525B;   /* 7.7:1  on --bg */
-  --fg-subtle:     #6B6B73;   /* 5.3:1  on --bg */
+  --fg-subtle:     #616169;   /* 6.1:1 on --bg, 4.9:1 on the darker sunken panel */
   --border:        #E7E7E9;         /* hairline rules */
   --border-strong: #D4D4D8;
   --border-interactive: #8A8A8A;    /* 3.5:1 — real control boundaries, WCAG 1.4.11 */
@@ -1506,4 +1506,36 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__slides img { transition: opacity 1ms; }
+}
+
+/* ---------- 26 DARK FOOTER -------------------------------------------------
+   The footer now closes the page on a dark band, which separates it properly
+   from the white content above and answers the dark services band earlier in
+   the page. The six colour tokens are redefined for this section only, so every
+   component inside it flips without touching their own rules.
+   -------------------------------------------------------------------------- */
+
+.footer {
+  --bg: #0A0A0A;
+  --bg-sunken: #000000;
+  --bg-elevated: #141414;
+  --fg: #FAFAFA;
+  --fg-muted: #C6C6CE;
+  --fg-subtle: #ABABB4;
+  --border: #2A2A2F;
+  --border-strong: #3A3A41;
+  --border-interactive: #6E6E6E;
+  --accent: #FAFAFA;          /* the call-to-action inverts with the band */
+  --accent-hover: #D4D4D8;
+  --on-accent: #0A0A0A;
+
+  background: var(--bg);
+  color: var(--fg);
+  border-top: 0;
+}
+
+/* The mark is black line art, so the dark band needs the white artwork —
+   the same file the logo already uses over the hero photograph. */
+.footer .logo-mark {
+  background-image: url("../img/logo/oscar-leo-photography-logo-dark-480.png");
 }
