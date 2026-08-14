@@ -257,8 +257,13 @@
      stops as soon as the visitor scrolls into the page.
      -------------------------------------------------------------------- */
   function initHeroSlides() {
-    var wrap = document.querySelector('[data-hero-slides]');
-    if (!wrap) return;
+    // Two of these on the homepage — the hero and the photo band further down.
+    // Each keeps its own timer, and each only runs while it is on screen.
+    var wraps = document.querySelectorAll('[data-hero-slides]');
+    Array.prototype.forEach.call(wraps, initOne);
+  }
+
+  function initOne(wrap) {
     var slides = wrap.querySelectorAll('img');
     if (slides.length < 2) return;
 

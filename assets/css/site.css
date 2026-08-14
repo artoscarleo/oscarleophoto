@@ -1586,3 +1586,65 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   .footer__grid > :first-child,
   .footer__grid > :last-child { grid-column: 1 / -1; }
 }
+
+/* ---------- 28 PHOTO BAND --------------------------------------------------
+   A band whose background is a slideshow rather than a flat colour. It answers
+   the white gallery above it the way the tint did, but with the work itself.
+
+   The six colour tokens are redefined for this section only, the way the footer
+   does it, so every component inside — the callout's rule, the link, the
+   eyebrows — flips to the light set without touching their own rules.
+   -------------------------------------------------------------------------- */
+
+.section--photo {
+  --fg: #FFFFFF;
+  --fg-muted: rgba(255, 255, 255, .90);
+  --fg-subtle: rgba(255, 255, 255, .84);
+  --border: rgba(255, 255, 255, .28);
+  --border-strong: rgba(255, 255, 255, .40);
+  --accent: #FFFFFF;
+  --accent-hover: rgba(255, 255, 255, .82);
+
+  position: relative;
+  isolation: isolate;
+  color: var(--fg);
+  background: #0A0A0A;   /* holds the band before the first photograph paints */
+}
+
+.section__slides { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.section__slides picture { display: contents; }
+.section__slides img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-out);
+}
+.section__slides img[data-active="true"] { opacity: 1; }
+
+/* The scrim, set by measurement rather than by eye. Swept across all four
+   photographs at both crops, taking the worst single pixel under every piece
+   of text: .80/.74/.82 held 7.45:1 where 4.5 was needed, which is 1.7x more
+   margin than the text can spend and buries the photographs; .66/.58/.68
+   fails at 4.32:1. This is the lightest step that still clears the bar —
+   5.61:1 at the worst point, the 13px eyebrow on a phone over the
+   black-and-white stage frame. */
+.section--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 6, 6, .72) 0%,
+    rgba(6, 6, 6, .66) 45%,
+    rgba(6, 6, 6, .74) 100%);
+}
+
+.section--photo > .container { position: relative; z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .section__slides img { transition: opacity 1ms; }
+}

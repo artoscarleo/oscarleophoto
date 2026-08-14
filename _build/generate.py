@@ -39,6 +39,33 @@ def asset(path):
 # Image data
 # --------------------------------------------------------------------------
 
+def approach_slides():
+    """The photo slideshow behind the homepage "Approach" band.
+
+    Cut twice like the hero — 16:9 for landscape boxes, 2:3 for portrait ones —
+    so the band never squeezes a wide frame into a tall box on a phone. The
+    photographs are decorative: the band's meaning is carried by its text, so
+    they are hidden from screen readers rather than described twice.
+    """
+    if not APPROACH_SLIDES:
+        return ""
+    parts = []
+    for i, sl in enumerate(APPROACH_SLIDES):
+        def srcset(tag):
+            return ", ".join(
+                f'/assets/img/{sl["folder"]}/{sl["slug"]}-{tag}-{w}.jpg {w}w'
+                for w in sl[tag]["widths"])
+        parts.append(f"""        <picture>
+          <source media="(min-aspect-ratio: 1/1)" srcset="{srcset('aw')}" sizes="100vw">
+          <img src="/assets/img/{sl['folder']}/{sl['slug']}-at-800.jpg"
+               srcset="{srcset('at')}" sizes="100vw"
+               alt="" aria-hidden="true" loading="lazy" decoding="async"
+               data-hero-index="{i}"{' data-active="true"' if i == 0 else ''}>
+        </picture>""")
+    return ('      <div class="section__slides" data-hero-slides aria-hidden="true">\n'
+            + "\n".join(parts) + '\n      </div>')
+
+
 def load_images(folder):
     out = []
     path = os.path.join(ROOT, "assets", "img", folder, "aspect.txt")
@@ -72,10 +99,10 @@ def load_wide():
 WIDE = load_wide()
 
 
-def load_hero_slides():
-    """Slides for the homepage hero, from _build/hero_slides.py."""
+def load_hero_slides(name="hero-slides.txt"):
+    """Slide manifests written by the crop scripts in _build/."""
     out = []
-    path = os.path.join(ROOT, "assets", "img", "hero-slides.txt")
+    path = os.path.join(ROOT, "assets", "img", name)
     if not os.path.exists(path):
         return out
     rows = {}
@@ -97,6 +124,18 @@ def load_hero_slides():
     return [rows[s] for s in seen]
 
 HERO_SLIDES = load_hero_slides()
+
+# Four photographs behind the homepage "Approach" band, from
+# _build/approach_slides.py — one studio portrait, one wedding, and two live
+# frames that differ in treatment (colour and black-and-white).
+APPROACH_SLIDES = load_hero_slides("approach-slides.txt")
+
+APPROACH_SLIDE_ALT = {
+    "vancouver-headshot-professional-14": "Studio portrait of a woman in a tailored jacket against a painted backdrop.",
+    "vancouver-wedding-bridal-portrait-11": "A bride having her veil arranged before the ceremony.",
+    "vancouver-concert-backstage-14": "A band performing under red stage light, photographed from the crowd.",
+    "vancouver-concert-lighting-27": "Black and white photograph of a guitarist singing into the microphone on stage.",
+}
 
 HERO_SLIDE_ALT = {
     "vancouver-photographer-portrait-grid": "A grid of portraits from Oscar Leo Photography\u2019s Vancouver portrait work.",
@@ -720,7 +759,8 @@ def build_home():
       </div>
     </section>
 
-    <section class="section section--sunken">
+    <section class="section section--photo">
+{approach_slides()}
       <div class="container">
         <div class="grid-2">
         <div data-reveal>
