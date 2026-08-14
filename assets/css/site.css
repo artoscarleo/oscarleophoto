@@ -723,9 +723,8 @@ p:last-child { margin-bottom: 0; }
    description on its own line underneath. */
 @media (min-width: 68em) {
   .service-row {
-    grid-template-columns: 3.5rem minmax(0,1fr) 10rem auto;
-    gap: var(--space-m);
-    align-items: center;
+    grid-template-columns: 3.5rem minmax(0,1fr) auto;
+    gap: var(--space-2xs) var(--space-m);
   }
 }
 .service-row__num {
@@ -736,6 +735,7 @@ p:last-child { margin-bottom: 0; }
   display: none;
 }
 @media (min-width: 68em) { .service-row__num { display: block; } }
+
 
 .service-row__title {
   /* the global break-word is right for prose, but it let service names split
@@ -757,8 +757,12 @@ p:last-child { margin-bottom: 0; }
   grid-column: 1 / -1;
   margin: 0;
 }
+/* The description stays under the name it belongs to at every width. It used
+   to move into a column of its own on wide screens, which put it a long way
+   from the service it described. Below 68em it spans the row; above, it sits
+   under the title rather than under the number. */
 @media (min-width: 68em) {
-  .service-row__desc { grid-column: auto; text-align: right; }
+  .service-row__desc { grid-column: 2 / -1; }
 }
 .service-row__price {
   font-family: var(--font-ui);
