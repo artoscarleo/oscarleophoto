@@ -711,10 +711,20 @@ p:last-child { margin-bottom: 0; }
   transition: color var(--dur) var(--ease-out);
 }
 @media (min-width: 48em) {
+  .service-row { padding-block: var(--space-l); }
+}
+
+/* The four-column layout only earns its keep when there is actually room for
+   it. It used to start at 48em, but at 768px the container is 624px and the
+   description column is sized to its own content, so it took 252px and left
+   the title 84px for a 38px face — the names broke mid-word, "Head/shots/&/
+   Portr/aits". It now waits for 68em, the width the full nav appears at.
+   Below that the row stays two columns, title and price, with the
+   description on its own line underneath. */
+@media (min-width: 68em) {
   .service-row {
     grid-template-columns: 3.5rem minmax(0,1fr) 10rem auto;
     gap: var(--space-m);
-    padding-block: var(--space-l);
     align-items: center;
   }
 }
@@ -725,9 +735,13 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: 0.1em;
   display: none;
 }
-@media (min-width: 48em) { .service-row__num { display: block; } }
+@media (min-width: 68em) { .service-row__num { display: block; } }
 
 .service-row__title {
+  /* the global break-word is right for prose, but it let service names split
+     mid-word when the column got tight; a name should wrap between words or
+     overflow visibly so the real problem shows */
+  overflow-wrap: normal;
   font-family: var(--font-display);
   font-size: var(--step-3);
   font-weight: 500;
@@ -743,7 +757,7 @@ p:last-child { margin-bottom: 0; }
   grid-column: 1 / -1;
   margin: 0;
 }
-@media (min-width: 48em) {
+@media (min-width: 68em) {
   .service-row__desc { grid-column: auto; text-align: right; }
 }
 .service-row__price {
