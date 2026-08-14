@@ -248,6 +248,55 @@
     });
   }
 
+  /* ---------- Hero slideshow ---------------------------------------------
+     Six photographs crossfading behind the headline. Five seconds rather than
+     three: these are full-screen images and the crossfade alone runs 1.2s, so
+     a shorter interval would never let one settle.
+
+     It runs only while the hero is on screen and the tab is visible, so it
+     stops as soon as the visitor scrolls into the page.
+     -------------------------------------------------------------------- */
+  function initHeroSlides() {
+    var wrap = document.querySelector('[data-hero-slides]');
+    if (!wrap) return;
+    var slides = wrap.querySelectorAll('img');
+    if (slides.length < 2) return;
+
+    var INTERVAL = 5000;
+    var timer = null;
+    var idx = 0;
+
+    function show(i) {
+      idx = (i + slides.length) % slides.length;
+      Array.prototype.forEach.call(slides, function (img, n) {
+        img.setAttribute('data-active', n === idx ? 'true' : 'false');
+      });
+    }
+
+    function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
+
+    function start() {
+      // Someone who asked for less motion keeps the first photograph, still.
+      if (timer || reduceMotion.matches) return;
+      timer = window.setInterval(function () { show(idx + 1); }, INTERVAL);
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) start(); else stop(); });
+      }, { threshold: 0.2 }).observe(wrap);
+    } else {
+      start();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop(); else start();
+    });
+    reduceMotion.addEventListener('change', function (e) {
+      if (e.matches) { stop(); show(0); } else { start(); }
+    });
+  }
+
   /* ---------- Lightbox ----------------------------------------------------
      Tiles are real <button>s in the markup, so the gallery is keyboard
      operable whether or not this initialises.
@@ -363,6 +412,7 @@
     initMobileNav();
     initReveals();
     initServiceBackdrop();
+    initHeroSlides();
     initLightbox();
     initCurrentNav();
   }

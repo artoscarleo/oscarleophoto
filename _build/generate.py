@@ -71,6 +71,42 @@ def load_wide():
 
 WIDE = load_wide()
 
+
+def load_hero_slides():
+    """Slides for the homepage hero, from _build/hero_slides.py."""
+    out = []
+    path = os.path.join(ROOT, "assets", "img", "hero-slides.txt")
+    if not os.path.exists(path):
+        return out
+    rows = {}
+    with open(path) as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            folder, slug, tag, box, widths = line.split("|")
+            rows.setdefault(slug, {"folder": folder, "slug": slug})[tag] = {
+                "box": box, "widths": [int(x) for x in widths.split(",")]}
+    # preserve the order the script wrote them in
+    seen = []
+    with open(path) as fh:
+        for line in fh:
+            slug = line.split("|")[1] if "|" in line else None
+            if slug and slug not in seen:
+                seen.append(slug)
+    return [rows[s] for s in seen]
+
+HERO_SLIDES = load_hero_slides()
+
+HERO_SLIDE_ALT = {
+    "vancouver-photographer-portrait-grid": "A grid of portraits from Oscar Leo Photography\u2019s Vancouver portrait work.",
+    "vancouver-wedding-couple-portrait-01": "Bride and groom embracing in front of a stone chateau facade.",
+    "vancouver-concert-festival-15": "Musician singing under warm stage light at a live performance.",
+    "vancouver-headshot-corporate-04": "Corporate headshot photographed against dark panelling in Vancouver.",
+    "vancouver-wedding-couple-portrait-16": "Bride and groom beside still water at a parkland wedding venue.",
+    "vancouver-concert-backstage-41": "Black and white photograph of a singer at the microphone on stage.",
+}
+
 HEADSHOTS = load_images("headshots")
 CONCERTS = load_images("concerts")
 WEDDINGS = load_images("weddings")
@@ -388,7 +424,30 @@ def hero(page):
     extra = (" " + page["hero_class"]) if page.get("hero_class") else ""
     slug = page.get("hero_slug")
     wide = WIDE.get(slug)
-    if wide:
+
+    def slide_srcset(sl, tag):
+        return ", ".join(
+            f'/assets/img/{sl["folder"]}/{sl["slug"]}-{tag}-{w}.jpg {w}w'
+            for w in sl[tag]["widths"])
+
+    if page.get("slideshow") and HERO_SLIDES:
+        # Each slide is cut twice — 16:9 for landscape windows, 2:3 for portrait
+        # ones — so the hero never has to squeeze a wide frame into a tall box.
+        # Only the first is eager; the rest load as the slideshow reaches them.
+        parts = []
+        for i, sl in enumerate(HERO_SLIDES):
+            alt = HERO_SLIDE_ALT.get(sl["slug"], "")
+            eager = (i == 0)
+            parts.append(f"""        <picture>
+          <source media="(min-aspect-ratio: 1/1)" srcset="{slide_srcset(sl, 'hw')}" sizes="100vw">
+          <img src="/assets/img/{sl['folder']}/{sl['slug']}-ht-800.jpg"
+               srcset="{slide_srcset(sl, 'ht')}" sizes="100vw"
+               alt="{alt if eager else ''}"{'' if eager else ' aria-hidden="true"'}
+               {'fetchpriority="high"' if eager else 'loading="lazy"'} decoding="async"
+               data-hero-index="{i}"{' data-active="true"' if eager else ''}>
+        </picture>""")
+        media = '      <div class="hero__slides" data-hero-slides>\n' + "\n".join(parts) + '\n      </div>'
+    elif wide:
         folder = page["hero_folder"]
         wide_srcset = ", ".join(
             f"/assets/img/{folder}/{slug}-wide-{w}.jpg {w}w" for w in wide["widths"]
@@ -398,10 +457,6 @@ def hero(page):
         # browser takes a 16:9 crop cut around the subject instead. The switch is
         # on aspect-ratio, not width, because the hero is full-height so its box
         # is exactly the shape of the window.
-        # The switch has to describe the shape of the *hero box*, not the window.
-        # A full-height hero is the window's shape, but the short heroes are
-        # 72svh, so their box turns landscape while the window is still portrait
-        # — at 768x1024 that was still costing 8-11% off the top of the frame.
         switch = "1/1" if page.get("tall") else "18/25"   # 1.00 vs 0.72
         media = f"""      <picture>
         <source media="(min-aspect-ratio: {switch})"
@@ -538,6 +593,7 @@ def build_home():
         hero_actions=[("/contact/", "Request a quote"), ("#services", "See services")],
         schema=["homepage-professionalservice.json"],
         hero_class="hero--grid",
+        slideshow=True,
         **hero_fields(hero_img, "A grid of thirty-six portraits from Oscar Leo Photography\u2019s Vancouver portrait work \u2014 headshots, personal branding and editorial portraits.")
     )
 
