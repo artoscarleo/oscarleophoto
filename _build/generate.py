@@ -337,7 +337,7 @@ def footer():
         <h2>Tell me about your project.</h2>
         <p class="text-muted">Send your date, location and the type of photography you need, and
            I will reply with availability and a quote.</p>
-        <p style="margin-top:var(--space-l)">
+        <p class="footer__cta-action">
           <a class="btn" href="/contact/">Request a quote {ICON['arrow']}</a>
         </p>
       </div>

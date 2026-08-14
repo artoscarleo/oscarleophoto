@@ -932,6 +932,7 @@ p:last-child { margin-bottom: 0; }
    that wrapped, so this stays scoped to it rather than applying to .btn
    generally, where longer labels do need to wrap. */
 .footer__cta .btn { white-space: nowrap; }
+.footer__cta-action { margin-top: var(--space-l); }
 .footer__grid {
   display: grid;
   gap: var(--space-xl);
@@ -1559,12 +1560,17 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   /* 128px of logo plus its margin was a sixth of the footer on its own. */
   .footer__mark { width: 88px; margin-bottom: var(--space-s); }
 
-  .footer__cta { padding-bottom: var(--space-xl); margin-bottom: var(--space-l); }
+  /* The call-to-action carried 206px of text inside 200px of surrounding
+     space — a 1:1 ratio — and 112px of it sat in the single gap between the
+     button and the first link list. */
+  .footer__cta { padding-bottom: var(--space-l); margin-bottom: var(--space-m); }
+  .footer__cta > * { margin-bottom: var(--space-s); }
+  .footer__cta-action { margin-top: var(--space-m); }
 
   .footer__grid {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-l) var(--space-m);
-    margin-bottom: var(--space-l);
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
   }
   .footer__grid > :first-child,
   .footer__grid > :last-child { grid-column: 1 / -1; }
