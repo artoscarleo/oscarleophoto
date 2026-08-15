@@ -45,6 +45,10 @@
 
     function update() {
       header.setAttribute('data-scrolled', window.scrollY > 40 ? 'true' : 'false');
+      // Drives the floating back-to-top mark: it only earns its place once
+      // there is enough page behind you to want the way back.
+      document.documentElement.setAttribute(
+        'data-past-fold', window.scrollY > window.innerHeight ? 'true' : 'false');
       ticking = false;
     }
     update();

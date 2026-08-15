@@ -1854,7 +1854,6 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   flex-direction: column;
   align-items: center;
   gap: var(--space-2xs);
-  margin-bottom: var(--space-l);
   color: var(--fg-subtle);
   font-family: var(--font-ui);
   font-size: var(--step--1);
@@ -1873,7 +1872,34 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   animation: to-top-hint 2s var(--ease-in-out) infinite;
 }
 .to-top:hover { color: var(--fg); }
-@media (max-width: 47.99em) { .to-top { display: flex; } }
+@media (max-width: 47.99em) {
+  /* Floating, and only once a screenful has gone by — it rises into place
+     rather than sitting at the bottom of the page waiting to be reached. */
+  .to-top {
+    display: flex;
+    position: fixed;
+    right: var(--space-s);
+    bottom: var(--space-s);
+    z-index: 60;
+    padding: var(--space-xs) var(--space-2xs);
+    background: rgba(10, 10, 10, .72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(250, 248, 245, .16);
+    color: rgba(250, 248, 245, .82);
+    font-size: var(--step--1);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+  }
+  .to-top span { font-size: .625rem; letter-spacing: .12em; }
+  :root[data-past-fold="true"] .to-top {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
 
 @keyframes to-top-hint {
   0%, 100% { transform: rotate(45deg) translate(2px, 2px); opacity: .4; }
