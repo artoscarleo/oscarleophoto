@@ -1873,12 +1873,14 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* The hero cue's mark, drawn from the same two edges and rotated the other
+   way, so the two read as one shape pointing opposite directions. */
 .to-top::before {
   content: "";
   width: .75rem; height: .75rem;
-  border-left: 1.5px solid currentColor;
-  border-top: 1.5px solid currentColor;
-  transform: rotate(45deg);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-135deg);
   animation: to-top-hint 2s var(--ease-in-out) infinite;
 }
 .to-top:hover { color: var(--fg); }
@@ -1911,8 +1913,8 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 }
 
 @keyframes to-top-hint {
-  0%, 100% { transform: rotate(45deg) translate(2px, 2px); opacity: .4; }
-  50%      { transform: rotate(45deg) translate(-2px, -2px); opacity: 1; }
+  0%, 100% { transform: rotate(-135deg) translate(-2px, -2px); opacity: .4; }
+  50%      { transform: rotate(-135deg) translate(2px, 2px);   opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
