@@ -1863,15 +1863,24 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   transition: color var(--dur-fast) var(--ease-out);
 }
 .to-top svg { display: none; }
-/* Just the mark. The label stays for screen readers and for the accessible
-   name, but nothing is drawn. */
+/* The mark carries it. The label sits under the circle and only fades up at
+   the very bottom of the page — it stays in the accessible name throughout. */
 .to-top span {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+  top: calc(100% + var(--space-2xs));
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
   white-space: nowrap;
+  font-size: .5625rem;
+  letter-spacing: .14em;
+  color: var(--fg-subtle);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+:root[data-at-end="true"] .to-top span {
+  opacity: 1;
+  transform: translateX(-50%);
 }
 /* The hero cue's mark, drawn from the same two edges and rotated the other
    way, so the two read as one shape pointing opposite directions. */
@@ -1891,12 +1900,12 @@ body[data-scroll-locked="true"] { overflow: hidden; }
     display: flex;
     position: fixed;
     right: var(--space-s);
-    bottom: var(--space-s);
+    bottom: var(--space-l);
     z-index: 60;
     /* Round, not square — the one curve on a site of hard corners, because it
        is a floating control rather than part of the page's grid. */
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
     padding: 0;
     justify-content: center;
     border-radius: 50%;

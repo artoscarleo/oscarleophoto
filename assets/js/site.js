@@ -49,6 +49,11 @@
       // there is enough page behind you to want the way back.
       document.documentElement.setAttribute(
         'data-past-fold', window.scrollY > window.innerHeight ? 'true' : 'false');
+      // At the very end the mark names itself, rather than carrying a label
+      // the whole way down.
+      var doc = document.documentElement;
+      var atEnd = window.scrollY + window.innerHeight >= doc.scrollHeight - 80;
+      doc.setAttribute('data-at-end', atEnd ? 'true' : 'false');
       ticking = false;
     }
     update();
