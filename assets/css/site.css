@@ -606,6 +606,12 @@ p:last-child { margin-bottom: 0; }
 @media (min-width: 48em) {
   .hero__inner { width: min(100% - 2 * var(--space-xl), var(--container)); }
 }
+/* On a phone the hero block carried 112px above and 72px below, which spent
+   most of the frame on empty scrim instead of the photograph. */
+@media (max-width: 47.99em) {
+  .hero__inner { padding-block: var(--space-xl) var(--space-l); }
+  .hero__sub { margin-bottom: var(--space-m); }
+}
 .hero h1 { color: #FAF8F5; max-width: 16ch; margin-bottom: var(--space-m); }
 .hero .eyebrow { color: rgba(250, 248, 245,.96); }
 .hero__sub {
