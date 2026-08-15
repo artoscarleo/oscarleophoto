@@ -1793,3 +1793,21 @@ body[data-scroll-locked="true"] { overflow: hidden; }
     transform: none;
   }
 }
+
+/* ---------- 30 WORDMARK APPEARS ON SCROLL ----------------------------------
+   At the top of a page the header carries the mark alone. The name slides down
+   into place once the bar condenses, so the opening frame stays clean.
+   -------------------------------------------------------------------------- */
+.header .brand__name {
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+.header:not([data-scrolled="true"]) .brand__name {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .brand__name { transition: opacity var(--dur) var(--ease-out); }
+  .header:not([data-scrolled="true"]) .brand__name { transform: none; }
+}
