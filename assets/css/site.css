@@ -1815,3 +1815,63 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   .header .brand__name { transition: opacity var(--dur) var(--ease-out); }
   .header:not([data-scrolled="true"]) .brand__name { transform: none; }
 }
+
+/* ---------- 31 SCROLL CUE AND BACK TO TOP (PHONES) -------------------------
+   The hero cue used to appear only on wide screens, where there was room for
+   it beside the buttons. On a phone it sits centred under them as a single
+   drawn line with a chevron, and every page gets one. The footer closes with
+   the way back up.
+   -------------------------------------------------------------------------- */
+@media (max-width: 61.99em) {
+  .hero__scroll {
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    right: auto;
+    bottom: var(--space-m);
+    transform: translateX(-50%);
+    gap: var(--space-3xs);
+  }
+  .hero__scroll span { display: none; }
+  .hero__scroll i {
+    height: 2.25rem;
+    animation-duration: 2s;
+  }
+  .hero__scroll::after {
+    content: "";
+    width: .5rem; height: .5rem;
+    border-right: 1px solid rgba(250, 248, 245, .7);
+    border-bottom: 1px solid rgba(250, 248, 245, .7);
+    transform: rotate(45deg);
+    animation: scroll-chevron 2s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes scroll-chevron {
+  0%, 100% { transform: rotate(45deg) translate(-2px, -2px); opacity: .35; }
+  50%      { transform: rotate(45deg) translate(2px, 2px);   opacity: 1; }
+}
+
+.to-top {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-s);
+  margin-bottom: var(--space-m);
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.to-top svg { width: 1rem; height: 1rem; }
+.to-top:hover { color: var(--fg); border-color: var(--border-strong); }
+@media (max-width: 47.99em) { .to-top { display: flex; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll::after { animation: none; }
+}

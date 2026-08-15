@@ -418,6 +418,11 @@ def footer():
         </div>
       </div>
 
+      <a class="to-top" href="#top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        <span>Back to top</span>
+      </a>
+
       <div class="footer__bottom">
         <p class="fine-print">© 2026 Oscar Leo Photography. All prices in Canadian dollars, plus GST.</p>
         <div class="footer__social">
@@ -456,7 +461,7 @@ def lightbox():
 
 
 def hero(page):
-    scroll = f"""      <div class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></div>""" if page.get("tall") else ""
+    scroll = """      <div class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></div>"""
     actions = ""
     if page.get("hero_actions"):
         buttons = "\n".join(
