@@ -553,6 +553,10 @@ p:last-child { margin-bottom: 0; }
   overflow: clip;
 }
 .hero--short { min-height: 72svh; }
+/* On a phone every page opens like the homepage: a full-height photograph. */
+@media (max-width: 47.99em) {
+  .hero--short { min-height: 100svh; }
+}
 
 .hero__media {
   position: absolute;
