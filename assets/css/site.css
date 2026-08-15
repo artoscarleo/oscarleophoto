@@ -1825,23 +1825,17 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 @media (max-width: 61.99em) {
   .hero__scroll {
     display: flex;
-    flex-direction: column;
-    left: 50%;
-    right: auto;
-    bottom: var(--space-m);
-    transform: translateX(-50%);
-    gap: var(--space-3xs);
+    right: var(--space-s);
+    left: auto;
+    bottom: var(--space-l);
   }
-  .hero__scroll span { display: none; }
-  .hero__scroll i {
-    height: 2.25rem;
-    animation-duration: 2s;
-  }
+  .hero__scroll span,
+  .hero__scroll i { display: none; }   /* just the mark, no label and no line */
   .hero__scroll::after {
     content: "";
-    width: .5rem; height: .5rem;
-    border-right: 1px solid rgba(250, 248, 245, .7);
-    border-bottom: 1px solid rgba(250, 248, 245, .7);
+    width: .75rem; height: .75rem;
+    border-right: 1.5px solid rgba(250, 248, 245, .8);
+    border-bottom: 1.5px solid rgba(250, 248, 245, .8);
     transform: rotate(45deg);
     animation: scroll-chevron 2s var(--ease-in-out) infinite;
   }
