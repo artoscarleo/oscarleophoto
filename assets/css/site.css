@@ -1893,7 +1893,13 @@ body[data-scroll-locked="true"] { overflow: hidden; }
     right: var(--space-s);
     bottom: var(--space-s);
     z-index: 60;
-    padding: var(--space-xs);
+    /* Round, not square — the one curve on a site of hard corners, because it
+       is a floating control rather than part of the page's grid. */
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
     background: rgba(10, 10, 10, .72);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
