@@ -163,6 +163,9 @@
       Array.prototype.forEach.call(images, function (img) {
         img.setAttribute('data-active', 'false');
       });
+      Array.prototype.forEach.call(list.querySelectorAll('[data-preview-index]'), function (row) {
+        row.setAttribute('data-current', 'false');
+      });
       section.setAttribute('data-bg-active', 'false');
     }
 
@@ -205,10 +208,17 @@
     var timer = null;
     var idx = 0;
 
+    var rows = list.querySelectorAll('[data-preview-index]');
+
     function show(i) {
       idx = (i + images.length) % images.length;
       Array.prototype.forEach.call(images, function (img, n) {
         img.setAttribute('data-active', n === idx ? 'true' : 'false');
+      });
+      // Mark the row the photograph belongs to, so the name it matches lifts
+      // with it rather than the photograph changing behind an inert list.
+      Array.prototype.forEach.call(rows, function (row, n) {
+        row.setAttribute('data-current', n === idx ? 'true' : 'false');
       });
       section.setAttribute('data-bg-active', 'true');
     }
