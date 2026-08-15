@@ -1775,6 +1775,10 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 @media (max-width: 47.99em) {
   .service-row__title { font-size: var(--step-2); }
 
+  /* Tighter rows so more of the list lands on one screen. */
+  .service-row { padding-block: var(--space-s); gap: var(--space-3xs); }
+  .services .section-head { margin-bottom: var(--space-l); }
+
   .service-row {
     transition: opacity var(--dur) var(--ease-out);
   }
