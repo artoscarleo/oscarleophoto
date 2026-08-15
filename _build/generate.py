@@ -647,24 +647,24 @@ def build_home():
     )
 
     services = [
-        ("/vancouver-headshot-photographer/", "Headshots & Portraits",
+        ("/vancouver-headshot-photographer/", "Headshots & Portraits", "Headshots",
          "Corporate, LinkedIn and personal branding", "From $395"),
-        ("/vancouver-event-photographer/", "Event Photography",
+        ("/vancouver-event-photographer/", "Event Photography", "Event",
          "Conferences, galas and celebrations", "From $500"),
-        ("/vancouver-brand-photography-video/", "Brand &amp; Marketing",
+        ("/vancouver-brand-photography-video/", "Brand &amp; Marketing", "Marketing",
          "Photography, video and content for business", "From $650"),
-        ("/vancouver-wedding-photographer/", "Wedding Photography",
+        ("/vancouver-wedding-photographer/", "Wedding Photography", "Wedding",
          "Elopements to full-day coverage", "Packages from $995"),
-        ("/vancouver-concert-photographer/", "Concert & Live Performance",
+        ("/vancouver-concert-photographer/", "Concert & Live Performance", "Concert",
          "Artists, venues, promoters and festivals", "From $450"),
-        ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes & Unit Stills",
+        ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes & Unit Stills", "BTS",
          "Film, television and commercial production", "From $700"),
     ]
     rows = ""
-    for i, (url, name, desc, price) in enumerate(services):
+    for i, (url, name, short, desc, price) in enumerate(services):
         rows += f"""        <a class="service-row" href="{url}" data-preview-index="{i}" data-reveal style="--i:{i}">
           <span class="service-row__num">0{i+1}</span>
-          <h3 class="service-row__title">{name}</h3>
+          <h3 class="service-row__title"><span class="service-row__long">{name}</span><span class="service-row__brief">{short}</span></h3>
           <span class="service-row__price">{price}</span>
           <p class="service-row__desc">{desc}</p>
         </a>

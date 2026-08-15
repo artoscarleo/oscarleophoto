@@ -1757,3 +1757,11 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .section__media img { transform: none !important; }
 }
+
+/* A phone gets the short form of each service name; the full name stays in the
+   DOM for wider screens and for anything reading the page. */
+.service-row__brief { display: none; }
+@media (max-width: 47.99em) {
+  .service-row__long { display: none; }
+  .service-row__brief { display: inline; }
+}
