@@ -1846,26 +1846,41 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   50%      { transform: rotate(45deg) translate(2px, 2px);   opacity: 1; }
 }
 
+/* The same drawn mark as the hero cue, pointing the other way, with the label
+   sitting under it. No box — it closes the page rather than asking to be
+   clicked like a button. */
 .to-top {
   display: none;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: var(--space-2xs);
-  padding: var(--space-s);
-  margin-bottom: var(--space-m);
-  border: 1px solid var(--border);
-  color: var(--fg-muted);
+  margin-bottom: var(--space-l);
+  color: var(--fg-subtle);
   font-family: var(--font-ui);
   font-size: var(--step--1);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
-.to-top svg { width: 1rem; height: 1rem; }
-.to-top:hover { color: var(--fg); border-color: var(--border-strong); }
+.to-top svg { display: none; }
+.to-top::before {
+  content: "";
+  width: .75rem; height: .75rem;
+  border-left: 1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  animation: to-top-hint 2s var(--ease-in-out) infinite;
+}
+.to-top:hover { color: var(--fg); }
 @media (max-width: 47.99em) { .to-top { display: flex; } }
 
+@keyframes to-top-hint {
+  0%, 100% { transform: rotate(45deg) translate(2px, 2px); opacity: .4; }
+  50%      { transform: rotate(45deg) translate(-2px, -2px); opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__scroll::after { animation: none; }
+  .hero__scroll::after,
+  .to-top::before { animation: none; }
 }
