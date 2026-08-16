@@ -1830,7 +1830,9 @@ body[data-scroll-locked="true"] { overflow: hidden; }
     justify-content: center;
     right: calc(var(--space-s) - var(--space-m));
     left: auto;
-    bottom: var(--space-xl);
+    /* Below the buttons, not beside them: the action row reaches the right
+       edge on a phone, so at button height the mark sat on top of it. */
+    bottom: var(--space-2xs);
     width: 2.25rem;
     height: 2.25rem;
   }
