@@ -749,8 +749,16 @@ def build_home():
         for i, im in enumerate(preview_imgs)
     )
 
-    picks = [HEADSHOTS[1], CONCERTS[12], HEADSHOTS[7], CONCERTS[20],
-             HEADSHOTS[10], CONCERTS[27], HEADSHOTS[14], CONCERTS[35]]
+    # The newly supplied set, interleaved so the three categories alternate
+    # down the grid rather than arriving in blocks.
+    new_of = lambda xs: [i for i in xs if i["slug"].endswith("x")]
+    h, w, c = new_of(HEADSHOTS), new_of(WEDDINGS), new_of(CONCERTS)
+    picks, k = [], 0
+    while len(picks) < len(h) + len(w) + len(c):
+        for src in (h, w, c):
+            if k < len(src):
+                picks.append(src[k])
+        k += 1
 
     body = f"""    <section class="section container">
       <div class="section-head section-head--split">

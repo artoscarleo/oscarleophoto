@@ -20,3 +20,16 @@ vancouver-wedding-couple-portrait-19|400|300
 vancouver-wedding-venue-20|400|600
 vancouver-wedding-couple-portrait-21|400|266
 vancouver-wedding-couple-portrait-22|400|266
+vancouver-wedding-story-01x|400|600
+vancouver-wedding-story-02x|400|600
+vancouver-wedding-story-03x|400|266
+vancouver-wedding-story-04x|400|266
+vancouver-wedding-story-05x|400|266
+vancouver-wedding-story-06x|400|266
+vancouver-wedding-story-07x|400|600
+vancouver-wedding-story-08x|400|266
+vancouver-wedding-story-09x|400|600
+vancouver-wedding-story-10x|400|266
+vancouver-wedding-story-11x|400|600
+vancouver-wedding-story-12x|400|600
+vancouver-wedding-story-13x|400|266

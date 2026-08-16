@@ -286,6 +286,22 @@
     var slides = wrap.querySelectorAll('img');
     if (slides.length < 2) return;
 
+    // Shuffle the order on each visit so the same photograph does not always
+    // open the page. The cycle itself already repeats without end.
+    if (wrap.hasAttribute('data-hero-slides')) {
+      var pool = Array.prototype.slice.call(slides);
+      for (var s = pool.length - 1; s > 0; s--) {
+        var t = Math.floor(Math.random() * (s + 1));
+        wrap.appendChild(pool[t].parentNode.tagName === 'PICTURE'
+          ? pool[t].parentNode : pool[t]);
+        pool.splice(t, 1);
+      }
+      slides = wrap.querySelectorAll('img');
+      Array.prototype.forEach.call(slides, function (img, n) {
+        img.setAttribute('data-active', n === 0 ? 'true' : 'false');
+      });
+    }
+
     var INTERVAL = 5000;
     var timer = null;
     var idx = 0;

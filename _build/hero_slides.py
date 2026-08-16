@@ -33,12 +33,18 @@ SUBJECT_AT = 0.36
 
 # folder, slug, subject centre (fraction of source height)
 SLIDES = [
-    ("grid", "vancouver-photographer-portrait-grid", 0.50),
-    ("weddings", "vancouver-wedding-couple-portrait-01", 0.45),
-    ("concerts", "vancouver-concert-festival-15", 0.31),
-    ("headshots", "vancouver-headshot-corporate-04", 0.15),
-    ("weddings", "vancouver-wedding-couple-portrait-16", 0.45),
-    ("concerts", "vancouver-concert-backstage-41", 0.27),
+    # Three per category, chosen because the subject sits near the centre of
+    # the frame and so survives both the 3:2 landscape cut and the 2:3
+    # portrait one. Order is shuffled in the browser.
+    ("headshots", "vancouver-headshot-studio-01x", 0.30),
+    ("weddings", "vancouver-wedding-story-01x", 0.42),
+    ("concerts", "vancouver-concert-live-12x", 0.42),
+    ("headshots", "vancouver-headshot-studio-03x", 0.28),
+    ("weddings", "vancouver-wedding-story-03x", 0.45),
+    ("concerts", "vancouver-concert-live-15x", 0.40),
+    ("headshots", "vancouver-headshot-studio-04x", 0.28),
+    ("weddings", "vancouver-wedding-story-05x", 0.45),
+    ("concerts", "vancouver-concert-live-13x", 0.38),
 ]
 
 
@@ -103,7 +109,12 @@ def main():
     for folder, slug, focus in SLIDES:
         src = os.path.join(IMG, folder, slug + "-1800.jpg")
         if not os.path.exists(src):
-            src = os.path.join(IMG, folder, slug + "-2400.jpg")
+            # Some sources are smaller than 1800, so take the largest that exists.
+            for w in (2400, 1200, 800):
+                cand = os.path.join(IMG, folder, f"{slug}-{w}.jpg")
+                if os.path.exists(cand):
+                    src = cand
+                    break
         iw, ih = dims(src)
 
         for tag, ratio in SHAPES:

@@ -21,3 +21,9 @@ vancouver-headshot-studio-01|400|533
 vancouver-headshot-studio-09|400|533
 vancouver-headshot-studio-17|400|600
 vancouver-headshot-studio-23|400|533
+vancouver-headshot-studio-01x|400|533
+vancouver-headshot-studio-02x|400|600
+vancouver-headshot-studio-03x|400|600
+vancouver-headshot-studio-04x|400|533
+vancouver-headshot-studio-05x|400|533
+vancouver-headshot-studio-06x|400|533
