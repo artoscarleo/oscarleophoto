@@ -581,38 +581,6 @@ def render(page, body):
     return head(page) + header() + hero(page) + '  <main id="main">\n' + body + "  </main>\n" + footer() + lightbox()
 
 
-_IMG_HASH = {}
-
-
-def stamp_images(html):
-    """Append a short content hash to every /assets/img/ URL.
-
-    Crops are regenerated under the same filenames, so a visitor — or the
-    author checking their own site — keeps seeing the previous version until
-    the cache expires. The hash changes only when the file does.
-    """
-    import hashlib
-
-    def h(path):
-        if path not in _IMG_HASH:
-            full = os.path.join(ROOT, path.lstrip("/"))
-            try:
-                with open(full, "rb") as fh:
-                    _IMG_HASH[path] = hashlib.sha256(fh.read()).hexdigest()[:8]
-            except OSError:
-                _IMG_HASH[path] = ""
-        return _IMG_HASH[path]
-
-    def one(m):
-        url = m.group(0)
-        if "?" in url:
-            return url
-        v = h(url)
-        return url + "?v=" + v if v else url
-
-    return re.sub(r'/assets/img/[A-Za-z0-9._/-]+\.(?:jpg|png|webp|svg)', one, html)
-
-
 def relativize(html, depth):
     """Rewrite root-relative URLs so the site works from any base path.
 
@@ -625,8 +593,6 @@ def relativize(html, depth):
     Absolute URLs (canonical, og:image, JSON-LD) are deliberately left alone:
     those must keep naming the production domain wherever the page is hosted.
     """
-    html = stamp_images(html)
-
     prefix = "../" * depth
     home = prefix if depth else "./"
 
@@ -710,6 +676,7 @@ def build_home():
     rows = ""
     for i, (url, name, short, desc, price) in enumerate(services):
         rows += f"""        <a class="service-row" href="{url}" data-preview-index="{i}" data-reveal style="--i:{i}">
+          <span class="service-row__num">0{i+1}</span>
           <h3 class="service-row__title"><span class="service-row__long">{name}</span><span class="service-row__brief">{short}</span></h3>
           <span class="service-row__price">{price}</span>
           <p class="service-row__desc">{desc}</p>

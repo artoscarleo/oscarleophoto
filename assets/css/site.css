@@ -552,8 +552,11 @@ p:last-child { margin-bottom: 0; }
   isolation: isolate;
   overflow: clip;
 }
-/* Every page opens like the homepage: a full-height photograph. */
-.hero--short { min-height: 100svh; }
+.hero--short { min-height: 72svh; }
+/* On a phone every page opens like the homepage: a full-height photograph. */
+@media (max-width: 47.99em) {
+  .hero--short { min-height: 100svh; }
+}
 
 .hero__media {
   position: absolute;
@@ -589,11 +592,11 @@ p:last-child { margin-bottom: 0; }
      the headline and the nav below AA on them. */
   background: linear-gradient(
     to top,
-    rgba(6,6,6,.74) 0%,
-    rgba(6,6,6,.52) 30%,
-    rgba(6,6,6,.30) 58%,
-    rgba(6,6,6,.22) 80%,
-    rgba(6,6,6,.38) 100%
+    rgba(6,6,6,.93) 0%,
+    rgba(6,6,6,.80) 30%,
+    rgba(6,6,6,.62) 58%,
+    rgba(6,6,6,.54) 80%,
+    rgba(6,6,6,.62) 100%
   );
 }
 
@@ -609,8 +612,10 @@ p:last-child { margin-bottom: 0; }
 }
 /* On a phone the hero block carried 112px above and 72px below, which spent
    most of the frame on empty scrim instead of the photograph. */
-.hero__inner { padding-block: var(--space-xl) var(--space-l); }
-.hero__sub { margin-bottom: var(--space-m); }
+@media (max-width: 47.99em) {
+  .hero__inner { padding-block: var(--space-xl) var(--space-l); }
+  .hero__sub { margin-bottom: var(--space-m); }
+}
 .hero h1 { color: #FAF8F5; max-width: 16ch; margin-bottom: var(--space-m); }
 .hero .eyebrow { color: rgba(250, 248, 245,.96); }
 .hero__sub {
@@ -635,7 +640,7 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   color: rgba(250, 248, 245,.7);
 }
-
+@media (min-width: 62em) { .hero__scroll { display: flex; } }
 .hero__scroll i {
   display: block;
   width: 1px; height: 3rem;
@@ -728,10 +733,18 @@ p:last-child { margin-bottom: 0; }
    description on its own line underneath. */
 @media (min-width: 68em) {
   .service-row {
-    grid-template-columns: minmax(0,1fr) auto;
+    grid-template-columns: 3.5rem minmax(0,1fr) auto;
     gap: var(--space-2xs) var(--space-m);
   }
 }
+.service-row__num {
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  color: var(--fg-subtle);
+  letter-spacing: 0.1em;
+  display: none;
+}
+@media (min-width: 68em) { .service-row__num { display: block; } }
 
 
 .service-row__title {
@@ -759,7 +772,7 @@ p:last-child { margin-bottom: 0; }
    from the service it described. Below 68em it spans the row; above, it sits
    under the title rather than under the number. */
 @media (min-width: 68em) {
-  .service-row__desc { grid-column: 1 / -1; }
+  .service-row__desc { grid-column: 2 / -1; }
 }
 .service-row__price {
   font-family: var(--font-ui);
@@ -1312,14 +1325,14 @@ body[data-scroll-locked="true"] { overflow: hidden; }
      carrying 1.6-1.9x more margin than it needed, so this spends some of it. */
   background:
     linear-gradient(to top,
-      rgba(6, 6, 6, .72) 0%,
-      rgba(6, 6, 6, .56) 26%,
-      rgba(6, 6, 6, .34) 52%,
-      rgba(6, 6, 6, .30) 78%,
+      rgba(6, 6, 6, .88) 0%,
+      rgba(6, 6, 6, .74) 26%,
+      rgba(6, 6, 6, .52) 52%,
+      rgba(6, 6, 6, .48) 78%,
       /* the top band carries the header, whose nav links are the smallest text
          over the photograph — it stays darker than the middle, where the
          photograph is most visible */
-      rgba(6, 6, 6, .50) 100%);
+      rgba(6, 6, 6, .66) 100%);
 }
 .hero--grid .hero__media img {
   animation: none;
@@ -1377,9 +1390,9 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, .70) 0%,
-    rgba(0, 0, 0, .64) 60%,
-    rgba(0, 0, 0, .34) 88%,
+    rgba(0, 0, 0, .52) 0%,
+    rgba(0, 0, 0, .46) 60%,
+    rgba(0, 0, 0, .22) 88%,
     rgba(0, 0, 0, 0) 100%);
 }
 
@@ -1809,7 +1822,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    drawn line with a chevron, and every page gets one. The footer closes with
    the way back up.
    -------------------------------------------------------------------------- */
-@media all {
+@media (max-width: 61.99em) {
   /* The twin of the back-to-top control: same circle, same size, same inset
      from the right edge, pointing the other way. */
   .hero__scroll {
@@ -1929,15 +1942,17 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    showing. A step down on the h1 and the standfirst gives the picture room
    without touching the desktop scale.
    -------------------------------------------------------------------------- */
-.hero h1 {
-  font-size: clamp(2.1rem, 1.35rem + 3.6vw, 3.4rem);
-  line-height: 1.06;
-  margin-bottom: var(--space-s);
+@media (max-width: 47.99em) {
+  .hero h1 {
+    font-size: clamp(2.1rem, 1.35rem + 3.6vw, 2.9rem);
+    line-height: 1.06;
+    margin-bottom: var(--space-s);
+  }
+  .hero__inner .lead,
+  .hero__inner > p {
+    font-size: var(--step-0);
+    line-height: 1.5;
+  }
+  .hero .eyebrow { margin-bottom: var(--space-xs); }
+  .hero__actions { gap: var(--space-2xs); }
 }
-.hero__inner .lead,
-.hero__inner > p {
-  font-size: var(--step-0);
-  line-height: 1.5;
-}
-.hero .eyebrow { margin-bottom: var(--space-xs); }
-.hero__actions { gap: var(--space-2xs); }

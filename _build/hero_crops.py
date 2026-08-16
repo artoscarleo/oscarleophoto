@@ -32,11 +32,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
 TMP = "/tmp/ol-hero-crops"
 
-# 3:2, not 16:9. The hero is full-height now, so its box is about 1.6 at a
-# desktop window — a 16:9 crop had to be scaled up 11% and lost 10% off the
-# sides to cover that, which is what read as the photograph being zoomed in.
-# 3:2 sits just under the box, so it covers with no upscale at all.
-WIDE_RATIO = 3 / 2
+WIDE_RATIO = 16 / 9      # matches the shape of most desktop windows
 FACE_TARGET = 0.35       # where the face should sit within the crop
 OUT_WIDTHS = [800, 1200, 1800]
 QUALITY = {800: 68, 1200: 58, 1800: 54}
