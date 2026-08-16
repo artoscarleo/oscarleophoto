@@ -512,12 +512,20 @@ def hero(page):
         # on aspect-ratio, not width, because the hero is full-height so its box
         # is exactly the shape of the window.
         switch = "1/1" if page.get("tall") else "18/25"   # 1.00 vs 0.72
+        # A page may name a different photograph for portrait windows. The
+        # <img> is what a phone loads, so it carries the alternative and the
+        # <source> above keeps the landscape one.
+        alt_img = page.get("hero_portrait")
+        p_src = alt_img["src"] if alt_img else page["hero_src"]
+        p_set = alt_img["srcset"] if alt_img else page["hero_srcset"]
+        p_w = alt_img["w"] if alt_img else page["hero_w"]
+        p_h = alt_img["h"] if alt_img else page["hero_h"]
         media = f"""      <picture>
         <source media="(min-aspect-ratio: {switch})"
                 srcset="{wide_srcset}" sizes="100vw"
                 width="{wide['w']}" height="{wide['h']}">
-        <img src="{page['hero_src']}" srcset="{page['hero_srcset']}" sizes="100vw"
-             width="{page['hero_w']}" height="{page['hero_h']}"
+        <img src="{p_src}" srcset="{p_set}" sizes="100vw"
+             width="{p_w}" height="{p_h}"
              fetchpriority="high" decoding="async"
              alt="{page['hero_alt']}">
       </picture>"""
@@ -1229,6 +1237,9 @@ def build_concerts():
         h1_lines=["Concert photographer", "in Vancouver, BC"],
         hero_sub="Stage, audience and atmosphere for artists, venues, promoters and festivals.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
+        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
+                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
+            next(i for i in CONCERTS if i["slug"] == "vancouver-concert-festival-24")),
         schema=["faq-concerts.json"],
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )
