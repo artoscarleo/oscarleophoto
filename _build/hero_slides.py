@@ -24,7 +24,9 @@ import subprocess
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
 TMP = "/tmp/ol-hero-slides"
-SHAPES = [("hw", 16 / 9), ("ht", 2 / 3)]
+# hw is 3:2, not 16:9 — the hero box is about 1.6 at a desktop window, and a
+# 16:9 slide had to be scaled up 11% to cover it.
+SHAPES = [("hw", 3 / 2), ("ht", 2 / 3)]
 WIDTHS = [800, 1200, 1800]
 QUALITY = {800: 68, 1200: 58, 1800: 54}
 SUBJECT_AT = 0.36
