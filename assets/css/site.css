@@ -1936,3 +1936,23 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   .hero__scroll::after,
   .to-top svg { animation: none; }
 }
+
+/* ---------- 32 HERO TYPE ON A PHONE ----------------------------------------
+   The headline filled most of the frame and left little of the photograph
+   showing. A step down on the h1 and the standfirst gives the picture room
+   without touching the desktop scale.
+   -------------------------------------------------------------------------- */
+@media (max-width: 47.99em) {
+  .hero h1 {
+    font-size: clamp(2.1rem, 1.35rem + 3.6vw, 2.9rem);
+    line-height: 1.06;
+    margin-bottom: var(--space-s);
+  }
+  .hero__inner .lead,
+  .hero__inner > p {
+    font-size: var(--step-0);
+    line-height: 1.5;
+  }
+  .hero .eyebrow { margin-bottom: var(--space-xs); }
+  .hero__actions { gap: var(--space-2xs); }
+}
