@@ -733,18 +733,10 @@ p:last-child { margin-bottom: 0; }
    description on its own line underneath. */
 @media (min-width: 68em) {
   .service-row {
-    grid-template-columns: 3.5rem minmax(0,1fr) auto;
+    grid-template-columns: minmax(0,1fr) auto;
     gap: var(--space-2xs) var(--space-m);
   }
 }
-.service-row__num {
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  color: var(--fg-subtle);
-  letter-spacing: 0.1em;
-  display: none;
-}
-@media (min-width: 68em) { .service-row__num { display: block; } }
 
 
 .service-row__title {
@@ -772,7 +764,7 @@ p:last-child { margin-bottom: 0; }
    from the service it described. Below 68em it spans the row; above, it sits
    under the title rather than under the number. */
 @media (min-width: 68em) {
-  .service-row__desc { grid-column: 2 / -1; }
+  .service-row__desc { grid-column: 1 / -1; }
 }
 .service-row__price {
   font-family: var(--font-ui);

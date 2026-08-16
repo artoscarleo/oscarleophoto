@@ -676,7 +676,6 @@ def build_home():
     rows = ""
     for i, (url, name, short, desc, price) in enumerate(services):
         rows += f"""        <a class="service-row" href="{url}" data-preview-index="{i}" data-reveal style="--i:{i}">
-          <span class="service-row__num">0{i+1}</span>
           <h3 class="service-row__title"><span class="service-row__long">{name}</span><span class="service-row__brief">{short}</span></h3>
           <span class="service-row__price">{price}</span>
           <p class="service-row__desc">{desc}</p>
