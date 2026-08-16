@@ -1220,7 +1220,7 @@ def build_brand():
 
 
 def build_concerts():
-    hero_img = CONCERTS[17]
+    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-backstage-14")
     page = dict(
         url="/vancouver-concert-photographer/",
         title="Concert Photographer Vancouver | Live Music & Festivals",

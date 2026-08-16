@@ -42,7 +42,7 @@ HEROES = [
     ("headshots", "vancouver-headshot-office-18", 0.22),         # headshots page
     ("headshots", "vancouver-headshot-editorial-08", 0.18),     # brand page
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
-    ("concerts", "vancouver-concert-festival-15", 0.31),        # concerts page
+    ("concerts", "vancouver-concert-backstage-14", 0.45),       # concerts page
     ("concerts", "vancouver-concert-backstage-41", 0.27),       # BTS page
 ]
 
