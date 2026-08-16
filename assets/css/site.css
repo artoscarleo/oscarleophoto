@@ -609,10 +609,8 @@ p:last-child { margin-bottom: 0; }
 }
 /* On a phone the hero block carried 112px above and 72px below, which spent
    most of the frame on empty scrim instead of the photograph. */
-@media (max-width: 47.99em) {
-  .hero__inner { padding-block: var(--space-xl) var(--space-l); }
-  .hero__sub { margin-bottom: var(--space-m); }
-}
+.hero__inner { padding-block: var(--space-xl) var(--space-l); }
+.hero__sub { margin-bottom: var(--space-m); }
 .hero h1 { color: #FAF8F5; max-width: 16ch; margin-bottom: var(--space-m); }
 .hero .eyebrow { color: rgba(250, 248, 245,.96); }
 .hero__sub {
@@ -637,7 +635,7 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   color: rgba(250, 248, 245,.7);
 }
-@media (min-width: 62em) { .hero__scroll { display: flex; } }
+
 .hero__scroll i {
   display: block;
   width: 1px; height: 3rem;
@@ -1811,7 +1809,7 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    drawn line with a chevron, and every page gets one. The footer closes with
    the way back up.
    -------------------------------------------------------------------------- */
-@media (max-width: 61.99em) {
+@media all {
   /* The twin of the back-to-top control: same circle, same size, same inset
      from the right edge, pointing the other way. */
   .hero__scroll {
@@ -1931,17 +1929,15 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    showing. A step down on the h1 and the standfirst gives the picture room
    without touching the desktop scale.
    -------------------------------------------------------------------------- */
-@media (max-width: 47.99em) {
-  .hero h1 {
-    font-size: clamp(2.1rem, 1.35rem + 3.6vw, 2.9rem);
-    line-height: 1.06;
-    margin-bottom: var(--space-s);
-  }
-  .hero__inner .lead,
-  .hero__inner > p {
-    font-size: var(--step-0);
-    line-height: 1.5;
-  }
-  .hero .eyebrow { margin-bottom: var(--space-xs); }
-  .hero__actions { gap: var(--space-2xs); }
+.hero h1 {
+  font-size: clamp(2.1rem, 1.35rem + 3.6vw, 3.4rem);
+  line-height: 1.06;
+  margin-bottom: var(--space-s);
 }
+.hero__inner .lead,
+.hero__inner > p {
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+.hero .eyebrow { margin-bottom: var(--space-xs); }
+.hero__actions { gap: var(--space-2xs); }
