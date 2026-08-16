@@ -1564,7 +1564,7 @@ def build_about():
 
 
 def build_contact():
-    hero_img = CONCERTS[38]
+    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-studio-23")
     page = dict(
         url="/contact/",
         title="Contact Oscar Leo Photography | Vancouver, British Columbia",

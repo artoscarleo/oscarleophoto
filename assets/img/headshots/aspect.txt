@@ -20,3 +20,4 @@ vancouver-headshot-professional-22|400|533
 vancouver-headshot-studio-01|400|533
 vancouver-headshot-studio-09|400|533
 vancouver-headshot-studio-17|400|600
+vancouver-headshot-studio-23|400|533
