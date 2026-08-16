@@ -823,7 +823,7 @@ def build_home():
 
 
 def build_headshots():
-    hero_img = HEADSHOTS[2]
+    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-office-18")
     page = dict(
         url="/vancouver-headshot-photographer/",
         title="Headshot Photographer Vancouver | From $395 | Oscar Leo",

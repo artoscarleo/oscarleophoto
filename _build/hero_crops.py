@@ -39,7 +39,7 @@ QUALITY = {800: 68, 1200: 58, 1800: 54}
 
 # folder, slug, face centre as a fraction of the full image height
 HEROES = [
-    ("headshots", "vancouver-headshot-corporate-04", 0.15),     # headshots page
+    ("headshots", "vancouver-headshot-office-18", 0.22),         # headshots page
     ("headshots", "vancouver-headshot-editorial-08", 0.18),     # brand page
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
     ("concerts", "vancouver-concert-festival-15", 0.31),        # concerts page
