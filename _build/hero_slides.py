@@ -33,18 +33,20 @@ SUBJECT_AT = 0.36
 
 # folder, slug, subject centre (fraction of source height)
 SLIDES = [
-    # Three per category, chosen because the subject sits near the centre of
-    # the frame and so survives both the 3:2 landscape cut and the 2:3
-    # portrait one. Order is shuffled in the browser.
+    # Landscape windows only — phones use MOBILE_SLIDES instead. Subjects sit
+    # near the centre of the frame so the 3:2 cut keeps them whole. Order is
+    # shuffled in the browser.
+    #
+    # Two concert frames (live-11x, live-13x) were dropped on request and not
+    # replaced, so this is seven slides: three weddings, three headshots, one
+    # concert.
     ("headshots", "vancouver-headshot-studio-01x", 0.30),
     ("weddings", "vancouver-wedding-story-01x", 0.42),
     ("concerts", "vancouver-concert-live-12x", 0.42),
     ("headshots", "vancouver-headshot-studio-03x", 0.28),
     ("weddings", "vancouver-wedding-story-03x", 0.45),
-    ("concerts", "vancouver-concert-live-11x", 0.45, 0.80),
     ("headshots", "vancouver-headshot-studio-04x", 0.28),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
-    ("concerts", "vancouver-concert-live-13x", 0.38, 0.72),
 ]
 
 # Portrait windows get natively-vertical photographs rather than a landscape
