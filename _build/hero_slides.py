@@ -44,7 +44,7 @@ SLIDES = [
     ("concerts", "vancouver-concert-live-15x", 0.40),
     ("headshots", "vancouver-headshot-studio-04x", 0.28),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
-    ("concerts", "vancouver-concert-live-13x", 0.38),
+    ("concerts", "vancouver-concert-live-13x", 0.38, 0.72),
 ]
 
 
@@ -106,7 +106,9 @@ def crop_pdf(src, out_pdf, cw, ch, ox, oy):
 def main():
     os.makedirs(TMP, exist_ok=True)
     manifest = []
-    for folder, slug, focus in SLIDES:
+    for entry in SLIDES:
+        folder, slug, focus = entry[0], entry[1], entry[2]
+        focus_x = entry[3] if len(entry) > 3 else 0.5
         src = os.path.join(IMG, folder, slug + "-1800.jpg")
         if not os.path.exists(src):
             # Some sources are smaller than 1800, so take the largest that exists.
@@ -118,19 +120,38 @@ def main():
         iw, ih = dims(src)
 
         for tag, ratio in SHAPES:
-            cw, ch = iw, int(round(iw / ratio))
-            if ch > ih:
-                ch = ih
+            landscape_to_portrait = ratio < 1 and iw > ih
+            if landscape_to_portrait:
+                # A landscape stage photo cropped to a portrait shape: taking the
+                # full source height leaves oy nowhere to go (ih - ch is 0), so the
+                # crop always started at row 0 no matter where the performer
+                # actually was in the frame — showing all of the empty rigging
+                # above them regardless of focus. Capping the crop height opens
+                # up vertical room to move, and a tighter subject placement
+                # (0.20 instead of the usual 0.36) uses that room to cut the
+                # dead space rather than just re-centre within it.
+                ch = int(round(ih * 0.78))          # enough vertical room to reposition without an unusable crop width
                 cw = int(round(ch * ratio))
-            oy = max(0, min(int(round(focus * ih - SUBJECT_AT * ch)), ih - ch))
-            ox = max(0, (iw - cw) // 2)
+                subject_at = 0.20
+            else:
+                cw, ch = iw, int(round(iw / ratio))
+                if ch > ih:
+                    ch = ih
+                    cw = int(round(ch * ratio))
+                subject_at = SUBJECT_AT
+            oy = max(0, min(int(round(focus * ih - subject_at * ch)), ih - ch))
+            ox = max(0, min(int(round(focus_x * iw - 0.5 * cw)), iw - cw))
 
             pdf = os.path.join(TMP, f"{slug}-{tag}.pdf")
             crop_pdf(src, pdf, cw, ch, ox, oy)
 
             made = []
             for w in WIDTHS:
-                if w > cw:
+                # A landscape-source portrait crop can be narrower than the
+                # smallest served width (the source is only 1200px tall), so
+                # sips upscales slightly rather than skipping the size — a
+                # background slideshow photo, not a print.
+                if w > cw and not landscape_to_portrait:
                     continue
                 dst = os.path.join(IMG, folder, f"{slug}-{tag}-{w}.jpg")
                 subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY[w]),
