@@ -1363,23 +1363,26 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 .mobile-nav .brand__sub { color: var(--fg-subtle); }
 
 /* ---------- 22 LOCAL SCRIM BEHIND HERO TEXT -------------------------------
-   The full-frame gradient alone makes legibility depend on which photograph is
-   in the hero — a high-key frame drops the small labels below AA. This panel
-   sits only behind the text column, so any photograph dropped in later still
-   yields readable type without retuning the gradient.
-   -------------------------------------------------------------------------- */
+   The hero copy needs some protection or it drops below AA on a bright
+   photograph — measured at 2.6-2.9:1 with no scrim at all.
 
+   This used to be an inset box, which read as a visible rectangle: it stopped
+   2rem short of each edge, so it had hard vertical sides sitting over the
+   picture. It is now full-bleed horizontally and feathers out over a long
+   distance upward, so there is no edge anywhere — it reads as the photograph
+   getting darker toward the bottom, not as a slab laid on top of it. */
 .hero__inner::before {
   content: "";
   position: absolute;
-  inset: -3rem -2rem -2rem -2rem;
+  inset: -8rem 0 -2rem 0;
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, .52) 0%,
-    rgba(0, 0, 0, .46) 60%,
-    rgba(0, 0, 0, .22) 88%,
+    rgba(0, 0, 0, .58) 0%,
+    rgba(0, 0, 0, .50) 40%,
+    rgba(0, 0, 0, .30) 70%,
+    rgba(0, 0, 0, .12) 88%,
     rgba(0, 0, 0, 0) 100%);
 }
 
