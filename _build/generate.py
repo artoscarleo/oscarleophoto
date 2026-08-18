@@ -105,28 +105,36 @@ WIDE = load_wide()
 
 
 def load_hero_slides(name="hero-slides.txt"):
-    """Slide manifests written by the crop scripts in _build/."""
-    out = []
+    """Slide manifests written by the crop scripts in _build/.
+
+    Rows are keyed by slide index, not by slug, because a slide's landscape and
+    portrait crops can come from two different photographs — a phone gets a
+    natively-vertical frame rather than a wide one cropped down to it.
+    """
+    out = {}
     path = os.path.join(ROOT, "assets", "img", name)
     if not os.path.exists(path):
-        return out
-    rows = {}
+        return []
     with open(path) as fh:
         for line in fh:
             line = line.strip()
             if not line:
                 continue
-            folder, slug, tag, box, widths = line.split("|")
-            rows.setdefault(slug, {"folder": folder, "slug": slug})[tag] = {
-                "box": box, "widths": [int(x) for x in widths.split(",")]}
-    # preserve the order the script wrote them in
-    seen = []
-    with open(path) as fh:
-        for line in fh:
-            slug = line.split("|")[1] if "|" in line else None
-            if slug and slug not in seen:
-                seen.append(slug)
-    return [rows[s] for s in seen]
+            parts = line.split("|")
+            if len(parts) == 6:
+                idx, folder, slug, tag, box, widths = parts
+                key = (0, int(idx))
+            else:                      # older 5-field rows, keyed by slug
+                folder, slug, tag, box, widths = parts
+                key = (1, slug)
+            row = out.setdefault(key, {})
+            row.setdefault("folder", folder)     # back-compat: the approach band
+            row.setdefault("slug", slug)         # still reads these at top level
+            row[tag] = {
+                "folder": folder, "slug": slug, "box": box,
+                "widths": [int(x) for x in widths.split(",")]}
+    return [out[k] for k in sorted(out)]
+
 
 HERO_SLIDES = load_hero_slides()
 
@@ -214,10 +222,20 @@ CONCERT_ALT = [
 
 
 def srcset(img):
+    """Only list widths that actually exist on disk.
+
+    Not every source is 1800px wide — several of the supplied photographs top
+    out at 1080 or 1200 — so the derivative for a larger width is never
+    written. Listing it anyway put URLs in srcset that 404 (58 of them across
+    the site), and a browser that picked one got a broken image.
+    """
     widths = WIDTHS + [2400] if img["folder"] == "grid" else WIDTHS
     parts = []
     for w in widths:
-        parts.append(f"/assets/img/{img['folder']}/{img['slug']}-{w}.jpg {w}w")
+        rel = f"assets/img/{img['folder']}/{img['slug']}-{w}.jpg"
+        if not os.path.exists(os.path.join(ROOT, rel)):
+            continue
+        parts.append(f"/{rel} {w}w")
     return ", ".join(parts)
 
 
@@ -480,8 +498,10 @@ def hero(page):
     wide = WIDE.get(slug)
 
     def slide_srcset(sl, tag):
+        # folder/slug come from the tag, not the row: a slide's landscape and
+        # portrait crops can be two different photographs.
         return ", ".join(
-            f'/assets/img/{sl["folder"]}/{sl["slug"]}-{tag}-{w}.jpg {w}w'
+            f'/assets/img/{sl[tag]["folder"]}/{sl[tag]["slug"]}-{tag}-{w}.jpg {w}w'
             for w in sl[tag]["widths"])
 
     if page.get("slideshow") and HERO_SLIDES:
@@ -490,11 +510,11 @@ def hero(page):
         # Only the first is eager; the rest load as the slideshow reaches them.
         parts = []
         for i, sl in enumerate(HERO_SLIDES):
-            alt = HERO_SLIDE_ALT.get(sl["slug"], "")
+            alt = HERO_SLIDE_ALT.get(sl["ht"]["slug"], "")
             eager = (i == 0)
             parts.append(f"""        <picture>
           <source media="(min-aspect-ratio: 1/1)" srcset="{slide_srcset(sl, 'hw')}" sizes="100vw">
-          <img src="/assets/img/{sl['folder']}/{sl['slug']}-ht-800.jpg"
+          <img src="/assets/img/{sl['ht']['folder']}/{sl['ht']['slug']}-ht-800.jpg"
                srcset="{slide_srcset(sl, 'ht')}" sizes="100vw"
                alt="{alt if eager else ''}"{'' if eager else ' aria-hidden="true"'}
                {'fetchpriority="high"' if eager else 'loading="lazy"'} decoding="async"
