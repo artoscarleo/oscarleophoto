@@ -8,8 +8,8 @@ headshots|vancouver-headshot-studio-03x|hw|1800x1200|800,1200,1800
 headshots|vancouver-headshot-studio-03x|ht|1800x2700|800,1200,1800
 weddings|vancouver-wedding-story-03x|hw|1800x1200|800,1200,1800
 weddings|vancouver-wedding-story-03x|ht|624x936|800,1200,1800
-concerts|vancouver-concert-live-15x|hw|1800x1200|800,1200,1800
-concerts|vancouver-concert-live-15x|ht|624x936|800,1200,1800
+concerts|vancouver-concert-live-11x|hw|1798x1199|800,1200
+concerts|vancouver-concert-live-11x|ht|623x935|800,1200,1800
 headshots|vancouver-headshot-studio-04x|hw|1800x1200|800,1200,1800
 headshots|vancouver-headshot-studio-04x|ht|1599x2399|800,1200
 weddings|vancouver-wedding-story-05x|hw|1800x1200|800,1200,1800

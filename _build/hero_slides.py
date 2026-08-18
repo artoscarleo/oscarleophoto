@@ -41,7 +41,7 @@ SLIDES = [
     ("concerts", "vancouver-concert-live-12x", 0.42),
     ("headshots", "vancouver-headshot-studio-03x", 0.28),
     ("weddings", "vancouver-wedding-story-03x", 0.45),
-    ("concerts", "vancouver-concert-live-15x", 0.40),
+    ("concerts", "vancouver-concert-live-11x", 0.45, 0.80),
     ("headshots", "vancouver-headshot-studio-04x", 0.28),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
     ("concerts", "vancouver-concert-live-13x", 0.38, 0.72),
