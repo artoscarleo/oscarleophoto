@@ -53,15 +53,20 @@ SLIDES = [
 # photograph shot vertical fills that shape as taken. Paired to SLIDES by
 # index, so each slide keeps its category in both orientations.
 MOBILE_SLIDES = [
+    # Phones get headshots only — all six, and nothing else. They are the one
+    # category shot vertical throughout, so each one fills a phone screen as
+    # taken rather than being cropped down from a wide frame.
+    #
+    # There are six of these against nine desktop slides, so they cycle: slide
+    # 7 reuses the first, 8 the second, 9 the third. Six distinct photographs
+    # appear on a phone, which is what was asked for; the desktop rotation is
+    # untouched.
     ("headshots", "vancouver-headshot-studio-01x", 0.30),
-    ("weddings", "vancouver-wedding-story-01x", 0.42),
-    ("concerts", "vancouver-concert-festival-24", 0.35),
+    ("headshots", "vancouver-headshot-studio-02x", 0.28),
     ("headshots", "vancouver-headshot-studio-03x", 0.28),
-    ("weddings", "vancouver-wedding-story-07x", 0.40),
-    ("concerts", "vancouver-concert-stage-19", 0.35),
     ("headshots", "vancouver-headshot-studio-04x", 0.28),
-    ("weddings", "vancouver-wedding-story-11x", 0.40),
-    ("concerts", "vancouver-concert-performance-40", 0.35),
+    ("headshots", "vancouver-headshot-studio-05x", 0.28),
+    ("headshots", "vancouver-headshot-studio-06x", 0.28),
 ]
 
 
@@ -175,8 +180,8 @@ def main():
     ht_ratio = dict(SHAPES)["ht"]
     for i, entry in enumerate(SLIDES):
         cut(i, entry, "hw", hw_ratio)
-    for i, entry in enumerate(MOBILE_SLIDES):
-        cut(i, entry, "ht", ht_ratio)
+    for i in range(len(SLIDES)):
+        cut(i, MOBILE_SLIDES[i % len(MOBILE_SLIDES)], "ht", ht_ratio)
 
     with open(os.path.join(IMG, "hero-slides.txt"), "w") as fh:
         fh.write("\n".join(manifest) + "\n")
