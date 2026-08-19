@@ -50,6 +50,16 @@ SLIDES = [
     ("concerts", "vancouver-concert-live-12x", 0.42),
     ("weddings", "vancouver-wedding-story-03x", 0.45),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
+    # Listed for MOBILE_SLIDES pairing (len(SLIDES) has to stay 10) but
+    # skipped by main() below for the "hw" crop -- see SKIP_HW_CROP.
+    # main() resamples its source down to 1800px wide before cropping, fine
+    # for a photo shot at 1800px, but these six were supplied at 3344px, so
+    # it threw away two thirds of the resolution before the crop even
+    # started and the result was visibly soft at full-bleed hero size. All
+    # six -hw-*.jpg and -wide-*.jpg files (this slideshow and the
+    # headshots-page desktop hero) were instead cropped straight from the
+    # 3344px originals by a one-off script; running main() without the skip
+    # would silently soften them again.
     ("hero-picks", "vancouver-portrait-showcase-01", 0.20, 0.64),
     ("hero-picks", "vancouver-portrait-showcase-02", 0.20, 0.64),
     ("hero-picks", "vancouver-portrait-showcase-03", 0.20, 0.64),
@@ -57,6 +67,7 @@ SLIDES = [
     ("hero-picks", "vancouver-portrait-showcase-05", 0.18, 0.62),
     ("hero-picks", "vancouver-portrait-showcase-06", 0.18, 0.62),
 ]
+SKIP_HW_CROP = {"hero-picks"}
 
 # Portrait windows get natively-vertical photographs rather than a landscape
 # frame cropped down to 2:3. Cropping a 3:2 stage shot to a phone screen throws
@@ -190,6 +201,9 @@ def main():
     hw_ratio = dict(SHAPES)["hw"]
     ht_ratio = dict(SHAPES)["ht"]
     for i, entry in enumerate(SLIDES):
+        if entry[0] in SKIP_HW_CROP:
+            print(f"{i} {entry[1]:38} hw  skipped -- hand-cropped from the full-res original, see comment above SKIP_HW_CROP")
+            continue
         cut(i, entry, "hw", hw_ratio)
     for i in range(len(SLIDES)):
         cut(i, MOBILE_SLIDES[i % len(MOBILE_SLIDES)], "ht", ht_ratio)
