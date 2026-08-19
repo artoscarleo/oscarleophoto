@@ -1320,7 +1320,7 @@ def build_concerts():
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
         hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
                                    "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
-            next(i for i in CONCERTS if i["slug"] == "vancouver-concert-festival-24")),
+            next(i for i in CONCERTS if i["slug"] == "vancouver-concert-live-portrait-45")),
         schema=["faq-concerts.json"],
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )

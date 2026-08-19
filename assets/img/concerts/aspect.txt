@@ -64,3 +64,4 @@ vancouver-concert-live-14x|400|266
 vancouver-concert-live-15x|400|266
 vancouver-concert-live-16x|400|266
 vancouver-concert-live-17x|400|266
+vancouver-concert-live-portrait-45|400|600
