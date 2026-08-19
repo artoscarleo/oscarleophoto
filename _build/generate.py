@@ -247,6 +247,19 @@ def alt_for(img, i):
     return pool[i % len(pool)]
 
 
+def full_src(img):
+    """Largest width that actually exists on disk.
+
+    Not every source reaches 1800 — the story crops top out at 1200 — and the
+    lightbox was asking for a 1800 file regardless, so opening one of those
+    photographs full size loaded nothing."""
+    for w in (1800, 1200, 800, 400):
+        rel = f"assets/img/{img['folder']}/{img['slug']}-{w}.jpg"
+        if os.path.exists(os.path.join(ROOT, rel)):
+            return "/" + rel
+    return f"/assets/img/{img['folder']}/{img['slug']}-800.jpg"
+
+
 def tile(img, i, sizes, stagger=True):
     """A gallery tile. The width/height attributes give the browser the image's
     intrinsic ratio, so the masonry column reserves the exact box before the
@@ -254,7 +267,7 @@ def tile(img, i, sizes, stagger=True):
     keep its own proportions instead of being cropped to a shared cell."""
     delay = f' style="--i:{min(i % 8, 7)}"' if stagger else ""
     return f"""          <button type="button" class="tile" data-lightbox-item
-                  data-full="/assets/img/{img['folder']}/{img['slug']}-1800.jpg"
+                  data-full="{full_src(img)}"
                   data-reveal-img{delay}>
             <img src="/assets/img/{img['folder']}/{img['slug']}-800.jpg"
                  srcset="{srcset(img)}"
