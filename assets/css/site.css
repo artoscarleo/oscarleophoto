@@ -90,13 +90,7 @@
   --space-3xl: clamp(6rem, 3.5rem + 10vw, 12rem);
 
   --measure: 66ch;
-  --container: 94rem;
-  /* Page gutter. Every full-width block (header, hero, sections) uses this one
-     value so the logo, the headline and the body copy all start on the same
-     vertical line at every width. Was a flat 4.5rem above 48em, which held the
-     hero copy a long way in from the frame; it now scales with the viewport so
-     the photograph reads edge to edge. */
-  --gutter: 1.5rem;
+  --container: 88rem;
   --container-narrow: 44rem;
   --radius: 0px;               /* square corners read cleaner than soft ones */
 
@@ -112,9 +106,6 @@
   --header-h-sm: 4.8125rem;  /* the condensed bar, once scrolled */
   --logo-fill: 0.9;          /* how much of the bar the mark occupies */
   color-scheme: light;
-}
-@media (min-width: 48em) {
-  :root { --gutter: clamp(2rem, 3.2vw, 3.25rem); }
 }
 
 /* ---------- 02 RESET & BASE ---------------------------------------------- */
@@ -262,8 +253,11 @@ p:last-child { margin-bottom: 0; }
 /* ---------- 04 LAYOUT PRIMITIVES ----------------------------------------- */
 
 .container {
-  width: min(100% - 2 * var(--gutter), var(--container));
+  width: min(100% - 2 * var(--space-m), var(--container));
   margin-inline: auto;
+}
+@media (min-width: 48em) {
+  .container { width: min(100% - 2 * var(--space-xl), var(--container)); }
 }
 
 .container-narrow {
@@ -339,12 +333,15 @@ p:last-child { margin-bottom: 0; }
 }
 
 .header__inner {
-  width: min(100% - 2 * var(--gutter), var(--container));
+  width: min(100% - 2 * var(--space-m), var(--container));
   margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-m);
+}
+@media (min-width: 48em) {
+  .header__inner { width: min(100% - 2 * var(--space-xl), var(--container)); }
 }
 
 .brand {
@@ -602,10 +599,13 @@ p:last-child { margin-bottom: 0; }
 
 .hero__inner {
   position: relative;
-  width: min(100% - 2 * var(--gutter), var(--container));
+  width: min(100% - 2 * var(--space-m), var(--container));
   margin-inline: auto;
   padding-block: var(--space-2xl) var(--space-xl);
   color: #FAF8F5;
+}
+@media (min-width: 48em) {
+  .hero__inner { width: min(100% - 2 * var(--space-xl), var(--container)); }
 }
 /* On a phone the hero block carried 112px above and 72px below, which spent
    most of the frame on empty scrim instead of the photograph. */
