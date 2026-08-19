@@ -912,7 +912,13 @@ def build_home():
 
 
 def build_headshots():
-    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-office-18")
+    # Desktop hero: a client-supplied portrait (vancouver-portrait-showcase-04,
+    # see hero-picks/) with its own hand-derived 3:2 crop, kept out of
+    # aspect.txt so it never joins the headshots gallery grid. Mobile keeps
+    # the original office-18 photo via hero_portrait below, unchanged.
+    hero_img = {"slug": "vancouver-portrait-showcase-04", "folder": "hero-picks",
+                "w": 1800, "h": 1013, "ratio": 1800 / 1013}
+    mobile_hero = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-office-18")
     page = dict(
         url="/vancouver-headshot-photographer/",
         title="Headshot Photographer Vancouver | From $395 | Oscar Leo",
@@ -922,6 +928,8 @@ def build_headshots():
         hero_sub="Corporate, LinkedIn and personal branding portraits — in studio or at your office.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
         schema=["faq-headshots.json"],
+        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
+                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(mobile_hero),
         **hero_fields(hero_img, "Editorial portrait with muted warm tones, photographed in a Vancouver studio.")
     )
 
