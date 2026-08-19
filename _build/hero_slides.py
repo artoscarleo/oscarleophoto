@@ -61,10 +61,12 @@ SLIDES = [
     # headshots-page desktop hero) were instead cropped straight from the
     # 3344px originals by a one-off script; running main() without the skip
     # would silently soften them again.
-    ("hero-picks", "vancouver-portrait-showcase-01", 0.20, 0.64),
+    # showcase-01 (curly-hair man, beige blazer) and showcase-04 (pinstripe
+    # suit) were dropped from THIS rotation on request and not replaced.
+    # showcase-04 still runs as the headshots page's own desktop hero --
+    # that's a separate, unrelated placement and wasn't touched.
     ("hero-picks", "vancouver-portrait-showcase-02", 0.20, 0.64),
     ("hero-picks", "vancouver-portrait-showcase-03", 0.20, 0.64),
-    ("hero-picks", "vancouver-portrait-showcase-04", 0.20, 0.62),
     ("hero-picks", "vancouver-portrait-showcase-05", 0.18, 0.62),
     ("hero-picks", "vancouver-portrait-showcase-06", 0.18, 0.62),
 ]
