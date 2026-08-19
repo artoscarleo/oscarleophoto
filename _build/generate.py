@@ -813,6 +813,10 @@ def build_home():
           <span class="stat__value">30&nbsp;km</span>
           <span class="stat__label">Travel included around Vancouver, across the Lower Mainland.</span>
         </div>
+        <div data-reveal style="--i:3">
+          <span class="stat__value">50+</span>
+          <span class="stat__label">Edited images from a 90-minute live performance booking.</span>
+        </div>
       </div>
     </section>
 

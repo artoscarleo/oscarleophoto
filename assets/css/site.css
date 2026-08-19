@@ -658,11 +658,11 @@ p:last-child { margin-bottom: 0; }
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-/* Three, not four: the fourth was "1 - Photographer, one consistent style",
-   which is a claim rather than a figure, and the same sentence already appears
-   in Why clients book below. The remaining three are all numbers a client can
-   act on. */
-@media (min-width: 60em) { .stat-row { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+/* Four figures, all of them numbers a client can act on. The original fourth
+   was "1 - Photographer, one consistent style", a claim rather than a figure
+   and a sentence already carried by Why clients book below; it is now the 50+
+   edited-image count from the concerts pricing. */
+@media (min-width: 60em) { .stat-row { grid-template-columns: repeat(4, minmax(0,1fr)); } }
 .stat__value {
   font-family: var(--font-display);
   font-size: var(--step-3);
