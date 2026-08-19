@@ -4,3 +4,4 @@ vancouver-headshot-professional-06|1800|1200|800,1200,1800
 vancouver-concert-backstage-14|1800|1200|800,1200,1800
 vancouver-concert-backstage-41|1800|1200|800,1200,1800
 vancouver-headshot-studio-23|1800|1200|800,1200,1800
+vancouver-wedding-couple-portrait-23|1800|1200|800,1200,1800

@@ -20,3 +20,4 @@ vancouver-wedding-couple-portrait-19 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedd
 vancouver-wedding-venue-20 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-640.jpg
 vancouver-wedding-couple-portrait-21 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-694.jpg
 vancouver-wedding-couple-portrait-22 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-712.jpg
+vancouver-wedding-couple-portrait-23 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-717.jpg

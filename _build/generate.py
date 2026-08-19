@@ -207,6 +207,7 @@ WEDDING_ALT = {
     "vancouver-wedding-venue-20": "Bride and groom holding hands in a gothic stone cloister.",
     "vancouver-wedding-couple-portrait-21": "Couple in autumn woodland, warm fallen leaves underfoot.",
     "vancouver-wedding-couple-portrait-22": "Bride and groom together outdoors, bride holding a white bouquet.",
+    "vancouver-wedding-couple-portrait-23": "Bride and groom holding each other under a spreading tree, her veil catching the light across open parkland.",
 }
 
 CONCERT_ALT = [
@@ -1714,7 +1715,7 @@ def build_weddings():
     """Wedding page. Built from the same structure as the other service pages —
     hero, answer paragraph, gallery, approach, price cards, add-ons, FAQ — using
     the existing components only. No new CSS."""
-    hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-01")
+    hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-23")
     gallery_imgs = [i for i in WEDDINGS if i["slug"] != hero_img["slug"]]
 
     page = dict(
