@@ -1387,10 +1387,10 @@ body[data-scroll-locked="true"] { overflow: hidden; }
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, .58) 0%,
-    rgba(0, 0, 0, .50) 40%,
-    rgba(0, 0, 0, .30) 70%,
-    rgba(0, 0, 0, .12) 88%,
+    rgba(0, 0, 0, .46) 0%,
+    rgba(0, 0, 0, .40) 40%,
+    rgba(0, 0, 0, .24) 70%,
+    rgba(0, 0, 0, .10) 88%,
     rgba(0, 0, 0, 0) 100%);
 }
 
