@@ -46,7 +46,8 @@ SLIDES = [
     # These six are already landscape (1800x1013) and shallower than the 3:2
     # box, so the crop keeps the full height and only trims width; focus_x
     # keeps the subject (seated right-of-centre in all six) inside that trim.
-    ("weddings", "vancouver-wedding-story-01x", 0.42),
+    # story-01x (the couple embracing by the window, with plants) was
+    # dropped on request and not replaced -- eight slides now, not nine.
     ("concerts", "vancouver-concert-live-12x", 0.42),
     ("weddings", "vancouver-wedding-story-03x", 0.45),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
