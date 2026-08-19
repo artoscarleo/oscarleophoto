@@ -1374,11 +1374,15 @@ body[data-scroll-locked="true"] { overflow: hidden; }
    2rem short of each edge, so it had hard vertical sides sitting over the
    picture. It is now full-bleed horizontally and feathers out over a long
    distance upward, so there is no edge anywhere — it reads as the photograph
-   getting darker toward the bottom, not as a slab laid on top of it. */
+   getting darker toward the bottom, not as a slab laid on top of it.
+
+   The sides run 50vw past the copy in both directions and the hero clips them,
+   so the darkening reaches the frame edges at every width instead of stopping
+   at the container. The text does not move: only the gradient is wider. */
 .hero__inner::before {
   content: "";
   position: absolute;
-  inset: -8rem 0 -2rem 0;
+  inset: -8rem -50vw -2rem -50vw;
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(
