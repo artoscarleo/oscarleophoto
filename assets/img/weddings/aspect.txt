@@ -34,3 +34,4 @@ vancouver-wedding-story-11x|400|600
 vancouver-wedding-story-12x|400|600
 vancouver-wedding-story-13x|400|266
 vancouver-wedding-couple-portrait-23|400|267
+vancouver-wedding-couple-portrait-24|400|600

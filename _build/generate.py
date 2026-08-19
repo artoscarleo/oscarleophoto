@@ -208,6 +208,7 @@ WEDDING_ALT = {
     "vancouver-wedding-couple-portrait-21": "Couple in autumn woodland, warm fallen leaves underfoot.",
     "vancouver-wedding-couple-portrait-22": "Bride and groom together outdoors, bride holding a white bouquet.",
     "vancouver-wedding-couple-portrait-23": "Bride and groom holding each other under a spreading tree, her veil catching the light across open parkland.",
+    "vancouver-wedding-couple-portrait-24": "Bride and groom holding each other on a tree-lined path, her veil trailing behind her.",
 }
 
 CONCERT_ALT = [
@@ -1739,6 +1740,11 @@ def build_weddings():
         h1_lines=["Wedding photographer", "in Vancouver, BC"],
         hero_sub="Natural wedding photography with thoughtful direction when you need it — and space to enjoy the day when you don't.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
+        # A phone gets an upright photograph of its own rather than a slice cut
+        # from the middle of the landscape frame above.
+        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
+                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
+            next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-24")),
         schema=["faq-weddings.json"],
         **hero_fields(hero_img, WEDDING_ALT[hero_img["slug"]])
     )
