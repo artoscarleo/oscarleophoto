@@ -1152,7 +1152,11 @@ def build_brand():
     # STAND-IN IMAGERY: no dedicated brand/commercial shoot was supplied.
     # Portrait frames stand in — personal branding portraits are genuinely part
     # of this service, but product, workspace and team frames are missing.
-    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-portrait-19")
+    # Desktop hero: editorial-08 (its own hand-picked 16:9 crop, see
+    # _build/hero_crops.py). Mobile hero: portrait-19, via hero_portrait below
+    # -- editorial-08's source has too little headroom above the head to sit
+    # under a portrait window without crowding it.
+    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-editorial-08")
     picks = [HEADSHOTS[i] for i in (3, 9, 13, 18, 6, 20)]
     page = dict(
         url="/vancouver-brand-photography-video/",
@@ -1163,7 +1167,10 @@ def build_brand():
         hero_sub="Photography and vertical video built for websites, social media and marketing.",
         hero_actions=[("#packages", "See packages"), ("/contact/", "Start a project")],
         schema=["faq-brand-content.json"],
-        **hero_fields(hero_img, "Editorial-style business portrait against a warm, muted backdrop, photographed in Vancouver.")
+        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
+                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
+            next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-portrait-19")),
+        **hero_fields(hero_img, "Business portrait with even lighting and a clean background, photographed in Vancouver.")
     )
 
     cards = "\n".join([
