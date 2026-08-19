@@ -779,6 +779,11 @@ def build_home():
             if k < len(src):
                 picks.append(src[k])
         k += 1
+    # Twelve, not all of them. This is billed as a cross-section, and at full
+    # length it ran to 36 frames and about 2,800px of scrolling — which is the
+    # job the six category pages already do, and leaves a visitor no reason to
+    # open one. Interleaved above, so twelve is four from each category.
+    picks = picks[:12]
 
     body = f"""    <section class="section container">
       <div class="section-head section-head--split">
