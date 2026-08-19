@@ -808,10 +808,6 @@ def build_home():
           <span class="stat__value">30&nbsp;km</span>
           <span class="stat__label">Travel included around Vancouver, across the Lower Mainland.</span>
         </div>
-        <div data-reveal style="--i:3">
-          <span class="stat__value">1</span>
-          <span class="stat__label">Photographer, one consistent style across every service.</span>
-        </div>
       </div>
     </section>
 
