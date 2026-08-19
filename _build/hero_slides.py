@@ -31,22 +31,31 @@ WIDTHS = [800, 1200, 1800]
 QUALITY = {800: 68, 1200: 58, 1800: 54}
 SUBJECT_AT = 0.36
 
-# folder, slug, subject centre (fraction of source height)
+# folder, slug, subject centre (fraction of source height)[, focus_x]
 SLIDES = [
-    # Landscape windows only — phones use MOBILE_SLIDES instead. Subjects sit
-    # near the centre of the frame so the 3:2 cut keeps them whole. Order is
-    # shuffled in the browser.
+    # Landscape windows only — phones use MOBILE_SLIDES instead, which is why
+    # swapping entries here has no effect on a phone: MOBILE_SLIDES is a
+    # separate list, paired to these by index, not derived from them.
     #
-    # Two concert frames (live-11x, live-13x) were dropped on request and not
-    # replaced, so this is seven slides: three weddings, three headshots, one
-    # concert.
-    ("headshots", "vancouver-headshot-studio-01x", 0.30),
+    # Two concert frames (live-11x, live-13x) were dropped on request earlier
+    # and not replaced. The three studio headshots that used to fill out this
+    # rotation (studio-01x/03x/04x) are gone too, replaced by six client-
+    # supplied portraits (vancouver-portrait-showcase-01..06, in
+    # assets/img/hero-picks — not part of the headshots gallery, so they
+    # don't appear on the headshots page or anywhere but this slideshow).
+    # These six are already landscape (1800x1013) and shallower than the 3:2
+    # box, so the crop keeps the full height and only trims width; focus_x
+    # keeps the subject (seated right-of-centre in all six) inside that trim.
     ("weddings", "vancouver-wedding-story-01x", 0.42),
     ("concerts", "vancouver-concert-live-12x", 0.42),
-    ("headshots", "vancouver-headshot-studio-03x", 0.28),
     ("weddings", "vancouver-wedding-story-03x", 0.45),
-    ("headshots", "vancouver-headshot-studio-04x", 0.28),
     ("weddings", "vancouver-wedding-story-05x", 0.45),
+    ("hero-picks", "vancouver-portrait-showcase-01", 0.20, 0.64),
+    ("hero-picks", "vancouver-portrait-showcase-02", 0.20, 0.64),
+    ("hero-picks", "vancouver-portrait-showcase-03", 0.20, 0.64),
+    ("hero-picks", "vancouver-portrait-showcase-04", 0.20, 0.62),
+    ("hero-picks", "vancouver-portrait-showcase-05", 0.18, 0.62),
+    ("hero-picks", "vancouver-portrait-showcase-06", 0.18, 0.62),
 ]
 
 # Portrait windows get natively-vertical photographs rather than a landscape
