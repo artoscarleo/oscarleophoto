@@ -1464,6 +1464,11 @@ def build_bts():
         hero_sub="Production photography for film, television, music video and commercial shoots.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Discuss a production")],
         schema=["faq-bts.json"],
+        # The boom mic / camera rig -- the gap between the actor and the crew --
+        # is the point of the shot at any window shape, so this hero pins
+        # object-position there directly instead of the sitewide default
+        # tuned for face-centred portraits. See .hero--bts-focus in site.css.
+        hero_class="hero--bts-focus",
         **hero_fields(hero_img, "Camera crew filming a scene with a pink convertible and a costumed actor on a Vancouver production set.")
     )
 

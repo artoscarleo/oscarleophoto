@@ -580,6 +580,14 @@ p:last-child { margin-bottom: 0; }
 @media (min-aspect-ratio: 18/25) {
   .hero--short .hero__media img { object-position: center 14%; }
 }
+/* The BTS hero (vancouver-bts-production-19) has its point of interest -- the
+   boom mic between the actor and the crew -- at roughly 53%/54% of the frame,
+   not centred and not near the top like a portrait. `cover` crops around
+   whatever object-position names, so pinning it there directly keeps that
+   point on screen at every window shape instead of inheriting a Y anchor
+   tuned for face-centred photographs. One value, no aspect-ratio switch,
+   because unlike the portrait heroes this photo isn't re-cropped per shape. */
+.hero.hero--bts-focus .hero__media img { object-position: 53% 54%; }
 .hero__media::after {
   content: "";
   position: absolute;
