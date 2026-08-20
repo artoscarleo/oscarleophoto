@@ -1351,14 +1351,13 @@ def build_concerts():
         h1_lines=["Concert photographer", "in Vancouver, BC"],
         hero_sub="Stage, audience and atmosphere for artists, venues, promoters and festivals.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
-        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
-                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
-            next(i for i in CONCERTS if i["slug"] == "vancouver-concert-live-portrait-45")),
         schema=["faq-concerts.json"],
-        # Guitarist is the point of interest in both photos but sits right of
-        # centre in each -- pin object-position there directly instead of the
-        # sitewide default (dead-centre X, tuned Y for face-only portraits).
-        # See .hero--concert-focus in site.css.
+        # Guitarist sits right of centre in the frame -- pin object-position
+        # there directly instead of the sitewide default (dead-centre X,
+        # tuned Y for face-only portraits). See .hero--concert-focus in
+        # site.css. The separate natively-vertical mobile photo
+        # (live-portrait-45) was dropped on request; phones now get the
+        # same backstage-14 photo as desktop, cropped down.
         hero_class="hero--concert-focus",
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )
