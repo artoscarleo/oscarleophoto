@@ -1063,11 +1063,10 @@ def build_headshots():
 
 def build_events():
     # Real event photography, supplied directly (PHOTO/event portfolio/) --
-    # a private mansion reception, a themed corporate party and a chamber-
-    # music salon. Twenty-five photographs picked from the 37 supplied,
-    # favouring guest candids and performance moments over near-duplicate
-    # frames of the same handful of poses.
-    hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-08")
+    # a private mansion reception and a chamber-music salon. Every photo
+    # left in the folder is used (the 90s-party sequence was removed at
+    # the source, not curated out here).
+    hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-11")
     gallery_imgs = [i for i in EVENTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-event-photographer/",

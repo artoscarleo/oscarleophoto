@@ -2,13 +2,13 @@ vancouver-event-photographer-01|400|267
 vancouver-event-photographer-02|400|267
 vancouver-event-photographer-03|400|267
 vancouver-event-photographer-04|400|267
-vancouver-event-photographer-05|400|600
-vancouver-event-photographer-06|400|267
+vancouver-event-photographer-05|400|267
+vancouver-event-photographer-06|400|600
 vancouver-event-photographer-07|400|267
 vancouver-event-photographer-08|400|267
 vancouver-event-photographer-09|400|267
 vancouver-event-photographer-10|400|267
-vancouver-event-photographer-11|400|600
+vancouver-event-photographer-11|400|267
 vancouver-event-photographer-12|400|267
 vancouver-event-photographer-13|400|267
 vancouver-event-photographer-14|400|267
@@ -19,7 +19,5 @@ vancouver-event-photographer-18|400|267
 vancouver-event-photographer-19|400|267
 vancouver-event-photographer-20|400|267
 vancouver-event-photographer-21|400|267
-vancouver-event-photographer-22|400|267
+vancouver-event-photographer-22|400|600
 vancouver-event-photographer-23|400|267
-vancouver-event-photographer-24|400|267
-vancouver-event-photographer-25|400|267
