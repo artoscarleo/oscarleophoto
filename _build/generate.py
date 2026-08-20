@@ -167,6 +167,7 @@ HERO_SLIDE_ALT = {
 HEADSHOTS = load_images("headshots")
 CONCERTS = load_images("concerts")
 WEDDINGS = load_images("weddings")
+BTS = load_images("bts")
 
 WIDTHS = [400, 800, 1200, 1800]
 
@@ -222,6 +223,17 @@ CONCERT_ALT = [
     "Concert crowd with arms raised, backlit by stage haze.",
 ]
 
+BTS_ALT = [
+    "Camera operator and crew filming a scene on a residential production set.",
+    "Behind-the-scenes view of a lighting rig and boom operator on set.",
+    "Crew adjusting a camera rig between takes during a Vancouver production.",
+    "Director of photography lining up a shot with a handheld monitor.",
+    "Production crew and talent between takes on an outdoor location shoot.",
+    "Wide shot of a film crew setting up equipment on set.",
+    "Clapperboard and crew at the start of a take.",
+    "Behind-the-scenes moment of talent and crew preparing a scene.",
+]
+
 
 def srcset(img):
     """Only list widths that actually exist on disk.
@@ -244,7 +256,12 @@ def srcset(img):
 def alt_for(img, i):
     if img["folder"] == "weddings":
         return WEDDING_ALT.get(img["slug"], "Wedding photograph by Oscar Leo Photography.")
-    pool = HEADSHOT_ALT if img["folder"] == "headshots" else CONCERT_ALT
+    if img["folder"] == "headshots":
+        pool = HEADSHOT_ALT
+    elif img["folder"] == "bts":
+        pool = BTS_ALT
+    else:
+        pool = CONCERT_ALT
     return pool[i % len(pool)]
 
 
@@ -1431,11 +1448,13 @@ def build_concerts():
 
 
 def build_bts():
-    # STAND-IN IMAGERY: no behind-the-scenes or unit stills work was supplied.
-    # These are live-production frames from the concert set and are the weakest
-    # substitute on the site — this page needs real set photography.
-    hero_img = CONCERTS[4]
-    picks = [CONCERTS[i] for i in (4, 13, 22, 31, 8, 44)]
+    # Real production stills, supplied directly (PHOTO/BTS/) from ten
+    # different shoots -- twenty photographs picked for a mix of crew,
+    # camera and lighting-rig process shots rather than finished-look
+    # frames, spread as evenly across the ten productions as the source
+    # material allowed.
+    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-production-14")
+    gallery_imgs = [i for i in BTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
         title="BTS & Unit Stills Photographer Vancouver | Film & Music",
@@ -1445,7 +1464,7 @@ def build_bts():
         hero_sub="Production photography for film, television, music video and commercial shoots.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Discuss a production")],
         schema=["faq-bts.json"],
-        **hero_fields(hero_img, "Behind-the-scenes frame of a live production under stage lighting.")
+        **hero_fields(hero_img, "Clapperboard and crew at the start of a take on a Vancouver production set.")
     )
 
     cards = "\n".join([
@@ -1496,10 +1515,8 @@ def build_bts():
       </div>
     </section>
 
-    <!-- STAND-IN IMAGERY: live-production frames from the concert set. This page
-         most needs real unit stills work — see the README. -->
     <section class="section container">
-{gallery(picks, "(min-width: 48em) 30vw, 47vw")}
+{gallery(gallery_imgs, "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section section--sunken" id="pricing">
