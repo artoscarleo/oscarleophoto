@@ -1453,7 +1453,7 @@ def build_bts():
     # camera and lighting-rig process shots rather than finished-look
     # frames, spread as evenly across the ten productions as the source
     # material allowed.
-    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-production-14")
+    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-production-19")
     gallery_imgs = [i for i in BTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
@@ -1464,7 +1464,7 @@ def build_bts():
         hero_sub="Production photography for film, television, music video and commercial shoots.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Discuss a production")],
         schema=["faq-bts.json"],
-        **hero_fields(hero_img, "Clapperboard and crew at the start of a take on a Vancouver production set.")
+        **hero_fields(hero_img, "Camera crew filming a scene with a pink convertible and a costumed actor on a Vancouver production set.")
     )
 
     cards = "\n".join([
