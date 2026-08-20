@@ -1355,6 +1355,11 @@ def build_concerts():
                                    "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
             next(i for i in CONCERTS if i["slug"] == "vancouver-concert-live-portrait-45")),
         schema=["faq-concerts.json"],
+        # Guitarist is the point of interest in both photos but sits right of
+        # centre in each -- pin object-position there directly instead of the
+        # sitewide default (dead-centre X, tuned Y for face-only portraits).
+        # See .hero--concert-focus in site.css.
+        hero_class="hero--concert-focus",
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )
 
