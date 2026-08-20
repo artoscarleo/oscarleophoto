@@ -1066,7 +1066,7 @@ def build_events():
     # a private mansion reception and a chamber-music salon. Every photo
     # left in the folder is used (the 90s-party sequence was removed at
     # the source, not curated out here).
-    hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-11")
+    hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-13")
     gallery_imgs = [i for i in EVENTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-event-photographer/",
@@ -1077,7 +1077,7 @@ def build_events():
         hero_sub="Documentary coverage of conferences, galas, launches and celebrations across Metro Vancouver.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Check your date")],
         schema=["faq-events.json"],
-        **hero_fields(hero_img, "Guests laughing together in a mansion reception hall during a Vancouver private event.")
+        **hero_fields(hero_img, "Wide view of a decorated reception room with a chandelier, holiday garland and guests gathered around a table, at a Vancouver private event.")
     )
 
     rates = [("2 hours", "$500"), ("3 hours", "$720"), ("4 hours", "$940"),
