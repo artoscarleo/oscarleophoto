@@ -168,6 +168,7 @@ HEADSHOTS = load_images("headshots")
 CONCERTS = load_images("concerts")
 WEDDINGS = load_images("weddings")
 BTS = load_images("bts")
+EVENTS = load_images("events")
 
 WIDTHS = [400, 800, 1200, 1800]
 
@@ -234,6 +235,17 @@ BTS_ALT = [
     "Behind-the-scenes moment of talent and crew preparing a scene.",
 ]
 
+EVENT_ALT = [
+    "Guests mingling at a private reception in Vancouver.",
+    "Live music performance at a corporate event, photographed candidly.",
+    "Guests toasting with champagne during a celebration.",
+    "Wide view of a reception room during a Vancouver event.",
+    "Candid moment between guests at a themed corporate party.",
+    "Detail shot from event catering and decor.",
+    "Guests dancing at an evening celebration.",
+    "String ensemble performing for seated guests at a private event.",
+]
+
 
 def srcset(img):
     """Only list widths that actually exist on disk.
@@ -260,6 +272,8 @@ def alt_for(img, i):
         pool = HEADSHOT_ALT
     elif img["folder"] == "bts":
         pool = BTS_ALT
+    elif img["folder"] == "events":
+        pool = EVENT_ALT
     else:
         pool = CONCERT_ALT
     return pool[i % len(pool)]
@@ -1048,10 +1062,13 @@ def build_headshots():
 
 
 def build_events():
-    # STAND-IN IMAGERY: no dedicated event photographs were supplied. These are
-    # live-event frames from the concert set. Swap for corporate event work.
-    hero_img = CONCERTS[2]
-    picks = [CONCERTS[i] for i in (2, 5, 20, 26, 32, 41)]
+    # Real event photography, supplied directly (PHOTO/event portfolio/) --
+    # a private mansion reception, a themed corporate party and a chamber-
+    # music salon. Twenty-five photographs picked from the 37 supplied,
+    # favouring guest candids and performance moments over near-duplicate
+    # frames of the same handful of poses.
+    hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-08")
+    gallery_imgs = [i for i in EVENTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-event-photographer/",
         title="Event Photographer Vancouver | Corporate Events | From $500",
@@ -1061,7 +1078,7 @@ def build_events():
         hero_sub="Documentary coverage of conferences, galas, launches and celebrations across Metro Vancouver.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Check your date")],
         schema=["faq-events.json"],
-        **hero_fields(hero_img, "Wide view of a live event stage and audience, photographed in Vancouver.")
+        **hero_fields(hero_img, "Guests laughing together in a mansion reception hall during a Vancouver private event.")
     )
 
     rates = [("2 hours", "$500"), ("3 hours", "$720"), ("4 hours", "$940"),
@@ -1116,10 +1133,8 @@ def build_events():
       </div>
     </section>
 
-    <!-- STAND-IN IMAGERY: live-event frames from the concert set. Replace with
-         corporate event photographs when available. -->
     <section class="section container">
-{gallery(picks, "(min-width: 48em) 30vw, 47vw")}
+{gallery(gallery_imgs, "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section section--sunken" id="pricing">
