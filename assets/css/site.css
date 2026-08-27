@@ -801,6 +801,26 @@ p:last-child { margin-bottom: 0; }
   .service-row:hover { color: var(--accent); }
 }
 
+/* The About page closes with the same service table the homepage opens with,
+   minus the swapping background photograph — it is a summary at the end of a
+   read, not the main event, so it stays quiet: a hairline above the first row
+   so the group reads as a table rather than six loose links, and a slightly
+   smaller title than the homepage's. The row itself, its hover and its price
+   type are inherited from .service-row above, so the two pages can never
+   drift apart. */
+.service-list {
+  border-top: 1px solid var(--border);
+}
+.service-list .service-row__title {
+  font-size: var(--step-2);
+}
+.service-list__note {
+  margin-top: var(--space-l);
+  max-width: 52ch;
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+}
+
 /* ---------- 10 GALLERIES -------------------------------------------------- */
 
 /* Masonry via CSS columns. A grid forces every tile in a row to share one

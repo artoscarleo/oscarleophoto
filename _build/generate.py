@@ -319,6 +319,25 @@ def gallery(images, sizes, extra_class=""):
 # Shared chrome
 # --------------------------------------------------------------------------
 
+# One source of truth for the service table. The homepage renders it in full
+# (with the swapping background photograph); the About page renders the same
+# rows without that machinery. Keeping one list means a price can never drift
+# between the two pages.
+SERVICES = [
+    ("/vancouver-headshot-photographer/", "Headshots & Portraits", "Headshots",
+     "Corporate, LinkedIn and personal branding", "From $395"),
+    ("/vancouver-event-photographer/", "Event Photography", "Event",
+     "Conferences, galas and celebrations", "From $500"),
+    ("/vancouver-brand-photography-video/", "Brand &amp; Marketing", "Marketing",
+     "Photography, video and content for business", "From $650"),
+    ("/vancouver-wedding-photographer/", "Wedding Photography", "Wedding",
+     "Elopements to full-day coverage", "Packages from $995"),
+    ("/vancouver-concert-photographer/", "Concert & Live Performance", "Concert",
+     "Artists, venues, promoters and festivals", "From $450"),
+    ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes & Unit Stills", "BTS",
+     "Film, television and commercial production", "From $700"),
+]
+
 NAV = [
     ("/", "Home", ""),
     ("/vancouver-headshot-photographer/", "Headshots", "From $395"),
@@ -764,20 +783,7 @@ def build_home():
         **hero_fields(hero_img, "A grid of thirty-six portraits from Oscar Leo Photography\u2019s Vancouver portrait work \u2014 headshots, personal branding and editorial portraits.")
     )
 
-    services = [
-        ("/vancouver-headshot-photographer/", "Headshots & Portraits", "Headshots",
-         "Corporate, LinkedIn and personal branding", "From $395"),
-        ("/vancouver-event-photographer/", "Event Photography", "Event",
-         "Conferences, galas and celebrations", "From $500"),
-        ("/vancouver-brand-photography-video/", "Brand &amp; Marketing", "Marketing",
-         "Photography, video and content for business", "From $650"),
-        ("/vancouver-wedding-photographer/", "Wedding Photography", "Wedding",
-         "Elopements to full-day coverage", "Packages from $995"),
-        ("/vancouver-concert-photographer/", "Concert & Live Performance", "Concert",
-         "Artists, venues, promoters and festivals", "From $450"),
-        ("/vancouver-bts-unit-stills-photographer/", "Behind the Scenes & Unit Stills", "BTS",
-         "Film, television and commercial production", "From $700"),
-    ]
+    services = SERVICES
     rows = ""
     for i, (url, name, short, desc, price) in enumerate(services):
         rows += f"""        <a class="service-row" href="{url}" data-preview-index="{i}" data-reveal style="--i:{i}">
@@ -1592,8 +1598,12 @@ def build_about():
     )
 
     services = "\n".join(
-        f'            <li><a class="text-link" href="{url}">{label}</a> — {price.lower()}</li>'
-        for url, label, price in NAV[1:7]
+        f"""        <a class="service-row" href="{url}" data-reveal style="--i:{i}">
+          <h3 class="service-row__title">{name}</h3>
+          <span class="service-row__price">{price}</span>
+          <p class="service-row__desc">{desc}</p>
+        </a>"""
+        for i, (url, name, _short, desc, price) in enumerate(SERVICES)
     )
 
     body = f"""    <section class="section container">
@@ -1648,13 +1658,12 @@ def build_about():
         <span class="eyebrow">Services</span>
         <h2>What I photograph</h2>
       </div>
-      <div class="prose" data-reveal>
-        <ul>
+      <div class="service-list">
 {services}
-        </ul>
-        <p>Based in Vancouver, working throughout British Columbia and across Canada.
-           <a class="text-link" href="/contact/">Get in touch</a> about a project.</p>
       </div>
+      <p class="service-list__note" data-reveal>Based in Vancouver, working throughout British
+         Columbia and across Canada — with every price published before you make contact.
+         <a class="text-link" href="/contact/">Get in touch</a> about a project.</p>
     </section>
 """
     return page, body
