@@ -222,6 +222,10 @@ CONCERT_ALT = [
     "Festival stage viewed across a crowd at dusk.",
     "Detail of a performer's hands on an instrument under warm stage light.",
     "Concert crowd with arms raised, backlit by stage haze.",
+    "Vocalist and guitarist performing together on an outdoor festival stage.",
+    "Singer performing in a large arena under coloured lighting.",
+    "Stage lighting rig casting beams across a darkened venue.",
+    "Performers on stage during a large ceremonial event.",
 ]
 
 BTS_ALT = [
@@ -793,9 +797,17 @@ def build_home():
         </a>
 """
 
-    preview_imgs = [HEADSHOTS[0], CONCERTS[11], HEADSHOTS[4],
-                    next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-10"),
-                    CONCERTS[2], CONCERTS[13]]
+    # Named by slug, never by list index. These six are the only photographs
+    # with square -sq- crops (see _build/backdrop_crops.py), and the lists are
+    # sorted by slug — so adding photographs to a category silently repointed
+    # the indices at frames that have no square crop, and the backdrops 404ed.
+    # That happened once, when the 2026 concert set landed ahead of
+    # "backstage" alphabetically.
+    _backdrop = ["vancouver-headshot-business-07", "vancouver-concert-crowd-12",
+                 "vancouver-headshot-corporate-20", "vancouver-wedding-couple-portrait-10",
+                 "vancouver-concert-backstage-23", "vancouver-concert-crowd-30"]
+    _by_slug = {i["slug"]: i for i in HEADSHOTS + CONCERTS + WEDDINGS}
+    preview_imgs = [_by_slug[slug] for slug in _backdrop]
     # Square crops (see _build/backdrop_crops.py). Mixed source ratios made
     # object-fit: cover scale each photograph by a different amount — 1.16x to
     # 2.60x — so they looked inconsistent as they swapped. One shared ratio
