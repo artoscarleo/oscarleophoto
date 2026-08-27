@@ -534,7 +534,12 @@ def hero(page):
         )
         actions = f'      <div class="hero__actions">\n{buttons}\n      </div>'
 
-    lines = "".join(
+    # Joined with a space, not "": each .line is display:block, so the
+    # whitespace between them never renders -- but without it the heading's
+    # text content runs together ("Headshot photographerin Vancouver, BC"),
+    # which is what a screen reader announces and what a crawler extracts
+    # as the H1.
+    lines = " ".join(
         f'<span class="line" style="--i:{i}"><span>{ln}</span></span>'
         for i, ln in enumerate(page["h1_lines"])
     )
@@ -1578,11 +1583,11 @@ def build_about():
     hero_img = HEADSHOTS[16]
     page = dict(
         url="/about/",
-        title="About Oscar Leo | Vancouver Headshot & Event Photographer",
-        desc="Meet Oscar Leo, a Vancouver-based photographer specialising in headshots, events, brand content, weddings, concerts and behind-the-scenes production work.",
+        title="About Oscar Leo Photography | Vancouver Photography Studio",
+        desc="Oscar Leo Photography is a Vancouver-based studio specialising in headshots, events, brand content, weddings, concerts and behind-the-scenes production work.",
         eyebrow="About",
-        h1_lines=["Oscar Leo"],
-        hero_sub="Photographer, Vancouver, British Columbia.",
+        h1_lines=["Oscar Leo", "Photography"],
+        hero_sub="A photography studio in Vancouver, British Columbia.",
         **hero_fields(hero_img, "Portrait photographed on location in Vancouver.")
     )
 
