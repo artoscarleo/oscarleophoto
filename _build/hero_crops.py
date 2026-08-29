@@ -56,7 +56,7 @@ HEROES = [
     ("concerts", "vancouver-concert-backstage-14", 0.45),       # concerts page
     ("concerts", "vancouver-concert-backstage-41", 0.27),       # BTS page
     ("headshots", "vancouver-headshot-studio-23", 0.22),        # contact page
-    ("weddings", "vancouver-wedding-couple-portrait-23", 0.28),  # weddings page
+    ("weddings", "vancouver-wedding-20", 0.30),                  # weddings page
 ]
 
 

@@ -157,10 +157,10 @@ APPROACH_SLIDE_ALT = {
 
 HERO_SLIDE_ALT = {
     "vancouver-photographer-portrait-grid": "A grid of portraits from Oscar Leo Photography\u2019s Vancouver portrait work.",
-    "vancouver-wedding-couple-portrait-01": "Bride and groom embracing in front of a stone chateau facade.",
+    "vancouver-wedding-30": "Bride and groom on a gravel walk in formal chateau gardens.",
     "vancouver-concert-festival-15": "Musician singing under warm stage light at a live performance.",
     "vancouver-headshot-corporate-04": "Corporate headshot photographed against dark panelling in Vancouver.",
-    "vancouver-wedding-couple-portrait-16": "Bride and groom beside still water at a parkland wedding venue.",
+    "vancouver-wedding-08": "Bride and groom holding hands beneath a wide open sky.",
     "vancouver-concert-backstage-41": "Black and white photograph of a singer at the microphone on stage.",
 }
 
@@ -186,32 +186,21 @@ HEADSHOT_ALT = [
     "Close portrait with the subject looking directly into the lens.",
 ]
 
-WEDDING_ALT = {
-    "vancouver-wedding-couple-portrait-01": "Bride and groom embracing in front of a stone chateau facade.",
-    "vancouver-wedding-getting-ready-02": "Bride in a white robe and veil standing in soft doorway light before the ceremony.",
-    "vancouver-wedding-dress-detail-03": "Wedding dress hanging in a mirrored dressing room as the bride prepares.",
-    "vancouver-wedding-couple-portrait-04": "Black and white photograph of a couple under the bride's veil, foreheads together.",
-    "vancouver-wedding-dress-detail-05": "Close view of a beaded gown being fastened at the back before the ceremony.",
-    "vancouver-wedding-couple-portrait-06": "Bride and groom outside a grand building, the bride holding her bouquet.",
-    "vancouver-wedding-bridal-portrait-07": "Black and white bridal portrait beside a window, veil catching the light.",
-    "vancouver-wedding-ring-detail-08": "Close view of the bride's hands and wedding ring resting against her gown.",
-    "vancouver-wedding-getting-ready-09": "A bridesmaid adjusting the bride's dress in front of a mirror.",
-    "vancouver-wedding-couple-portrait-10": "Couple beneath a veil lifted by the wind, open sky behind them.",
-    "vancouver-wedding-bridal-portrait-11": "Bridal portrait in a ruffled off-shoulder gown, soft natural light.",
-    "vancouver-wedding-venue-12": "Bride and groom framed by the stone archways of a historic venue.",
-    "vancouver-wedding-getting-ready-13": "Bride applying perfume during preparations, veil over her shoulder.",
-    "vancouver-wedding-couple-portrait-14": "Couple walking a long avenue of trees in parkland.",
-    "vancouver-wedding-couple-portrait-15": "Couple photographed close together through green foliage.",
-    "vancouver-wedding-couple-portrait-16": "Bride and groom beside still water at a parkland venue.",
-    "vancouver-wedding-bridal-portrait-17": "Bride standing on a garden path in autumn, holding her bouquet.",
-    "vancouver-wedding-couple-portrait-18": "Bride and groom walking together, the bride's train trailing behind.",
-    "vancouver-wedding-couple-portrait-19": "Black and white photograph of a couple under mature trees.",
-    "vancouver-wedding-venue-20": "Bride and groom holding hands in a gothic stone cloister.",
-    "vancouver-wedding-couple-portrait-21": "Couple in autumn woodland, warm fallen leaves underfoot.",
-    "vancouver-wedding-couple-portrait-22": "Bride and groom together outdoors, bride holding a white bouquet.",
-    "vancouver-wedding-couple-portrait-23": "Bride and groom holding each other under a spreading tree, her veil catching the light across open parkland.",
-    "vancouver-wedding-couple-portrait-24": "Bride and groom holding each other on a tree-lined path, her veil trailing behind her.",
-}
+# A rotating pool, not a per-slug dict. The wedding set is replaced wholesale
+# from time to time (the Portfolio/Wedding folder is the source of truth), and
+# a dict keyed by slug goes stale silently the moment that happens — every
+# photograph falls through to the generic fallback while the file still looks
+# maintained. A pool cycles, so a new set is described the day it lands.
+WEDDING_ALT = [
+    "Bride and groom walking a tree-lined avenue in formal gardens.",
+    "Couple embracing in a chateau garden, photographed from a distance.",
+    "Black and white portrait of a bride and groom among tall hedges.",
+    "Bride in a lace gown holding her bouquet on a garden path.",
+    "Couple holding each other beneath an open sky.",
+    "Detail of a veil and gown catching the light.",
+    "Groom fastening his cuff before the ceremony.",
+    "Bride and groom together at a formal chateau venue.",
+]
 
 CONCERT_ALT = [
     "Live music performance photographed from the audience under blue stage lighting.",
@@ -271,7 +260,8 @@ def srcset(img):
 
 def alt_for(img, i):
     if img["folder"] == "weddings":
-        return WEDDING_ALT.get(img["slug"], "Wedding photograph by Oscar Leo Photography.")
+        pool = WEDDING_ALT
+        return pool[i % len(pool)]
     if img["folder"] == "headshots":
         pool = HEADSHOT_ALT
     elif img["folder"] == "bts":
@@ -804,7 +794,7 @@ def build_home():
     # That happened once, when the 2026 concert set landed ahead of
     # "backstage" alphabetically.
     _backdrop = ["vancouver-headshot-business-07", "vancouver-concert-crowd-12",
-                 "vancouver-headshot-corporate-20", "vancouver-wedding-couple-portrait-10",
+                 "vancouver-headshot-corporate-20", "vancouver-wedding-27",
                  "vancouver-concert-backstage-23", "vancouver-concert-crowd-30"]
     _by_slug = {i["slug"]: i for i in HEADSHOTS + CONCERTS + WEDDINGS}
     preview_imgs = [_by_slug[slug] for slug in _backdrop]
@@ -1799,7 +1789,7 @@ def build_weddings():
     """Wedding page. Built from the same structure as the other service pages —
     hero, answer paragraph, gallery, approach, price cards, add-ons, FAQ — using
     the existing components only. No new CSS."""
-    hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-23")
+    hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-20")
     gallery_imgs = [i for i in WEDDINGS if i["slug"] != hero_img["slug"]]
 
     page = dict(
@@ -1814,9 +1804,9 @@ def build_weddings():
         # from the middle of the landscape frame above.
         hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
                                    "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
-            next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-couple-portrait-24")),
+            next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-12")),
         schema=["faq-weddings.json"],
-        **hero_fields(hero_img, WEDDING_ALT[hero_img["slug"]])
+        **hero_fields(hero_img, "Bride and groom in a wheat field beneath a dramatic cloudy sky.")
     )
 
     cards = "\n".join([

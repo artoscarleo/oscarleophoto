@@ -44,7 +44,7 @@ SOURCES = [
     ("headshots", "vancouver-headshot-business-07", 0.20),
     ("concerts", "vancouver-concert-crowd-12", 0.50),
     ("headshots", "vancouver-headshot-corporate-20", 0.17),
-    ("weddings", "vancouver-wedding-couple-portrait-10", 0.45),
+    ("weddings", "vancouver-wedding-27", 0.45),
     ("concerts", "vancouver-concert-backstage-23", 0.50),
     ("concerts", "vancouver-concert-crowd-30", 0.50),
 ]

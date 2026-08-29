@@ -1,24 +1,50 @@
-vancouver-wedding-couple-portrait-01 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-607.jpg
-vancouver-wedding-getting-ready-02 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-502.jpg
-vancouver-wedding-dress-detail-03 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-538.jpg
-vancouver-wedding-couple-portrait-04 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-514.jpg
-vancouver-wedding-dress-detail-05 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-565.jpg
-vancouver-wedding-couple-portrait-06 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-523.jpg
-vancouver-wedding-bridal-portrait-07 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-568.jpg
-vancouver-wedding-ring-detail-08 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-541.jpg
-vancouver-wedding-getting-ready-09 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-553.jpg
-vancouver-wedding-couple-portrait-10 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-622.jpg
-vancouver-wedding-bridal-portrait-11 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-577.jpg
-vancouver-wedding-venue-12 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-631.jpg
-vancouver-wedding-getting-ready-13 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-586.jpg
-vancouver-wedding-couple-portrait-14 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-667.jpg
-vancouver-wedding-couple-portrait-15 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-550.jpg
-vancouver-wedding-couple-portrait-16 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-685.jpg
-vancouver-wedding-bridal-portrait-17 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-703.jpg
-vancouver-wedding-couple-portrait-18 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-649.jpg
-vancouver-wedding-couple-portrait-19 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-604.jpg
-vancouver-wedding-venue-20 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-640.jpg
-vancouver-wedding-couple-portrait-21 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-694.jpg
-vancouver-wedding-couple-portrait-22 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-712.jpg
-vancouver-wedding-couple-portrait-23 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-717.jpg
-vancouver-wedding-couple-portrait-24 <- PHOTO/wedding PHOTOS-JPEG/Vancouver wedding  photographer-641.jpg
+vancouver-wedding-01 <- Portfolio/Wedding/0003-All Images.jpg
+vancouver-wedding-02 <- Portfolio/Wedding/0003-catalog-24.jpg
+vancouver-wedding-03 <- Portfolio/Wedding/0005-catalog-24.jpg
+vancouver-wedding-04 <- Portfolio/Wedding/0006-catalog-24.jpg
+vancouver-wedding-05 <- Portfolio/Wedding/0008-All Images.jpg
+vancouver-wedding-06 <- Portfolio/Wedding/0009-All Images.jpg
+vancouver-wedding-07 <- Portfolio/Wedding/0014-All Images.jpg
+vancouver-wedding-08 <- Portfolio/Wedding/0016-All Images.jpg
+vancouver-wedding-09 <- Portfolio/Wedding/0020-All Images.jpg
+vancouver-wedding-10 <- Portfolio/Wedding/0021-All Images.jpg
+vancouver-wedding-11 <- Portfolio/Wedding/0638.jpg
+vancouver-wedding-12 <- Portfolio/Wedding/0642.jpg
+vancouver-wedding-13 <- Portfolio/Wedding/0645.jpg
+vancouver-wedding-14 <- Portfolio/Wedding/0671.jpg
+vancouver-wedding-15 <- Portfolio/Wedding/0673.jpg
+vancouver-wedding-16 <- Portfolio/Wedding/0700.jpg
+vancouver-wedding-17 <- Portfolio/Wedding/0708.jpg
+vancouver-wedding-18 <- Portfolio/Wedding/0714.jpg
+vancouver-wedding-19 <- Portfolio/Wedding/0717.jpg
+vancouver-wedding-20 <- Portfolio/Wedding/1331-Color.jpg
+vancouver-wedding-21 <- Portfolio/Wedding/2029-FAV.jpg
+vancouver-wedding-22 <- Portfolio/Wedding/2030-FAV.jpg
+vancouver-wedding-23 <- Portfolio/Wedding/2031-FAV.jpg
+vancouver-wedding-24 <- Portfolio/Wedding/2032-FAV.jpg
+vancouver-wedding-25 <- Portfolio/Wedding/2033-FAV.jpg
+vancouver-wedding-26 <- Portfolio/Wedding/2034-FAV.jpg
+vancouver-wedding-27 <- Portfolio/Wedding/2035-FAV.jpg
+vancouver-wedding-28 <- Portfolio/Wedding/2036-FAV.jpg
+vancouver-wedding-29 <- Portfolio/Wedding/2038-FAV.jpg
+vancouver-wedding-30 <- Portfolio/Wedding/2040-FAV.jpg
+vancouver-wedding-31 <- Portfolio/Wedding/3609-All Images.jpg
+vancouver-wedding-32 <- Portfolio/Wedding/3610-All Images.jpg
+vancouver-wedding-33 <- Portfolio/Wedding/3613-All Images.jpg
+vancouver-wedding-34 <- Portfolio/Wedding/3614-All Images.jpg
+vancouver-wedding-35 <- Portfolio/Wedding/3615-All Images.jpg
+vancouver-wedding-36 <- Portfolio/Wedding/3620-All Images.jpg
+vancouver-wedding-37 <- Portfolio/Wedding/Vancouver wedding  photographer-545.jpg
+vancouver-wedding-38 <- Portfolio/Wedding/Vancouver wedding  photographer-561.jpg
+vancouver-wedding-39 <- Portfolio/Wedding/Vancouver wedding  photographer-562.jpg
+vancouver-wedding-40 <- Portfolio/Wedding/Vancouver wedding  photographer-566.jpg
+vancouver-wedding-41 <- Portfolio/Wedding/Vancouver wedding  photographer-576.jpg
+vancouver-wedding-42 <- Portfolio/Wedding/Vancouver wedding  photographer-580.jpg
+vancouver-wedding-43 <- Portfolio/Wedding/Vancouver wedding  photographer-611.jpg
+vancouver-wedding-44 <- Portfolio/Wedding/Vancouver wedding  photographer-612.jpg
+vancouver-wedding-45 <- Portfolio/Wedding/Vancouver wedding  photographer-614.jpg
+vancouver-wedding-46 <- Portfolio/Wedding/Vancouver wedding  photographer-615.jpg
+vancouver-wedding-47 <- Portfolio/Wedding/Vancouver wedding  photographer-619.jpg
+vancouver-wedding-48 <- Portfolio/Wedding/Vancouver wedding  photographer-669.jpg
+vancouver-wedding-49 <- Portfolio/Wedding/Vancouver wedding  photographer-718.jpg
+vancouver-wedding-50 <- Portfolio/Wedding/Vancouver wedding  photographer-719.jpg

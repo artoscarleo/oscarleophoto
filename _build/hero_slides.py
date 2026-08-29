@@ -49,8 +49,8 @@ SLIDES = [
     # story-01x (the couple embracing by the window, with plants) was
     # dropped on request and not replaced -- eight slides now, not nine.
     ("concerts", "vancouver-concert-live-12x", 0.42),
-    ("weddings", "vancouver-wedding-story-03x", 0.45),
-    ("weddings", "vancouver-wedding-story-05x", 0.45),
+    ("weddings", "vancouver-wedding-30", 0.55),
+    ("weddings", "vancouver-wedding-08", 0.42),
     # Listed for MOBILE_SLIDES pairing (len(SLIDES) has to stay 10) but
     # skipped by main() below for the "hw" crop -- see SKIP_HW_CROP.
     # main() resamples its source down to 1800px wide before cropping, fine
@@ -205,7 +205,21 @@ def main():
     ht_ratio = dict(SHAPES)["ht"]
     for i, entry in enumerate(SLIDES):
         if entry[0] in SKIP_HW_CROP:
-            print(f"{i} {entry[1]:38} hw  skipped -- hand-cropped from the full-res original, see comment above SKIP_HW_CROP")
+            # Don't re-encode these -- they were cropped from the full-res
+            # originals by hand and running them through cut() would soften
+            # them again. But DO record the manifest row, read off the files
+            # already on disk. Skipping the row instead dropped these slides
+            # from the rotation entirely the next time this script ran, and
+            # the site then failed to build with KeyError: 'hw'.
+            folder, slug = entry[0], entry[1]
+            made = [w for w in WIDTHS
+                    if os.path.exists(os.path.join(IMG, folder, f"{slug}-hw-{w}.jpg"))]
+            if not made:
+                raise SystemExit(f"{slug}: no hand-made -hw- crops found; "
+                                 f"remove it from SKIP_HW_CROP or create them first")
+            cw, ch = dims(os.path.join(IMG, folder, f"{slug}-hw-{made[-1]}.jpg"))
+            manifest.append(f"{i}|{folder}|{slug}|hw|{cw}x{ch}|{','.join(map(str, made))}")
+            print(f"{i} {slug:38} hw  kept hand-made crop {cw}x{ch}  {made}")
             continue
         cut(i, entry, "hw", hw_ratio)
     for i in range(len(SLIDES)):
