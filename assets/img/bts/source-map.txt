@@ -1,20 +1,49 @@
-vancouver-bts-production-01 <- PHOTO/BTS/A Forced Marriage Twist-bts/0070.jpg
-vancouver-bts-production-02 <- PHOTO/BTS/A Forced Marriage Twist-bts/0752.jpg
-vancouver-bts-production-03 <- PHOTO/BTS/ED-BTS/060.jpg
-vancouver-bts-production-04 <- PHOTO/BTS/Forbidden FragranceBTS/0062.jpg
-vancouver-bts-production-05 <- PHOTO/BTS/Forbidden FragranceBTS/0236.jpg
-vancouver-bts-production-06 <- PHOTO/BTS/Forbidden FragranceBTS/0477.jpg
-vancouver-bts-production-07 <- PHOTO/BTS/Love Beyond Sight-BTS/0104.jpg
-vancouver-bts-production-08 <- PHOTO/BTS/Love Beyond Sight-BTS/0148.jpg
-vancouver-bts-production-09 <- PHOTO/BTS/Love Beyond Sight-BTS/0758.jpg
-vancouver-bts-production-10 <- PHOTO/BTS/OLAM-BTS/0112.jpg
-vancouver-bts-production-11 <- PHOTO/BTS/OLAM-BTS/0488.jpg
-vancouver-bts-production-12 <- PHOTO/BTS/PEAR PRFECT/0164.jpg
-vancouver-bts-production-13 <- PHOTO/BTS/TGB-BTS/0448.jpg
-vancouver-bts-production-14 <- PHOTO/BTS/Undress a billionair day BTS/232.jpg
-vancouver-bts-production-15 <- PHOTO/BTS/Undress a billionair day BTS/491.jpg
-vancouver-bts-production-16 <- PHOTO/BTS/Undress a billionair day BTS/503.jpg
-vancouver-bts-production-17 <- PHOTO/BTS/mated to my brother in lows alpha-bts/0122.jpg
-vancouver-bts-production-18 <- PHOTO/BTS/mated to my brother in lows alpha-bts/1743.jpg
-vancouver-bts-production-19 <- PHOTO/BTS/second chance with mafia lover-bts/0001.jpg
-vancouver-bts-production-20 <- PHOTO/BTS/second chance with mafia lover-bts/0225.jpg
+vancouver-bts-01 <- Portfolio/BTS/0001.jpg
+vancouver-bts-02 <- Portfolio/BTS/0031.jpg
+vancouver-bts-03 <- Portfolio/BTS/0060.jpg
+vancouver-bts-04 <- Portfolio/BTS/0065.jpg
+vancouver-bts-05 <- Portfolio/BTS/0070.jpg
+vancouver-bts-06 <- Portfolio/BTS/0086.jpg
+vancouver-bts-07 <- Portfolio/BTS/0103.jpg
+vancouver-bts-08 <- Portfolio/BTS/0104.jpg
+vancouver-bts-09 <- Portfolio/BTS/0106.jpg
+vancouver-bts-10 <- Portfolio/BTS/0134.jpg
+vancouver-bts-11 <- Portfolio/BTS/0135.jpg
+vancouver-bts-12 <- Portfolio/BTS/0164.jpg
+vancouver-bts-13 <- Portfolio/BTS/0170.jpg
+vancouver-bts-14 <- Portfolio/BTS/0214.jpg
+vancouver-bts-15 <- Portfolio/BTS/0228.jpg
+vancouver-bts-16 <- Portfolio/BTS/0236.jpg
+vancouver-bts-17 <- Portfolio/BTS/0308.jpg
+vancouver-bts-18 <- Portfolio/BTS/0358.jpg
+vancouver-bts-19 <- Portfolio/BTS/0409.jpg
+vancouver-bts-20 <- Portfolio/BTS/0423.jpg
+vancouver-bts-21 <- Portfolio/BTS/0450.jpg
+vancouver-bts-22 <- Portfolio/BTS/0455.jpg
+vancouver-bts-23 <- Portfolio/BTS/0477.jpg
+vancouver-bts-24 <- Portfolio/BTS/0480.jpg
+vancouver-bts-25 <- Portfolio/BTS/0492.jpg
+vancouver-bts-26 <- Portfolio/BTS/0528.jpg
+vancouver-bts-27 <- Portfolio/BTS/0555.jpg
+vancouver-bts-28 <- Portfolio/BTS/0575.jpg
+vancouver-bts-29 <- Portfolio/BTS/060.jpg
+vancouver-bts-30 <- Portfolio/BTS/0602.jpg
+vancouver-bts-31 <- Portfolio/BTS/0628.jpg
+vancouver-bts-32 <- Portfolio/BTS/0639.jpg
+vancouver-bts-33 <- Portfolio/BTS/0657.jpg
+vancouver-bts-34 <- Portfolio/BTS/0677.jpg
+vancouver-bts-35 <- Portfolio/BTS/0752.jpg
+vancouver-bts-36 <- Portfolio/BTS/0905.jpg
+vancouver-bts-37 <- Portfolio/BTS/0995.jpg
+vancouver-bts-38 <- Portfolio/BTS/1107.jpg
+vancouver-bts-39 <- Portfolio/BTS/1113.jpg
+vancouver-bts-40 <- Portfolio/BTS/1177.jpg
+vancouver-bts-41 <- Portfolio/BTS/1211.jpg
+vancouver-bts-42 <- Portfolio/BTS/1216.jpg
+vancouver-bts-43 <- Portfolio/BTS/1264.jpg
+vancouver-bts-44 <- Portfolio/BTS/1316.jpg
+vancouver-bts-45 <- Portfolio/BTS/1449.jpg
+vancouver-bts-46 <- Portfolio/BTS/1535.jpg
+vancouver-bts-47 <- Portfolio/BTS/1636.jpg
+vancouver-bts-48 <- Portfolio/BTS/1743.jpg
+vancouver-bts-49 <- Portfolio/BTS/499.jpg

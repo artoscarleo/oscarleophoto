@@ -212,14 +212,14 @@ CONCERT_ALT = [
 ]
 
 BTS_ALT = [
-    "Camera operator and crew filming a scene on a residential production set.",
-    "Behind-the-scenes view of a lighting rig and boom operator on set.",
-    "Crew adjusting a camera rig between takes during a Vancouver production.",
-    "Director of photography lining up a shot with a handheld monitor.",
-    "Production crew and talent between takes on an outdoor location shoot.",
-    "Wide shot of a film crew setting up equipment on set.",
-    "Clapperboard and crew at the start of a take.",
-    "Behind-the-scenes moment of talent and crew preparing a scene.",
+    "Camera operator and crew filming a scene on location in Vancouver.",
+    "Director and crew watching a take on the monitor at video village.",
+    "Boom operator holding a microphone above a scene in progress.",
+    "Crew setting up lighting and reflectors for an outdoor shot.",
+    "Camera rig and dolly track laid out on a production set.",
+    "Actors running a scene while the crew works around them.",
+    "Behind-the-scenes view of a lit interior set during filming.",
+    "Crew and equipment between takes on a Vancouver production.",
 ]
 
 EVENT_ALT = [
@@ -1490,7 +1490,7 @@ def build_bts():
     # camera and lighting-rig process shots rather than finished-look
     # frames, spread as evenly across the ten productions as the source
     # material allowed.
-    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-production-19")
+    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-45")
     gallery_imgs = [i for i in BTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
@@ -1501,12 +1501,19 @@ def build_bts():
         hero_sub="Production photography for film, television, music video and commercial shoots.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Discuss a production")],
         schema=["faq-bts.json"],
-        # The boom mic / camera rig -- the gap between the actor and the crew --
-        # is the point of the shot at any window shape, so this hero pins
-        # object-position there directly instead of the sitewide default
-        # tuned for face-centred portraits. See .hero--bts-focus in site.css.
+        # A phone gets a natively-vertical frame of its own. The desktop hero
+        # is a wide production scene whose whole point is the spread of it --
+        # dolly track one side, crew the other -- and a 2:3 slice out of the
+        # middle keeps the wall and loses the equipment, which is the one
+        # thing a BTS page has to show.
+        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
+                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
+            next(i for i in BTS if i["slug"] == "vancouver-bts-49")),
+        # See .hero--bts-focus in site.css: the sitewide anchor is tuned for
+        # face-centred portraits and biases to the top of the frame, which on
+        # both of these photographs shows ceiling and wall rather than the set.
         hero_class="hero--bts-focus",
-        **hero_fields(hero_img, "Camera crew filming a scene with a pink convertible and a costumed actor on a Vancouver production set.")
+        **hero_fields(hero_img, "Camera crew and script supervisor at work on an interior set in Vancouver, with a camera rig and monitors in frame.")
     )
 
     cards = "\n".join([

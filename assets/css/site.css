@@ -580,25 +580,14 @@ p:last-child { margin-bottom: 0; }
 @media (min-aspect-ratio: 18/25) {
   .hero--short .hero__media img { object-position: center 14%; }
 }
-/* The BTS hero (vancouver-bts-production-19) has its point of interest -- the
-   boom mic between the actor and the crew -- at roughly 53%/54% of the frame,
-   not centred and not near the top like a portrait. `cover` crops around
-   whatever object-position names, so pinning it there directly keeps that
-   point on screen at every window shape instead of inheriting a Y anchor
-   tuned for face-centred photographs. One value, no aspect-ratio switch,
-   because unlike the portrait heroes this photo isn't re-cropped per shape. */
-.hero.hero--bts-focus .hero__media img { object-position: 53% 54%; }
-/* Concert hero: two different photographs (a wide stage shot on desktop, a
-   natively-vertical shot on mobile), but the same guitarist sits right of
-   centre in both. The mobile crop scales to full source height with no
-   vertical trim at all -- Y is inert there -- so this only needs to
-   override X on narrow windows and both X/Y on wide ones, split at the same
-   18/25 threshold the <picture> markup itself switches photographs at, so
-   the anchor is always tuned for whichever photo is actually showing. */
-.hero.hero--concert-focus .hero__media img { object-position: 60% 50%; }
-@media (min-aspect-ratio: 18/25) {
-  .hero.hero--concert-focus .hero__media img { object-position: 63% 50%; }
-}
+/* The BTS hero is a wide production scene — dolly track and camera left,
+   actors and crew centre, more crew right — so the information runs across
+   the whole frame rather than sitting at one point. `cover` crops around
+   whatever object-position names, and the sitewide default biases to the
+   top of the frame (tuned for face-centred portraits), which on this photo
+   shows roofline and sky instead of the set. Centred horizontally, slightly
+   low vertically, keeps the working crew in frame at every window shape. */
+.hero.hero--bts-focus .hero__media img { object-position: 50% 58%; }
 .hero__media::after {
   content: "";
   position: absolute;
