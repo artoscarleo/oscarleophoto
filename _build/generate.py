@@ -1804,7 +1804,7 @@ def build_weddings():
         # from the middle of the landscape frame above.
         hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
                                    "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
-            next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-12")),
+            next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-34")),
         schema=["faq-weddings.json"],
         **hero_fields(hero_img, "Bride and groom in a wheat field beneath a dramatic cloudy sky.")
     )
