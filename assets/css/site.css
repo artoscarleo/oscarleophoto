@@ -580,14 +580,15 @@ p:last-child { margin-bottom: 0; }
 @media (min-aspect-ratio: 18/25) {
   .hero--short .hero__media img { object-position: center 14%; }
 }
-/* The BTS hero is a wide production scene — dolly track and camera left,
-   actors and crew centre, more crew right — so the information runs across
-   the whole frame rather than sitting at one point. `cover` crops around
-   whatever object-position names, and the sitewide default biases to the
-   top of the frame (tuned for face-centred portraits), which on this photo
-   shows roofline and sky instead of the set. Centred horizontally, slightly
-   low vertically, keeps the working crew in frame at every window shape. */
-.hero.hero--bts-focus .hero__media img { object-position: 50% 58%; }
+/* The BTS hero is an overhead frame of a scene being shot — actors on the
+   rug, camera crew ringed around them — and Oscar marked the point he wants
+   held in the centre: about two thirds across, just under halfway down,
+   where the camera meets the action. `cover` crops around whatever
+   object-position names, so pinning it there keeps that point centred from
+   a phone to an ultrawide. No -wide- crop is registered for this slug on
+   purpose (see build_bts): a baked crop would make this percentage measure
+   against the cropped frame instead of the original. */
+.hero.hero--bts-focus .hero__media img { object-position: 68% 47%; }
 .hero__media::after {
   content: "";
   position: absolute;

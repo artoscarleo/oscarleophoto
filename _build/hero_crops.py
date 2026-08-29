@@ -54,7 +54,6 @@ HEROES = [
     # frame.
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
     ("concerts", "vancouver-concert-27", 0.42),                 # concerts page
-    ("bts", "vancouver-bts-45", 0.55),                          # BTS page
     ("headshots", "vancouver-headshot-studio-23", 0.22),        # contact page
     ("weddings", "vancouver-wedding-20", 0.30),                  # weddings page
 ]

@@ -1490,7 +1490,7 @@ def build_bts():
     # camera and lighting-rig process shots rather than finished-look
     # frames, spread as evenly across the ten productions as the source
     # material allowed.
-    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-45")
+    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-44")
     gallery_imgs = [i for i in BTS if i["slug"] != hero_img["slug"]]
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
@@ -1501,19 +1501,14 @@ def build_bts():
         hero_sub="Production photography for film, television, music video and commercial shoots.",
         hero_actions=[("#pricing", "See pricing"), ("/contact/", "Discuss a production")],
         schema=["faq-bts.json"],
-        # A phone gets a natively-vertical frame of its own. The desktop hero
-        # is a wide production scene whose whole point is the spread of it --
-        # dolly track one side, crew the other -- and a 2:3 slice out of the
-        # middle keeps the wall and loses the equipment, which is the one
-        # thing a BTS page has to show.
-        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
-                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(
-            next(i for i in BTS if i["slug"] == "vancouver-bts-49")),
-        # See .hero--bts-focus in site.css: the sitewide anchor is tuned for
-        # face-centred portraits and biases to the top of the frame, which on
-        # both of these photographs shows ceiling and wall rather than the set.
+        # One photograph at every window shape, and deliberately no -wide-
+        # crop registered for it in hero_crops.py. A baked crop would fix the
+        # framing at one aspect and then object-position would be measuring
+        # against the cropped frame, not the original -- so the point Oscar
+        # marked would drift as the window changed. Cropping live from the
+        # full frame keeps that point where he put it.
         hero_class="hero--bts-focus",
-        **hero_fields(hero_img, "Camera crew and script supervisor at work on an interior set in Vancouver, with a camera rig and monitors in frame.")
+        **hero_fields(hero_img, "Overhead view of a scene being filmed in Vancouver, with actors on a patterned rug and the camera crew working around them.")
     )
 
     cards = "\n".join([
