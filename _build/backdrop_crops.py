@@ -42,11 +42,11 @@ SHAPES = [("sq", 1.0), ("pt", 2 / 3)]
 # folder, slug, subject centre as a fraction of the original's height
 SOURCES = [
     ("headshots", "vancouver-headshot-business-07", 0.20),
-    ("concerts", "vancouver-concert-crowd-12", 0.50),
+    ("concerts", "vancouver-concert-24", 0.50),
     ("headshots", "vancouver-headshot-corporate-20", 0.17),
     ("weddings", "vancouver-wedding-27", 0.45),
-    ("concerts", "vancouver-concert-backstage-23", 0.50),
-    ("concerts", "vancouver-concert-crowd-30", 0.50),
+    ("concerts", "vancouver-concert-31", 0.50),
+    ("concerts", "vancouver-concert-34", 0.50),
 ]
 
 
@@ -129,7 +129,10 @@ def main():
 
             made = []
             for w in OUT_WIDTHS:
-                if w > cw:
+                # See the note in hero_crops.py: 2px of slack for rounding, so
+                # a 799-wide crop still emits the 800 tier instead of writing
+                # an empty width list and leaving the backdrop with no file.
+                if w > cw + 2:
                     continue
                 dst = os.path.join(IMG, folder, f"{slug}-{tag}-{w}.jpg")
                 subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY[w]),

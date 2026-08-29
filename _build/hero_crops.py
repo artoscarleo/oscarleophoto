@@ -53,8 +53,7 @@ HEROES = [
     # face_y formula above, which has no matching column for a hand-picked
     # frame.
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
-    ("concerts", "vancouver-concert-backstage-14", 0.45),       # concerts page
-    ("concerts", "vancouver-concert-backstage-41", 0.27),       # BTS page
+    ("concerts", "vancouver-concert-27", 0.42),                 # concerts page
     ("headshots", "vancouver-headshot-studio-23", 0.22),        # contact page
     ("weddings", "vancouver-wedding-20", 0.30),                  # weddings page
 ]
@@ -153,7 +152,13 @@ def main():
 
         made = []
         for w in OUT_WIDTHS:
-            if w > crop_w:
+            # 2px of slack. Integer rounding through the ratio maths lands a
+            # crop on 1798 or 1799 when the source could clearly serve 1800 --
+            # skipping the tier there drops a whole width off the srcset and
+            # the largest screens then upscale the 1200. Two pixels is a 0.1%
+            # stretch, invisible; anything beyond that is a genuine shortfall
+            # and still skipped.
+            if w > crop_w + 2:
                 continue
             dst = os.path.join(IMG, folder, f"{slug}-wide-{w}.jpg")
             subprocess.run(["sips", "-s", "format", "jpeg",

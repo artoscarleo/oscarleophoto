@@ -151,17 +151,15 @@ APPROACH_SLIDE_ALT = {
     "vancouver-headshot-professional-14": "Studio portrait of a woman in a tailored jacket against a painted backdrop.",
     "vancouver-wedding-bridal-portrait-11": "A bride having her veil arranged before the ceremony.",
     "vancouver-headshot-studio-01": "Studio portrait of a woman in an olive turtleneck against a green backdrop.",
-    "vancouver-concert-backstage-14": "A band performing under red stage light, photographed from the crowd.",
-    "vancouver-concert-lighting-27": "Black and white photograph of a guitarist singing into the microphone on stage.",
+    "vancouver-concert-30": "Two guitarists performing together in a small venue.",
 }
 
 HERO_SLIDE_ALT = {
     "vancouver-photographer-portrait-grid": "A grid of portraits from Oscar Leo Photography\u2019s Vancouver portrait work.",
     "vancouver-wedding-30": "Bride and groom on a gravel walk in formal chateau gardens.",
-    "vancouver-concert-festival-15": "Musician singing under warm stage light at a live performance.",
+    "vancouver-concert-30": "Two guitarists performing together in a small venue.",
     "vancouver-headshot-corporate-04": "Corporate headshot photographed against dark panelling in Vancouver.",
     "vancouver-wedding-08": "Bride and groom holding hands beneath a wide open sky.",
-    "vancouver-concert-backstage-41": "Black and white photograph of a singer at the microphone on stage.",
 }
 
 HEADSHOTS = load_images("headshots")
@@ -203,17 +201,13 @@ WEDDING_ALT = [
 ]
 
 CONCERT_ALT = [
-    "Live music performance photographed from the audience under blue stage lighting.",
-    "Performer mid-song, lit from behind by stage wash, in a Vancouver venue.",
-    "Wide shot of a stage and audience during a live concert.",
-    "Musician in silhouette against coloured stage lights.",
+    "Singer at the microphone under coloured stage lighting.",
+    "Black and white photograph of a vocalist mid-song on a darkened stage.",
+    "Guitarist performing in a small venue.",
+    "Musician lit from behind by stage wash, in silhouette.",
     "Band performing to a full room, shot from the photo pit.",
-    "Festival stage viewed across a crowd at dusk.",
-    "Detail of a performer's hands on an instrument under warm stage light.",
-    "Concert crowd with arms raised, backlit by stage haze.",
-    "Vocalist and guitarist performing together on an outdoor festival stage.",
-    "Singer performing in a large arena under coloured lighting.",
     "Stage lighting rig casting beams across a darkened venue.",
+    "Vocalist and guitarist performing together on an outdoor festival stage.",
     "Performers on stage during a large ceremonial event.",
 ]
 
@@ -368,7 +362,7 @@ def head(page):
             + "\n  </script>\n"
         )
 
-    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-stage-01-1200.jpg")
+    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-27-1200.jpg")
     canonical = SITE_URL + page["url"]
 
     return f"""<!DOCTYPE html>
@@ -793,9 +787,9 @@ def build_home():
     # the indices at frames that have no square crop, and the backdrops 404ed.
     # That happened once, when the 2026 concert set landed ahead of
     # "backstage" alphabetically.
-    _backdrop = ["vancouver-headshot-business-07", "vancouver-concert-crowd-12",
+    _backdrop = ["vancouver-headshot-business-07", "vancouver-concert-24",
                  "vancouver-headshot-corporate-20", "vancouver-wedding-27",
-                 "vancouver-concert-backstage-23", "vancouver-concert-crowd-30"]
+                 "vancouver-concert-31", "vancouver-concert-34"]
     _by_slug = {i["slug"]: i for i in HEADSHOTS + CONCERTS + WEDDINGS}
     preview_imgs = [_by_slug[slug] for slug in _backdrop]
     # Square crops (see _build/backdrop_crops.py). Mixed source ratios made
@@ -828,10 +822,22 @@ def build_home():
         for i, im in enumerate(preview_imgs)
     )
 
-    # The newly supplied set, interleaved so the three categories alternate
-    # down the grid rather than arriving in blocks.
-    new_of = lambda xs: [i for i in xs if i["slug"].endswith("x")]
-    h, w, c = new_of(HEADSHOTS), new_of(WEDDINGS), new_of(CONCERTS)
+    # Four from each category, interleaved so they alternate down the grid
+    # rather than arriving in blocks.
+    #
+    # This used to select on slug.endswith("x"), a marker left on one
+    # particular batch of uploads. That is invisible coupling: replacing a
+    # category wholesale renames every slug, the filter silently matches
+    # nothing, and the category just vanishes from the homepage with no
+    # error. Exactly that happened to weddings. Sampling evenly across
+    # whatever the category currently holds cannot fail that way.
+    def sample(xs, n=4):
+        if len(xs) <= n:
+            return list(xs)
+        step = len(xs) / n
+        return [xs[int(i * step)] for i in range(n)]
+
+    h, w, c = sample(HEADSHOTS), sample(WEDDINGS), sample(CONCERTS)
     picks, k = [], 0
     while len(picks) < len(h) + len(w) + len(c):
         for src in (h, w, c):
@@ -1369,7 +1375,7 @@ def build_brand():
 
 
 def build_concerts():
-    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-backstage-14")
+    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-27")
     page = dict(
         url="/vancouver-concert-photographer/",
         title="Concert Photographer Vancouver | Live Music & Festivals",

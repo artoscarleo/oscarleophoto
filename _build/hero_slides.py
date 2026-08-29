@@ -48,7 +48,7 @@ SLIDES = [
     # keeps the subject (seated right-of-centre in all six) inside that trim.
     # story-01x (the couple embracing by the window, with plants) was
     # dropped on request and not replaced -- eight slides now, not nine.
-    ("concerts", "vancouver-concert-live-12x", 0.42),
+    ("concerts", "vancouver-concert-30", 0.42),
     ("weddings", "vancouver-wedding-30", 0.55),
     ("weddings", "vancouver-wedding-08", 0.42),
     # Listed for MOBILE_SLIDES pairing (len(SLIDES) has to stay 10) but
