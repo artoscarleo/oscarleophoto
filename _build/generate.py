@@ -495,7 +495,7 @@ def footer():
       </a>
 
       <div class="footer__bottom">
-        <p class="fine-print">© 2026 Oscar Leo Photography. All prices in Canadian dollars, plus GST.</p>
+        <p class="fine-print">© 2026 Oscar Leo Photography Inc. · Vancouver, British Columbia. All prices in Canadian dollars, plus GST.</p>
         <div class="footer__social">
           <a href="https://www.instagram.com/oscarleophotography/" rel="me noopener" target="_blank" aria-label="Instagram">{ICON['instagram']}</a>
           <a href="https://www.facebook.com/profile.php?id=61577219900688" rel="me noopener" target="_blank" aria-label="Facebook">{ICON['facebook']}</a>
@@ -856,9 +856,9 @@ def build_home():
           <span class="eyebrow">The work</span>
           <h2>Professional photography in Vancouver.</h2>
         </div>
-        <p class="lead" data-reveal style="--i:1">Oscar Leo is a professional photographer based in
-           Vancouver, British Columbia, serving Metro Vancouver and available for projects across
-           Canada. Services include headshots and portraits from $395, event photography from $500,
+        <p class="lead" data-reveal style="--i:1">Oscar Leo Photography is a professional photography
+           studio based in Vancouver, British Columbia, serving Metro Vancouver and available for
+           projects across Canada. Services include headshots and portraits from $395, event photography from $500,
            brand and marketing content from $650, concert and live performance coverage from $450,
            behind-the-scenes production photography from $700, and wedding photography from $995.
            All prices are published, and every package includes professional editing and
@@ -976,7 +976,7 @@ def build_headshots():
                 "w": 1800, "h": 1473, "ratio": 1800 / 1473}
     page = dict(
         url="/vancouver-headshot-photographer/",
-        title="Headshot Photographer Vancouver | From $395 | Oscar Leo",
+        title="Headshot Photographer Vancouver | From $395 | Oscar Leo Photography",
         desc="Professional headshots in Vancouver from $395. Corporate, LinkedIn and personal branding portraits. Team rates from $135 per person. See full pricing.",
         eyebrow="Headshots & Portraits",
         h1_lines=["Headshot photographer", "in Vancouver, BC"],
@@ -1224,7 +1224,7 @@ def build_brand():
     picks = [HEADSHOTS[i] for i in (3, 9, 13, 18, 6, 20)]
     page = dict(
         url="/vancouver-brand-photography-video/",
-        title="Brand Photography & Video Vancouver | From $650 | Oscar Leo",
+        title="Brand Photography & Video Vancouver | From $650 | Oscar Leo Photography",
         desc="Brand photography and short-form video for Vancouver businesses. Packages from $650. Commercial licence included. Content for web, social and marketing.",
         eyebrow="Brand &amp; Marketing",
         h1_lines=["Brand content for", "Vancouver businesses"],
@@ -1625,7 +1625,7 @@ def build_about():
       <p class="lead" data-reveal>Welcome to Oscar Leo Photography. We specialise in headshots,
          events, behind-the-scenes production photography, marketing content and portraiture that
          brings your best moments to life. Whether it's capturing candid, real-life moments or
-         creating stunning studio portraits, I'm dedicated to delivering exceptional quality and a
+         creating stunning studio portraits, we're dedicated to delivering exceptional quality and a
          personal touch in every shot.</p>
       <p data-reveal style="--i:1">Alongside that work, the studio covers weddings and live music —
          so a full day, a single set or a single portrait can all be booked from the same published
@@ -1807,7 +1807,7 @@ def build_weddings():
 
     page = dict(
         url="/vancouver-wedding-photographer/",
-        title="Vancouver Wedding Photographer | Packages from $995 | Oscar Leo",
+        title="Vancouver Wedding Photographer | Packages from $995 | Oscar Leo Photography",
         desc="Natural, polished wedding photography in Vancouver and across BC. Elopements to full-day coverage, packages from $995. Transparent pricing, published up front.",
         eyebrow="Wedding Photography",
         h1_lines=["Wedding photographer", "in Vancouver, BC"],
