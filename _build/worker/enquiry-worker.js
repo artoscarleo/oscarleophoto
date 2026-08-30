@@ -148,7 +148,17 @@ function confirmationEmail(d, env) {
     reply_to: safeHeader(env.MAIL_TO),
     subject: 'Thank you for contacting Oscar Leo Photography',
     html: `<div style="background:#faf9f6;padding:28px">
-  <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e3dfd4;border-radius:10px;padding:32px">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e3dfd4;border-radius:10px;overflow:hidden">
+    <!-- The mark is baked onto an opaque cream band rather than sent as a
+         transparent PNG. Gmail's dark mode inverts the white card behind it
+         but leaves images alone, so a transparent dark-ink logo would vanish
+         exactly where most people read their mail. Width and height are set
+         so the space is reserved before the image loads, and the alt text
+         carries the name for anyone whose client blocks images by default. -->
+    <img src="https://oscarleo.photography/assets/img/logo/email-letterhead-1120.png"
+         width="560" height="140" alt="Oscar Leo Photography"
+         style="display:block;width:100%;max-width:560px;height:auto;border:0;outline:none;text-decoration:none">
+    <div style="padding:28px 32px 32px">
     <p style="margin:0 0 18px;font:15px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#201e1a">Hi ${esc(first)},</p>
     <p style="margin:0 0 16px;font:15px/1.65 -apple-system,sans-serif;color:#201e1a">Thank you for getting in touch with Oscar Leo Photography.</p>
     <p style="margin:0 0 16px;font:15px/1.65 -apple-system,sans-serif;color:#201e1a">Your enquiry has been received successfully, and I truly appreciate you taking the time to contact me.</p>
@@ -160,6 +170,7 @@ function confirmationEmail(d, env) {
       <a href="mailto:contact@oscarleo.photography" style="color:#8A7A55;text-decoration:none">contact@oscarleo.photography</a><br>
       <a href="https://oscarleo.photography" style="color:#8A7A55;text-decoration:none">oscarleo.photography</a>
     </p>
+    </div>
   </div>
 </div>`,
     text: [
