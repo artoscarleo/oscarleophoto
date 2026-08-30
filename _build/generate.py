@@ -909,7 +909,7 @@ def build_home():
           <p class="text-muted" data-reveal style="--i:1">A cross-section of portrait and live
              performance work. Every gallery on this site opens full-screen — click any photograph.</p>
         </div>
-{gallery(picks, "(min-width: 78em) 21vw, (min-width: 48em) 30vw, 47vw", "gallery--wide")}
+{gallery(picks, "(min-width: 48em) 30vw, 47vw")}
       </div>
     </section>
 
@@ -1031,7 +1031,7 @@ def build_headshots():
         </div>
         <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
       </div>
-{gallery(HEADSHOTS, "(min-width: 78em) 21vw, (min-width: 48em) 30vw, 47vw", "gallery--wide")}
+{gallery(HEADSHOTS, "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section container">
@@ -1454,7 +1454,7 @@ def build_concerts():
         </div>
         <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
       </div>
-{gallery(CONCERTS, "(min-width: 78em) 21vw, (min-width: 48em) 30vw, 47vw", "gallery--wide")}
+{gallery(CONCERTS, "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section section--sunken" id="pricing">
@@ -1896,7 +1896,7 @@ def build_weddings():
         </div>
         <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
       </div>
-{gallery(gallery_imgs, "(min-width: 78em) 21vw, (min-width: 48em) 30vw, 47vw", "gallery--wide")}
+{gallery(gallery_imgs, "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section container">

@@ -834,9 +834,10 @@ p:last-child { margin-bottom: 0; }
 @media (min-width: 48em) {
   .gallery { columns: 3; column-gap: var(--space-m); }
 }
-@media (min-width: 78em) {
-  .gallery--wide { columns: 4; }
-}
+/* No four-column variant. It existed for the longer galleries, but a fourth
+   column at 78em+ makes each photograph small enough that the work stops
+   reading, and it put those pages out of step with the ones that stayed at
+   three. Every gallery is three columns on a desktop now. */
 
 .tile {
   position: relative;
