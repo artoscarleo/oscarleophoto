@@ -55,6 +55,14 @@ HEROES = [
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
     ("headshots", "vancouver-headshot-studio-23", 0.22),        # contact page
     ("weddings", "vancouver-wedding-20", 0.30),                  # weddings page
+    # Do NOT add vancouver-bts-35 (the BTS hero) here. That page carries two
+    # photographs -- the landscape frame on desktop and a portrait one on
+    # phones -- and it does the swap with a <source> rather than a -wide- row,
+    # precisely so the landscape frame stays uncropped. Both heroes are aimed
+    # with object-position in site.css, and those percentages are measured
+    # against the *original* frames. Generating a crop here would re-base the
+    # desktop one against the crop instead and slide the framing off the
+    # camera operator, with nothing failing to warn you.
 ]
 
 
