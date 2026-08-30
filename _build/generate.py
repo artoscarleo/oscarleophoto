@@ -22,7 +22,7 @@ SCHEMA_DIR = os.path.join(os.path.dirname(ROOT), "seo-implementation", "02-schem
 # nothing sensitive is ever in this repository or in the page source. The URL
 # itself is public by design; it only accepts POSTs from this origin.
 # Empty string = not yet deployed, and the form says so instead of pretending.
-FORM_ENDPOINT = ""
+FORM_ENDPOINT = "https://form.oscarleo.photography"
 SITE_URL = "https://oscarleo.photography"
 
 

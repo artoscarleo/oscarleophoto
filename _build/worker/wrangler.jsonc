@@ -1,0 +1,14 @@
+{
+  "name": "oscarleo-enquiry",
+  "main": "enquiry-worker.js",
+  "compatibility_date": "2025-08-01",
+  "workers_dev": false,
+  "vars": {
+    "MAIL_TO": "contact@oscarleo.photography",
+    "MAIL_FROM": "Oscar Leo Photography <contact@oscarleo.photography>",
+    "ALLOW_ORIGIN": "https://oscarleo.photography"
+  },
+  "routes": [
+    { "pattern": "form.oscarleo.photography", "custom_domain": true }
+  ]
+}
