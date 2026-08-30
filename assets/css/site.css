@@ -589,11 +589,16 @@ p:last-child { margin-bottom: 0; }
    purpose (see build_bts): a baked crop would make this percentage measure
    against the cropped frame instead of the original. */
 .hero.hero--bts-focus .hero__media img { object-position: 68% 47%; }
-/* The headshots hero sits well right of centre in its frame, and Oscar marked
-   him as the point to hold as the window narrows. The sitewide anchor is
-   centred horizontally, which crops him progressively off the right edge on a
-   phone; this pins the crop to him instead, at every width. */
-.hero.hero--headshot-focus .hero__media img { object-position: 68% 42%; }
+/* The headshots hero: Oscar asked for the subject centred. He sits at about
+   66% across the supplied frame, and no object-position value can move him —
+   it chooses which part of the source survives the crop, it does not shift
+   the subject within it. So the source itself is cut around him instead
+   (2300x1882 out of 3344x1882, the widest window that can be centred on him
+   without running past the right edge) and served as the hero at every width.
+   X is therefore plain centre. Y is high because that crop is 1.22:1 against
+   a ~1.6 desktop box, so `cover` trims top and bottom and his head is near
+   the top of the frame. */
+.hero.hero--headshot-focus .hero__media img { object-position: 60% 15%; }
 .hero__media::after {
   content: "";
   position: absolute;

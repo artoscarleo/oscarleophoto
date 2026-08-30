@@ -973,7 +973,7 @@ def build_headshots():
     # marked subject is not on screen there at all. Cropping live from the one
     # frame is what keeps him centred from 360px up.
     hero_img = {"slug": "vancouver-portrait-showcase-04", "folder": "hero-picks",
-                "w": 1800, "h": 1013, "ratio": 1800 / 1013}
+                "w": 1800, "h": 1473, "ratio": 1800 / 1473}
     page = dict(
         url="/vancouver-headshot-photographer/",
         title="Headshot Photographer Vancouver | From $395 | Oscar Leo",
