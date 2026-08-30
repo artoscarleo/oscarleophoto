@@ -182,7 +182,7 @@ EVENTS = load_images("events")
 # Portfolio photographs and so must never appear in a gallery — Portfolio/ is
 # the source of truth for galleries, and heroes are excluded from that sync.
 HERO_RESERVED = {
-    "vancouver-bts-44",
+    "vancouver-bts-35",
     "vancouver-concert-24", "vancouver-concert-30",
     "vancouver-concert-31", "vancouver-concert-34", "vancouver-concert-48",
     "vancouver-event-photographer-13",
@@ -1543,7 +1543,7 @@ def build_bts():
     # camera and lighting-rig process shots rather than finished-look
     # frames, spread as evenly across the ten productions as the source
     # material allowed.
-    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-44")
+    hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-35")
     gallery_imgs = shown(BTS, hero_img["slug"])
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
@@ -1561,7 +1561,7 @@ def build_bts():
         # marked would drift as the window changed. Cropping live from the
         # full frame keeps that point where he put it.
         hero_class="hero--bts-focus",
-        **hero_fields(hero_img, "Overhead view of a scene being filmed in Vancouver, with actors on a patterned rug and the camera crew working around them.")
+        **hero_fields(hero_img, "A camera operator framing a shot on a Vancouver set, with the boom operator and focus puller working beside him at a daylit window.")
     )
 
     cards = "\n".join([

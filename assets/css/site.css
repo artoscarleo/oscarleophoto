@@ -583,15 +583,23 @@ p:last-child { margin-bottom: 0; }
 @media (min-aspect-ratio: 18/25) {
   .hero--short .hero__media img { object-position: center 14%; }
 }
-/* The BTS hero is an overhead frame of a scene being shot — actors on the
-   rug, camera crew ringed around them — and Oscar marked the point he wants
-   held in the centre: about two thirds across, just under halfway down,
-   where the camera meets the action. `cover` crops around whatever
-   object-position names, so pinning it there keeps that point centred from
-   a phone to an ultrawide. No -wide- crop is registered for this slug on
-   purpose (see build_bts): a baked crop would make this percentage measure
-   against the cropped frame instead of the original. */
-.hero.hero--bts-focus .hero__media img { object-position: 68% 47%; }
+/* The BTS hero is a camera operator mid-take, boom operator to his left and
+   focus puller to his right. The point to hold is his face, which sits at
+   about 59% across and 26% down in the full frame.
+
+   Y is pulled to 34% rather than 26%: the hero is a wide, short box, so the
+   crop takes a horizontal band, and anchoring exactly on the face pushes his
+   shoulders and the camera body out of the bottom. 34% keeps his face clear
+   of the headline while the camera rig stays in shot.
+
+   X is 57%, slightly left of his face, because a phone crops to a narrow
+   vertical slice — anchoring on the face alone would drop the camera he is
+   operating, which is the point of the photograph. 57% holds both.
+
+   No -wide- crop is registered for this slug on purpose (see build_bts): a
+   baked crop would make these percentages measure against the cropped frame
+   instead of the original, and the point would drift. */
+.hero.hero--bts-focus .hero__media img { object-position: 57% 34%; }
 /* The headshots hero mirrors the brand page: subject hard right, the wide
    empty backdrop on the left carrying the headline. The frame is served
    uncropped so that space survives.
