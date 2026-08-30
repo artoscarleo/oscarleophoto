@@ -130,10 +130,13 @@
 
         <div class="price-card" data-reveal style="--i:1">
           <p class="price-card__tag">Send an enquiry</p>
-          <!-- FORM: mailto has no back end and silently fails for anyone without a
-               configured mail client. Point the action at Formspree, Netlify Forms,
-               Basin or your host's form handler before launch — see the README. -->
-          <form class="form" action="mailto:hello@oscarleo.photography" method="post" enctype="text/plain">
+          <!-- FORM: still a mailto, which has no back end. It opens the visitor's
+               mail client if they have one configured and does nothing at all if
+               they don't — no error, no message sent. The site is live now and
+               this form is the only enquiry route, so that failure is lost work.
+               Point the action at Formspree, Netlify Forms or Basin. The plain
+               email link below the button is the stopgap: it always works. -->
+          <form class="form" action="mailto:contact@oscarleo.photography" method="post" enctype="text/plain">
             <div class="field">
               <label for="f-name">Your name</label>
               <input id="f-name" name="name" type="text" autocomplete="name" required>
@@ -170,6 +173,8 @@
               <span class="hint">Location, approximate coverage time, and how you plan to use the images.</span>
             </div>
             <button class="btn" type="submit">Send enquiry</button>
+            <p class="hint" style="margin-top: var(--space-s)">Or email directly:
+               <a class="text-link" href="mailto:contact@oscarleo.photography">contact@oscarleo.photography</a></p>
           </form>
         </div>
       </div>
