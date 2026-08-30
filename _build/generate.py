@@ -1625,7 +1625,7 @@ def build_about():
       <p class="lead" data-reveal>Welcome to Oscar Leo Photography. We specialise in headshots,
          events, behind-the-scenes production photography, marketing content and portraiture that
          brings your best moments to life. Whether it's capturing candid, real-life moments or
-         creating stunning studio portraits, we're dedicated to delivering exceptional quality and a
+         creating stunning studio portraits, I'm dedicated to delivering exceptional quality and a
          personal touch in every shot.</p>
       <p data-reveal style="--i:1">Alongside that work, the studio covers weddings and live music —
          so a full day, a single set or a single portrait can all be booked from the same published
