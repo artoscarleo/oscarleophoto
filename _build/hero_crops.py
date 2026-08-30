@@ -171,8 +171,36 @@ def main():
         print(f"{slug:42} crop {crop_w}x{crop_h} @y={off_y:4}  "
               f"face at {face_in_crop*100:4.1f}% of crop  widths {made}")
 
-    with open(os.path.join(IMG, "hero-wide.txt"), "w") as fh:
-        fh.write("\n".join(manifest) + "\n")
+    # Carry forward any row this script did not generate. Two heroes have
+    # hand-made -wide- crops that are deliberately not in HEROES (a supplied
+    # 16:9 frame, and one cut from a full-res original): rewriting the file
+    # from `manifest` alone silently dropped them. A hero with no row here
+    # gets no <picture>/<source> at all, which also makes hero_portrait a
+    # no-op -- so both pages quietly lost their art direction AND their
+    # separate phone photograph, with nothing failing.
+    path = os.path.join(IMG, "hero-wide.txt")
+    generated = {row.split("|")[0] for row in manifest}
+    kept = []
+    if os.path.exists(path):
+        for line in open(path):
+            line = line.strip()
+            if not line:
+                continue
+            slug = line.split("|")[0]
+            if slug in generated:
+                continue
+            folder = next((f for f in os.listdir(IMG)
+                           if os.path.isdir(os.path.join(IMG, f))
+                           and os.path.exists(os.path.join(IMG, f, f"{slug}-wide-800.jpg"))), None)
+            if folder:
+                kept.append(line)
+            else:
+                print(f"  dropping {slug}: no -wide- files on disk")
+    for line in kept:
+        print(f"  keeping hand-made row for {line.split('|')[0]}")
+
+    with open(path, "w") as fh:
+        fh.write("\n".join(manifest + kept) + "\n")
 
 
 if __name__ == "__main__":

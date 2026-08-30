@@ -962,13 +962,18 @@ def build_home():
 
 
 def build_headshots():
-    # Desktop hero: a client-supplied portrait (vancouver-portrait-showcase-04,
-    # see hero-picks/) with its own hand-derived 3:2 crop, kept out of
-    # aspect.txt so it never joins the headshots gallery grid. Mobile keeps
-    # the original office-18 photo via hero_portrait below, unchanged.
+    # One photograph at every window shape (vancouver-portrait-showcase-04, in
+    # hero-picks/ — kept out of aspect.txt so it never joins the gallery grid).
+    #
+    # It deliberately has no -wide- row in hero-wide.txt and no hero_portrait:
+    # Oscar marked the subject as the point to hold centred as the window
+    # narrows, and both of those would break that. A baked -wide- crop makes
+    # object-position measure against the cropped frame rather than the
+    # original, so the anchor drifts; a separate phone photograph means the
+    # marked subject is not on screen there at all. Cropping live from the one
+    # frame is what keeps him centred from 360px up.
     hero_img = {"slug": "vancouver-portrait-showcase-04", "folder": "hero-picks",
                 "w": 1800, "h": 1013, "ratio": 1800 / 1013}
-    mobile_hero = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-office-18")
     page = dict(
         url="/vancouver-headshot-photographer/",
         title="Headshot Photographer Vancouver | From $395 | Oscar Leo",
@@ -978,9 +983,9 @@ def build_headshots():
         hero_sub="Corporate, LinkedIn and personal branding portraits — in studio or at your office.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
         schema=["faq-headshots.json"],
-        hero_portrait=(lambda im: {"src": f"/assets/img/{im['folder']}/{im['slug']}-1800.jpg",
-                                   "srcset": srcset(im), "w": im["w"], "h": im["h"]})(mobile_hero),
-        **hero_fields(hero_img, "Editorial portrait with muted warm tones, photographed in a Vancouver studio.")
+        # See .hero--headshot-focus in site.css.
+        hero_class="hero--headshot-focus",
+        **hero_fields(hero_img, "Studio portrait of a man in a pinstripe suit against a warm backdrop, photographed in Vancouver.")
     )
 
     cards = "\n".join([
