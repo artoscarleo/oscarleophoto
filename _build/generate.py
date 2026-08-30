@@ -2077,11 +2077,18 @@ def main():
             fh.write(redirect_page(old_url, new_url))
         print(f"redirect {old_url} -> {new_url}")
 
-    # Tells GitHub Pages which hostname to answer on. Without it the custom
-    # domain is dropped on the next deploy even if it is set in the repo UI.
-    with open(os.path.join(ROOT, "CNAME"), "w") as fh:
-        fh.write("oscarleo.photography\n")
-    print("wrote CNAME -> oscarleo.photography")
+    # CNAME is deliberately NOT written yet.
+    #
+    # The moment this file exists, GitHub Pages 301s the github.io URL to the
+    # custom domain. If DNS has not been pointed at GitHub yet, that redirect
+    # lands on whatever the domain currently serves — here, the old WordPress
+    # site — and the new site becomes unreachable at both addresses. It has to
+    # be the last step, not the first: change the DNS records, confirm the
+    # domain resolves to GitHub, and only then add CNAME.
+    #
+    # To enable: uncomment, rebuild, push.
+    # with open(os.path.join(ROOT, "CNAME"), "w") as fh:
+    #     fh.write("oscarleo.photography\n")
 
 
 if __name__ == "__main__":
