@@ -1740,9 +1740,17 @@ def build_contact():
         **hero_fields(hero_img, "Live performance photographed in a Vancouver venue.")
     )
 
+    _contact_services = list(SERVICES) + [
+        ("/vancouver-brand-photography-video/#marketing", "Marketing Support", "Marketing",
+         "Ongoing content for social and web", "From $750/month"),
+    ]
     services = "\n".join(
-        f'            <li><a class="text-link" href="{url}">{label}</a> — {price.lower()}</li>'
-        for url, label, price in NAV[1:7]
+        f"""        <a class="service-row" href="{url}" data-reveal style="--i:{i}">
+          <h3 class="service-row__title">{name}</h3>
+          <span class="service-row__price">{price}</span>
+          <p class="service-row__desc">{desc}</p>
+        </a>"""
+        for i, (url, name, _short, desc, price) in enumerate(_contact_services)
     )
 
     body = f"""    <section class="section container">
@@ -1824,22 +1832,23 @@ def build_contact():
       </div>
     </section>
 
+    <section class="section--tight container">
+      <div data-reveal>
+        <span class="eyebrow">Areas served</span>
+        <h2>Vancouver and beyond</h2>
+        <p class="text-muted" style="max-width: 60ch">Vancouver, Burnaby, Richmond, North Vancouver,
+           West Vancouver, Surrey, Coquitlam, Delta, Langley and the wider Lower Mainland. Available
+           throughout British Columbia and across Canada.</p>
+      </div>
+    </section>
+
     <section class="section container">
-      <div class="grid-2">
-        <div data-reveal>
-          <span class="eyebrow">Areas served</span>
-          <h2>Vancouver and beyond</h2>
-          <p class="text-muted">Vancouver, Burnaby, Richmond, North Vancouver, West Vancouver, Surrey,
-             Coquitlam, Delta, Langley and the wider Lower Mainland. Available throughout British
-             Columbia and across Canada.</p>
-        </div>
-        <div class="prose" data-reveal style="--i:1">
-          <span class="eyebrow">Services and starting prices</span>
-          <ul>
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Services</span>
+        <h2>Starting prices</h2>
+      </div>
+      <div class="service-list">
 {services}
-            <li><a class="text-link" href="/vancouver-brand-photography-video/#marketing">Marketing support</a> — from $750/month</li>
-          </ul>
-        </div>
       </div>
     </section>
 """
