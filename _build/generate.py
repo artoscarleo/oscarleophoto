@@ -176,8 +176,8 @@ EVENTS = load_images("events")
 # the source of truth for galleries, and heroes are excluded from that sync.
 HERO_RESERVED = {
     "vancouver-bts-44",
-    "vancouver-concert-24", "vancouver-concert-27", "vancouver-concert-30",
-    "vancouver-concert-31", "vancouver-concert-34",
+    "vancouver-concert-24", "vancouver-concert-30",
+    "vancouver-concert-31", "vancouver-concert-34", "vancouver-concert-47",
     "vancouver-event-photographer-13",
     "vancouver-headshot-business-07", "vancouver-headshot-corporate-04",
     "vancouver-headshot-corporate-20", "vancouver-headshot-editorial-08",
@@ -408,7 +408,7 @@ def head(page):
             + "\n  </script>\n"
         )
 
-    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-27-1200.jpg")
+    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-47-1200.jpg")
     canonical = SITE_URL + page["url"]
 
     return f"""<!DOCTYPE html>
@@ -1416,7 +1416,7 @@ def build_brand():
 
 
 def build_concerts():
-    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-27")
+    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-47")
     page = dict(
         url="/vancouver-concert-photographer/",
         title="Concert Photographer Vancouver | Live Music & Festivals",
@@ -1426,12 +1426,10 @@ def build_concerts():
         hero_sub="Stage, audience and atmosphere for artists, venues, promoters and festivals.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
         schema=["faq-concerts.json"],
-        # Guitarist sits right of centre in the frame -- pin object-position
-        # there directly instead of the sitewide default (dead-centre X,
-        # tuned Y for face-only portraits). See .hero--concert-focus in
-        # site.css. The separate natively-vertical mobile photo
-        # (live-portrait-45) was dropped on request; phones now get the
-        # same backstage-14 photo as desktop, cropped down.
+        # Beam-lit stage, band along the lower third, crowd silhouettes at the
+        # very bottom. The focal point is where the beams meet the band, left
+        # of centre and low -- see .hero--concert-focus in site.css. One
+        # photograph at every window shape; no separate phone frame.
         hero_class="hero--concert-focus",
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )

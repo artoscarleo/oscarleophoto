@@ -53,7 +53,7 @@ HEROES = [
     # face_y formula above, which has no matching column for a hand-picked
     # frame.
     ("headshots", "vancouver-headshot-professional-06", 0.16),  # about page
-    ("concerts", "vancouver-concert-27", 0.42),                 # concerts page
+    ("concerts", "vancouver-concert-47", 0.55),                 # concerts page
     ("headshots", "vancouver-headshot-studio-23", 0.22),        # contact page
     ("weddings", "vancouver-wedding-20", 0.30),                  # weddings page
 ]
