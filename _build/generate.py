@@ -16,6 +16,13 @@ import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMA_DIR = os.path.join(os.path.dirname(ROOT), "seo-implementation", "02-schema")
+
+# Where the enquiry form POSTs. A static host cannot send mail, so this points
+# at a Cloudflare Worker that holds the mail API key as an encrypted secret —
+# nothing sensitive is ever in this repository or in the page source. The URL
+# itself is public by design; it only accepts POSTs from this origin.
+# Empty string = not yet deployed, and the form says so instead of pretending.
+FORM_ENDPOINT = ""
 SITE_URL = "https://oscarleo.photography"
 
 
@@ -1780,14 +1787,21 @@ def build_contact():
         </div>
 
         <div class="price-card" data-reveal style="--i:1">
-          <p class="price-card__tag">Send an enquiry</p>
+          <div class="form__done" data-done hidden>
+            <p class="price-card__tag">Thank you for getting in touch.</p>
+            <p>Your enquiry has been received successfully. I truly appreciate your
+               interest in Oscar Leo Photography.</p>
+            <p>I will review your message and get back to you as soon as possible.</p>
+            <p>I look forward to hearing more about your plans.</p>
+          </div>
+          <p class="price-card__tag" data-form-heading>Send an enquiry</p>
           <!-- FORM: still a mailto, which has no back end. It opens the visitor's
                mail client if they have one configured and does nothing at all if
                they don't — no error, no message sent. The site is live now and
                this form is the only enquiry route, so that failure is lost work.
                Point the action at Formspree, Netlify Forms or Basin. The plain
                email link below the button is the stopgap: it always works. -->
-          <form class="form" action="mailto:contact@oscarleo.photography">
+          <form class="form" data-enquiry data-endpoint="{FORM_ENDPOINT}" novalidate>
             <div class="field">
               <label for="f-name">Your name</label>
               <input id="f-name" name="name" type="text" autocomplete="name" required>
@@ -1823,7 +1837,16 @@ def build_contact():
               <textarea id="f-detail" name="detail" rows="5"></textarea>
               <span class="hint">Location, approximate coverage time, and how you plan to use the images.</span>
             </div>
-            <button class="btn" type="submit">Send enquiry</button>
+            <!-- Honeypot. Hidden from people, irresistible to naive bots; any
+                 submission that fills it is dropped silently so the bot cannot
+                 tell it failed. Not a label a screen reader should announce,
+                 hence aria-hidden and tabindex -1. -->
+            <div class="hp" aria-hidden="true">
+              <label for="f-company">Company (leave blank)</label>
+              <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="btn" type="submit" data-submit>Send enquiry</button>
+            <p class="form__status" data-status role="status" aria-live="polite"></p>
             <p class="hint" style="margin-top: var(--space-s)">Or reach me directly:
                <a class="text-link" href="mailto:contact@oscarleo.photography">contact@oscarleo.photography</a>
                &middot; <a class="text-link" href="tel:+16047223736">+1&nbsp;(604)&nbsp;722-3736</a></p>

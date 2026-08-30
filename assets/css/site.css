@@ -52,6 +52,9 @@
   /* Brass — the single accent, lifted from the studio backdrop wash.
      Rules, focus rings and the occasional underline. It never fills. */
   --brass:         #8A7A55;   /* brass-500 */
+  --critical:      #8C2F1E;   /* rust-600 — form errors. Warm, so it belongs to
+                                 this palette rather than reading as a browser
+                                 default red. 7.4:1 on --bg. */
   --brass-ink:     #6D5F3D;   /* brass-700 — 5.9:1, safe as text on paper */
   --brass-light:   #B7A882;   /* brass-300 — 8.4:1 on ink, for dark bands */
   --overlay:       rgba(10, 10, 10, 0.72);
@@ -1240,6 +1243,11 @@ body[data-scroll-locked="true"] { overflow: hidden; }
 /* ---------- 17 FORMS ------------------------------------------------------ */
 
 .form { display: grid; gap: var(--space-m); }
+/* An explicit display beats the hidden attribute's UA default of display:none,
+   so hiding the form after a successful send left it on screen underneath the
+   confirmation. Both of these carry an attribute selector, so they outrank the
+   display rules above them. */
+.form[hidden], [data-form-heading][hidden], .form__done[hidden] { display: none; }
 
 .field { display: grid; gap: var(--space-3xs); }
 
@@ -1268,6 +1276,51 @@ body[data-scroll-locked="true"] { overflow: hidden; }
               box-shadow var(--dur-fast) var(--ease-out);
 }
 .field textarea { min-height: 8rem; resize: vertical; line-height: 1.55; }
+
+/* Enquiry form states. Everything below reuses the existing tokens and type
+   scale — no new colours, no layout change to the card itself. */
+
+/* Honeypot: off-screen rather than display:none, because some bots skip
+   hidden inputs but not positioned ones. Never focusable, never announced. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* One line under the button. Empty and invisible until there is something to
+   say, so it never reserves space or shifts the layout. */
+.form__status {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  min-height: 0;
+}
+.form__status:empty { display: none; }
+.form__status[data-tone="error"] { color: var(--critical); }
+
+/* Per-field validation. The message sits under its own input so it is obvious
+   which field it belongs to; the border shift is the same weight the focus
+   state already uses, so nothing jumps. */
+.field__error {
+  margin: 0;
+  font-size: var(--step--1);
+  color: var(--critical);
+}
+.field[data-invalid] input,
+.field[data-invalid] select,
+.field[data-invalid] textarea { border-color: var(--critical); }
+
+/* Submitting: the button stays exactly the same size so the card does not
+   reflow mid-submit. */
+.btn[aria-busy="true"] { opacity: .65; cursor: progress; }
+
+/* The confirmation. Same rhythm as the prose elsewhere in the card. */
+.form__done p + p { margin-top: var(--space-s); }
+.form__done > .price-card__tag { margin-bottom: var(--space-s); }
 .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--fg-subtle); }
 .field input:focus, .field select:focus, .field textarea:focus {
   outline: none;

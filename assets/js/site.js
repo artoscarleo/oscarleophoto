@@ -524,51 +524,177 @@
   }
 
 
-  /* The enquiry form has no back end. It was posting to a mailto: action,
-     which browsers handle badly and Safari refuses outright — it warns the
-     form is insecure and then fails with "the address is invalid", losing the
-     enquiry with no way for the visitor to tell.
+  /* Enquiry form.
 
-     This builds the mailto URL properly instead: encode the answers into a
-     subject and body and hand that to the mail client, which is the one thing
-     a mailto can do reliably. It still depends on the visitor having a mail
-     client, so the plain address printed under the button stays as the
-     fallback for webmail users. The real fix is a form back end. */
+     Submits over fetch and stays on the page. It used to be a mailto, which
+     meant the visitor needed a configured mail client — Safari refused it
+     outright — and anyone on webmail simply lost their message.
+
+     The endpoint is a Cloudflare Worker (see _build/worker/enquiry-worker.js).
+     A static host cannot send mail and cannot hold a secret, so the API key
+     lives in the Worker's encrypted environment; nothing sensitive is in this
+     file, the page source, or the repository. */
   function initEnquiryForm() {
-    var form = document.querySelector('form.form[action^="mailto:"]');
+    var form = document.querySelector('form[data-enquiry]');
     if (!form) return;
-    var to = form.getAttribute('action').replace(/^mailto:/, '').split('?')[0];
 
-    form.setAttribute('novalidate', '');
+    var status   = form.querySelector('[data-status]');
+    var button   = form.querySelector('[data-submit]');
+    var done     = document.querySelector('[data-done]');
+    var heading  = document.querySelector('[data-form-heading]');
+    var label    = button ? button.textContent : 'Send enquiry';
+    var sending  = false;
+
+    var FALLBACK = 'Sorry, your message couldn\u2019t be sent right now. Please try again in a '
+                 + 'moment or contact us directly at contact@oscarleo.photography.';
+
+    function say(msg, tone) {
+      if (!status) return;
+      status.textContent = msg || '';
+      if (tone) status.setAttribute('data-tone', tone);
+      else status.removeAttribute('data-tone');
+    }
+
+    function clearErrors() {
+      form.querySelectorAll('.field[data-invalid]').forEach(function (f) {
+        f.removeAttribute('data-invalid');
+        var m = f.querySelector('.field__error');
+        if (m) m.remove();
+      });
+    }
+
+    function fail(input, msg) {
+      var field = input.closest('.field');
+      if (!field) return;
+      field.setAttribute('data-invalid', '');
+      if (!field.querySelector('.field__error')) {
+        var p = document.createElement('p');
+        p.className = 'field__error';
+        p.textContent = msg;
+        field.appendChild(p);
+      }
+      input.setAttribute('aria-invalid', 'true');
+    }
+
+    /* Validated here rather than leaning on the browser's bubbles, so the
+       wording and placement match the rest of the page. */
+    function validate() {
+      clearErrors();
+      var first = null;
+
+      var name = form.elements['name'];
+      if (!name.value.trim()) {
+        fail(name, 'Please enter your name.');
+        first = first || name;
+      }
+
+      var email = form.elements['email'];
+      var v = email.value.trim();
+      if (!v) {
+        fail(email, 'Please enter your email address.');
+        first = first || email;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+        fail(email, 'That email address doesn\u2019t look right.');
+        first = first || email;
+      }
+
+      var date = form.elements['date'];
+      if (date && date.value) {
+        var picked = new Date(date.value + 'T00:00:00');
+        var today  = new Date(); today.setHours(0, 0, 0, 0);
+        if (picked < today) {
+          fail(date, 'Please choose a date that hasn\u2019t passed.');
+          first = first || date;
+        }
+      }
+
+      if (first) {
+        first.focus();
+        say('Please check the highlighted fields.', 'error');
+        return false;
+      }
+      return true;
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (form.checkValidity && !form.checkValidity()) {
-        if (form.reportValidity) form.reportValidity();
+      if (sending) return;                       // duplicate clicks
+
+      // Honeypot: a real person never sees this field, so anything in it is a
+      // bot. Report success so the bot has nothing to learn from, and send
+      // nothing.
+      if (form.elements['company'] && form.elements['company'].value) {
+        showDone();
         return;
       }
 
-      function val(name) {
-        var el = form.elements[name];
-        return el && el.value ? String(el.value).trim() : '';
+      if (!validate()) return;
+
+      // Read at submit rather than at load, so the endpoint is whatever the
+      // attribute says right now — one less thing to get stale.
+      var endpoint = form.getAttribute('data-endpoint') || '';
+      if (!endpoint) {
+        say(FALLBACK, 'error');
+        return;
       }
 
-      var type = val('type') || 'Enquiry';
-      var subject = 'Enquiry — ' + type;
-      var lines = [
-        'Name: ' + val('name'),
-        'Email: ' + val('email'),
-        'Type of photography: ' + type,
-        'Preferred date: ' + (val('date') || 'not specified'),
-        '',
-        'Project details:',
-        val('detail') || '(none given)'
-      ];
+      sending = true;
+      if (button) {
+        button.disabled = true;
+        button.setAttribute('aria-busy', 'true');
+        button.textContent = 'Sending\u2026';
+      }
+      say('');
 
-      window.location.href = 'mailto:' + to
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(lines.join('\n'));
+      var payload = {
+        name:  form.elements['name'].value.trim(),
+        email: form.elements['email'].value.trim(),
+        type:  form.elements['type'] ? form.elements['type'].value : '',
+        date:  form.elements['date'] ? form.elements['date'].value : '',
+        detail: form.elements['detail'] ? form.elements['detail'].value.trim() : ''
+      };
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('http ' + res.status);
+          return res.json().catch(function () { return {}; });
+        })
+        .then(function () { showDone(); })
+        .catch(function () {
+          // Nothing the visitor typed is touched, so they can simply retry.
+          say(FALLBACK, 'error');
+        })
+        .then(function () {
+          sending = false;
+          if (button) {
+            button.disabled = false;
+            button.removeAttribute('aria-busy');
+            button.textContent = label;
+          }
+        });
     });
+
+    function showDone() {
+      form.reset();
+      clearErrors();
+      say('');
+      if (done) {
+        form.hidden = true;
+        if (heading) heading.hidden = true;
+        done.hidden = false;
+        done.setAttribute('tabindex', '-1');
+        done.focus();                            // move the reader to the confirmation
+        done.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      } else {
+        say('Thank you \u2014 your enquiry has been received.');
+      }
+    }
   }
+
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
