@@ -10,3 +10,4 @@
 # Scratch output from the image scripts
 /tmp/
 *.pdf
+.wrangler/

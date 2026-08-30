@@ -70,15 +70,32 @@ const json = (body, status, env) =>
   });
 
 async function send(env, message) {
+  // Copying a key out of a dashboard very often drags a newline or a stray
+  // space along with it, which makes the Authorization header malformed and
+  // comes back as a confusing "API key is invalid". Trim before use.
+  const key = String(env.RESEND_API_KEY || '').trim();
+
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${key}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(message)
   });
-  if (!res.ok) throw new Error(`resend ${res.status}: ${await res.text()}`);
+  if (!res.ok) {
+    // Shape only — never the value — so a bad paste can be diagnosed from the
+    // logs without the secret ever being printed.
+    const raw = String(env.RESEND_API_KEY || '');
+    console.error('key shape', JSON.stringify({
+      length: key.length,
+      rawLength: raw.length,
+      startsWithRe: key.startsWith('re_'),
+      hadSurroundingWhitespace: raw !== key,
+      hasInnerWhitespace: /\s/.test(key)
+    }));
+    throw new Error(`resend ${res.status}: ${await res.text()}`);
+  }
   return res.json();
 }
 
