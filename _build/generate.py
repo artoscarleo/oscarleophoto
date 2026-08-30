@@ -1779,7 +1779,7 @@ def build_contact():
                this form is the only enquiry route, so that failure is lost work.
                Point the action at Formspree, Netlify Forms or Basin. The plain
                email link below the button is the stopgap: it always works. -->
-          <form class="form" action="mailto:contact@oscarleo.photography" method="post" enctype="text/plain">
+          <form class="form" action="mailto:contact@oscarleo.photography">
             <div class="field">
               <label for="f-name">Your name</label>
               <input id="f-name" name="name" type="text" autocomplete="name" required>

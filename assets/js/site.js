@@ -520,6 +520,54 @@
     initParallax();
     initLightbox();
     initCurrentNav();
+    initEnquiryForm();
+  }
+
+
+  /* The enquiry form has no back end. It was posting to a mailto: action,
+     which browsers handle badly and Safari refuses outright — it warns the
+     form is insecure and then fails with "the address is invalid", losing the
+     enquiry with no way for the visitor to tell.
+
+     This builds the mailto URL properly instead: encode the answers into a
+     subject and body and hand that to the mail client, which is the one thing
+     a mailto can do reliably. It still depends on the visitor having a mail
+     client, so the plain address printed under the button stays as the
+     fallback for webmail users. The real fix is a form back end. */
+  function initEnquiryForm() {
+    var form = document.querySelector('form.form[action^="mailto:"]');
+    if (!form) return;
+    var to = form.getAttribute('action').replace(/^mailto:/, '').split('?')[0];
+
+    form.setAttribute('novalidate', '');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.checkValidity && !form.checkValidity()) {
+        if (form.reportValidity) form.reportValidity();
+        return;
+      }
+
+      function val(name) {
+        var el = form.elements[name];
+        return el && el.value ? String(el.value).trim() : '';
+      }
+
+      var type = val('type') || 'Enquiry';
+      var subject = 'Enquiry — ' + type;
+      var lines = [
+        'Name: ' + val('name'),
+        'Email: ' + val('email'),
+        'Type of photography: ' + type,
+        'Preferred date: ' + (val('date') || 'not specified'),
+        '',
+        'Project details:',
+        val('detail') || '(none given)'
+      ];
+
+      window.location.href = 'mailto:' + to
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(lines.join('\n'));
+    });
   }
 
   if (document.readyState === 'loading') {
