@@ -177,7 +177,7 @@ EVENTS = load_images("events")
 HERO_RESERVED = {
     "vancouver-bts-44",
     "vancouver-concert-24", "vancouver-concert-30",
-    "vancouver-concert-31", "vancouver-concert-34", "vancouver-concert-47",
+    "vancouver-concert-31", "vancouver-concert-34", "vancouver-concert-48",
     "vancouver-event-photographer-13",
     "vancouver-headshot-business-07", "vancouver-headshot-corporate-04",
     "vancouver-headshot-corporate-20", "vancouver-headshot-editorial-08",
@@ -313,13 +313,13 @@ def alt_for(img, i):
     return pool[i % len(pool)]
 
 
-def full_src(img):
-    """Largest width that actually exists on disk.
+def full_src(img, prefer=1800):
+    """Largest existing width, at or below `prefer`.
 
     Not every source reaches 1800 — the story crops top out at 1200 — and the
     lightbox was asking for a 1800 file regardless, so opening one of those
     photographs full size loaded nothing."""
-    for w in (1800, 1200, 800, 400):
+    for w in (w for w in (1800, 1200, 800, 400) if w <= prefer):
         rel = f"assets/img/{img['folder']}/{img['slug']}-{w}.jpg"
         if os.path.exists(os.path.join(ROOT, rel)):
             return "/" + rel
@@ -408,7 +408,7 @@ def head(page):
             + "\n  </script>\n"
         )
 
-    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-47-1200.jpg")
+    og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-48-1200.jpg")
     canonical = SITE_URL + page["url"]
 
     return f"""<!DOCTYPE html>
@@ -783,14 +783,19 @@ def write(url, html):
 
 
 def hero_fields(img, alt):
+    # Both URLs walk down to the largest width that exists rather than naming
+    # a tier outright. Not every photograph reaches 1800 — a 1320px concert
+    # frame has no 1800 and no 1200 -wide- either — and hardcoding the tier
+    # put a 404 in the hero's src and in og:image, which is the URL social
+    # previews fetch. srcset() already guards this way.
     return {
         "hero_slug": img["slug"],
         "hero_folder": img["folder"],
-        "hero_src": f"/assets/img/{img['folder']}/{img['slug']}-1800.jpg",
+        "hero_src": full_src(img),
         "hero_srcset": srcset(img),
         "hero_w": img["w"], "hero_h": img["h"],
         "hero_alt": alt,
-        "og_image": f"/assets/img/{img['folder']}/{img['slug']}-1200.jpg",
+        "og_image": full_src(img, prefer=1200),
     }
 
 
@@ -1416,7 +1421,7 @@ def build_brand():
 
 
 def build_concerts():
-    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-47")
+    hero_img = next(i for i in CONCERTS if i["slug"] == "vancouver-concert-48")
     page = dict(
         url="/vancouver-concert-photographer/",
         title="Concert Photographer Vancouver | Live Music & Festivals",
@@ -1426,10 +1431,12 @@ def build_concerts():
         hero_sub="Stage, audience and atmosphere for artists, venues, promoters and festivals.",
         hero_actions=[("#pricing", "See pricing"), ("#work", "See the work")],
         schema=["faq-concerts.json"],
-        # Beam-lit stage, band along the lower third, crowd silhouettes at the
-        # very bottom. The focal point is where the beams meet the band, left
-        # of centre and low -- see .hero--concert-focus in site.css. One
-        # photograph at every window shape; no separate phone frame.
+        # Singer at the mic, foot up on the wedge, horn player behind him under
+        # red and green wash. Focal point is the singer -- see
+        # .hero--concert-focus in site.css. Served as the full frame with no
+        # -wide- crop: the photograph is nearly square (1320x1292), so a 3:2
+        # crop would throw away a third of its height, and it has no
+        # resolution to spare.
         hero_class="hero--concert-focus",
         **hero_fields(hero_img, "Performer under coloured stage lighting during a live concert in Vancouver.")
     )
