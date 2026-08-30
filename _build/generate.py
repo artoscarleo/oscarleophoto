@@ -2024,11 +2024,64 @@ BUILDERS = [build_home, build_headshots, build_events, build_brand,
             build_weddings, build_concerts, build_bts, build_about, build_contact]
 
 
+# Pages the old WordPress site had indexed, mapped to their replacement here.
+# When the domain moves these URLs stop existing, and Google has them — without
+# these they become 404s and whatever ranking history they carry is thrown away
+# rather than passed to the new page. /about/ is not listed: it exists at the
+# same path on both sites, so it needs nothing.
+REDIRECTS = {
+    "/best-photographer-in-vancouver/": "/",
+    "/behind-the-scenes-bts/": "/vancouver-bts-unit-stills-photographer/",
+    "/vancouver-headshots-portraiture-photography/": "/vancouver-headshot-photographer/",
+    "/vancouver-based-social-media-and-marketing-photography/": "/vancouver-brand-photography-video/",
+    "/event-photography/": "/vancouver-event-photographer/",
+    "/concert/": "/vancouver-concert-photographer/",
+}
+
+
+def redirect_page(old_url, new_url):
+    """A static 301 substitute.
+
+    GitHub Pages serves files, not rules, so a real 301 is not available. A
+    zero-delay meta refresh with a canonical pointing at the destination is
+    what Google treats as equivalent; the script covers browsers that ignore
+    the refresh, and the link covers both scripting and refresh being off.
+    """
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Moved to {new_url}</title>
+<link rel="canonical" href="{SITE_URL}{new_url}">
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="refresh" content="0; url={new_url}">
+<script>location.replace({new_url!r} + location.search + location.hash);</script>
+</head>
+<body>
+<p>This page has moved. <a href="{new_url}">Continue to {new_url}</a>.</p>
+</body>
+</html>
+"""
+
+
 def main():
     for builder in BUILDERS:
         page, body = builder()
         path = write(page["url"], render(page, body))
         print("wrote", os.path.relpath(path, ROOT))
+
+    for old_url, new_url in REDIRECTS.items():
+        d = os.path.join(ROOT, old_url.strip("/"))
+        os.makedirs(d, exist_ok=True)
+        with open(os.path.join(d, "index.html"), "w") as fh:
+            fh.write(redirect_page(old_url, new_url))
+        print(f"redirect {old_url} -> {new_url}")
+
+    # Tells GitHub Pages which hostname to answer on. Without it the custom
+    # domain is dropped on the next deploy even if it is set in the repo UI.
+    with open(os.path.join(ROOT, "CNAME"), "w") as fh:
+        fh.write("oscarleo.photography\n")
+    print("wrote CNAME -> oscarleo.photography")
 
 
 if __name__ == "__main__":
