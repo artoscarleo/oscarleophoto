@@ -1,23 +1,23 @@
-vancouver-event-photographer-01 <- PHOTO/event portfolio/vancouver event photographer-001.jpg
-vancouver-event-photographer-02 <- PHOTO/event portfolio/vancouver event photographer-002.jpg
-vancouver-event-photographer-03 <- PHOTO/event portfolio/vancouver event photographer-003.jpg
-vancouver-event-photographer-04 <- PHOTO/event portfolio/vancouver event photographer-004.jpg
-vancouver-event-photographer-05 <- PHOTO/event portfolio/vancouver event photographer-005.jpg
-vancouver-event-photographer-06 <- PHOTO/event portfolio/vancouver event photographer-006.jpg
-vancouver-event-photographer-07 <- PHOTO/event portfolio/vancouver event photographer-007.jpg
-vancouver-event-photographer-08 <- PHOTO/event portfolio/vancouver event photographer-008.jpg
-vancouver-event-photographer-09 <- PHOTO/event portfolio/vancouver event photographer-009.jpg
-vancouver-event-photographer-10 <- PHOTO/event portfolio/vancouver event photographer-010.jpg
-vancouver-event-photographer-11 <- PHOTO/event portfolio/vancouver event photographer-011.jpg
-vancouver-event-photographer-12 <- PHOTO/event portfolio/vancouver event photographer-012.jpg
-vancouver-event-photographer-13 <- PHOTO/event portfolio/vancouver event photographer-026.jpg
-vancouver-event-photographer-14 <- PHOTO/event portfolio/vancouver event photographer-028.jpg
-vancouver-event-photographer-15 <- PHOTO/event portfolio/vancouver event photographer-029.jpg
-vancouver-event-photographer-16 <- PHOTO/event portfolio/vancouver event photographer-030.jpg
-vancouver-event-photographer-17 <- PHOTO/event portfolio/vancouver event photographer-031.jpg
-vancouver-event-photographer-18 <- PHOTO/event portfolio/vancouver event photographer-032.jpg
-vancouver-event-photographer-19 <- PHOTO/event portfolio/vancouver event photographer-033.jpg
-vancouver-event-photographer-20 <- PHOTO/event portfolio/vancouver event photographer-034.jpg
-vancouver-event-photographer-21 <- PHOTO/event portfolio/vancouver event photographer-035.jpg
-vancouver-event-photographer-22 <- PHOTO/event portfolio/vancouver event photographer-036.jpg
-vancouver-event-photographer-23 <- PHOTO/event portfolio/vancouver event photographer-037.jpg
+vancouver-event-photographer-01 <- Portfolio/Event/vancouver event photographer-001.jpg
+vancouver-event-photographer-02 <- Portfolio/Event/vancouver event photographer-002.jpg
+vancouver-event-photographer-03 <- Portfolio/Event/vancouver event photographer-003.jpg
+vancouver-event-photographer-04 <- Portfolio/Event/vancouver event photographer-004.jpg
+vancouver-event-photographer-05 <- Portfolio/Event/vancouver event photographer-005.jpg
+vancouver-event-photographer-06 <- Portfolio/Event/vancouver event photographer-006.jpg
+vancouver-event-photographer-07 <- Portfolio/Event/vancouver event photographer-007.jpg
+vancouver-event-photographer-08 <- Portfolio/Event/vancouver event photographer-008.jpg
+vancouver-event-photographer-09 <- Portfolio/Event/vancouver event photographer-009.jpg
+vancouver-event-photographer-10 <- Portfolio/Event/vancouver event photographer-010.jpg
+vancouver-event-photographer-11 <- Portfolio/Event/vancouver event photographer-011.jpg
+vancouver-event-photographer-12 <- Portfolio/Event/vancouver event photographer-012.jpg
+vancouver-event-photographer-13 <- Portfolio/Event/vancouver event photographer-026.jpg
+vancouver-event-photographer-14 <- Portfolio/Event/vancouver event photographer-028.jpg
+vancouver-event-photographer-15 <- Portfolio/Event/vancouver event photographer-029.jpg
+vancouver-event-photographer-16 <- Portfolio/Event/vancouver event photographer-030.jpg
+vancouver-event-photographer-17 <- Portfolio/Event/vancouver event photographer-031.jpg
+vancouver-event-photographer-18 <- Portfolio/Event/vancouver event photographer-032.jpg
+vancouver-event-photographer-19 <- Portfolio/Event/vancouver event photographer-033.jpg
+vancouver-event-photographer-20 <- Portfolio/Event/vancouver event photographer-034.jpg
+vancouver-event-photographer-21 <- Portfolio/Event/vancouver event photographer-035.jpg
+vancouver-event-photographer-22 <- Portfolio/Event/vancouver event photographer-036.jpg
+vancouver-event-photographer-23 <- Portfolio/Event/vancouver event photographer-037.jpg

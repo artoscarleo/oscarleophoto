@@ -1,0 +1,76 @@
+vancouver-headshot-01 <- Portfolio/Headshot/00532.jpg
+vancouver-headshot-02 <- Portfolio/Headshot/0091.jpg
+vancouver-headshot-03 <- Portfolio/Headshot/0146.jpg
+vancouver-headshot-04 <- Portfolio/Headshot/0151.jpg
+vancouver-headshot-05 <- Portfolio/Headshot/0167.jpg
+vancouver-headshot-06 <- Portfolio/Headshot/0181.jpg
+vancouver-headshot-07 <- Portfolio/Headshot/0188.jpg
+vancouver-headshot-08 <- Portfolio/Headshot/0190.jpg
+vancouver-headshot-09 <- Portfolio/Headshot/0197.jpg
+vancouver-headshot-10 <- Portfolio/Headshot/0201.jpg
+vancouver-headshot-11 <- Portfolio/Headshot/0267.jpg
+vancouver-headshot-12 <- Portfolio/Headshot/0268.jpg
+vancouver-headshot-13 <- Portfolio/Headshot/0270.jpg
+vancouver-headshot-14 <- Portfolio/Headshot/0277.jpg
+vancouver-headshot-15 <- Portfolio/Headshot/0293.jpg
+vancouver-headshot-16 <- Portfolio/Headshot/0305.jpg
+vancouver-headshot-17 <- Portfolio/Headshot/0311.jpg
+vancouver-headshot-18 <- Portfolio/Headshot/0326.jpg
+vancouver-headshot-19 <- Portfolio/Headshot/0327.jpg
+vancouver-headshot-20 <- Portfolio/Headshot/0341.jpg
+vancouver-headshot-21 <- Portfolio/Headshot/0400.jpg
+vancouver-headshot-22 <- Portfolio/Headshot/0402.jpg
+vancouver-headshot-23 <- Portfolio/Headshot/0460.jpg
+vancouver-headshot-24 <- Portfolio/Headshot/0471.jpg
+vancouver-headshot-25 <- Portfolio/Headshot/0485.jpg
+vancouver-headshot-26 <- Portfolio/Headshot/0492.jpg
+vancouver-headshot-27 <- Portfolio/Headshot/0503.jpg
+vancouver-headshot-28 <- Portfolio/Headshot/0506.jpg
+vancouver-headshot-29 <- Portfolio/Headshot/0525.jpg
+vancouver-headshot-30 <- Portfolio/Headshot/0539.jpg
+vancouver-headshot-31 <- Portfolio/Headshot/0545.jpg
+vancouver-headshot-32 <- Portfolio/Headshot/0585.jpg
+vancouver-headshot-33 <- Portfolio/Headshot/0734.jpg
+vancouver-headshot-34 <- Portfolio/Headshot/0744.jpg
+vancouver-headshot-35 <- Portfolio/Headshot/0778.jpg
+vancouver-headshot-36 <- Portfolio/Headshot/0951.jpg
+vancouver-headshot-37 <- Portfolio/Headshot/0955.jpg
+vancouver-headshot-38 <- Portfolio/Headshot/0960.jpg
+vancouver-headshot-39 <- Portfolio/Headshot/0969.jpg
+vancouver-headshot-40 <- Portfolio/Headshot/103.jpg
+vancouver-headshot-41 <- Portfolio/Headshot/1073.jpg
+vancouver-headshot-42 <- Portfolio/Headshot/1076.jpg
+vancouver-headshot-43 <- Portfolio/Headshot/1080.jpg
+vancouver-headshot-44 <- Portfolio/Headshot/1098 1.jpg
+vancouver-headshot-45 <- Portfolio/Headshot/143.jpg
+vancouver-headshot-46 <- Portfolio/Headshot/145.jpg
+vancouver-headshot-47 <- Portfolio/Headshot/157.jpg
+vancouver-headshot-48 <- Portfolio/Headshot/160.jpg
+vancouver-headshot-49 <- Portfolio/Headshot/171.jpg
+vancouver-headshot-50 <- Portfolio/Headshot/178.jpg
+vancouver-headshot-51 <- Portfolio/Headshot/208.jpg
+vancouver-headshot-52 <- Portfolio/Headshot/241.jpg
+vancouver-headshot-53 <- Portfolio/Headshot/247.jpg
+vancouver-headshot-54 <- Portfolio/Headshot/250.jpg
+vancouver-headshot-55 <- Portfolio/Headshot/276.jpg
+vancouver-headshot-56 <- Portfolio/Headshot/305.jpg
+vancouver-headshot-57 <- Portfolio/Headshot/517.jpg
+vancouver-headshot-58 <- Portfolio/Headshot/569.jpg
+vancouver-headshot-59 <- Portfolio/Headshot/718.jpg
+vancouver-headshot-business-07 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-corporate-04 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-corporate-20 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-editorial-08 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-editorial-24 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-office-18 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-portrait-19 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-professional-06 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-professional-14 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-01 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-01x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-02x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-03x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-04x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-05x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-06x <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)
+vancouver-headshot-studio-23 <- Portfolio/Headshot/(hero asset, retained — not sourced from Portfolio)

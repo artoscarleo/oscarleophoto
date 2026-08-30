@@ -168,6 +168,52 @@ WEDDINGS = load_images("weddings")
 BTS = load_images("bts")
 EVENTS = load_images("events")
 
+
+# Slugs that exist only because a hero, the hero slideshow, a homepage service
+# backdrop or the approach band needs them. They are kept in the category
+# lists so those features can still resolve them by slug, but they are not
+# Portfolio photographs and so must never appear in a gallery — Portfolio/ is
+# the source of truth for galleries, and heroes are excluded from that sync.
+HERO_RESERVED = {
+    "vancouver-bts-44",
+    "vancouver-concert-24", "vancouver-concert-27", "vancouver-concert-30",
+    "vancouver-concert-31", "vancouver-concert-34",
+    "vancouver-event-photographer-13",
+    "vancouver-headshot-business-07", "vancouver-headshot-corporate-04",
+    "vancouver-headshot-corporate-20", "vancouver-headshot-editorial-08",
+    "vancouver-headshot-editorial-24", "vancouver-headshot-office-18",
+    "vancouver-headshot-portrait-19", "vancouver-headshot-professional-06",
+    "vancouver-headshot-professional-14", "vancouver-headshot-studio-01",
+    "vancouver-headshot-studio-23",
+    "vancouver-headshot-studio-01x", "vancouver-headshot-studio-02x",
+    "vancouver-headshot-studio-03x", "vancouver-headshot-studio-04x",
+    "vancouver-headshot-studio-05x", "vancouver-headshot-studio-06x",
+    "vancouver-wedding-08", "vancouver-wedding-20", "vancouver-wedding-27",
+    "vancouver-wedding-30", "vancouver-wedding-34",
+    "vancouver-wedding-bridal-portrait-11",
+}
+
+
+def shown(images, *also_exclude):
+    """The photographs a gallery may show: Portfolio content only."""
+    skip = HERO_RESERVED | set(also_exclude)
+    return [i for i in images if i["slug"] not in skip]
+
+
+def sample(xs, n=4):
+    """An even spread across a category, however many it currently holds.
+
+    Selection used to key on slug.endswith("x"), a marker left on one old
+    batch of uploads: replacing a category renamed every slug, the filter
+    matched nothing, and that category silently vanished from the homepage.
+    Index picks have the same problem in reverse — they drift onto different
+    photographs as a category grows. Sampling by proportion survives both.
+    """
+    if len(xs) <= n:
+        return list(xs)
+    step = len(xs) / n
+    return [xs[int(i * step)] for i in range(n)]
+
 WIDTHS = [400, 800, 1200, 1800]
 
 # Alt text is descriptive at the level the frame supports. It is honest and
@@ -824,20 +870,7 @@ def build_home():
 
     # Four from each category, interleaved so they alternate down the grid
     # rather than arriving in blocks.
-    #
-    # This used to select on slug.endswith("x"), a marker left on one
-    # particular batch of uploads. That is invisible coupling: replacing a
-    # category wholesale renames every slug, the filter silently matches
-    # nothing, and the category just vanishes from the homepage with no
-    # error. Exactly that happened to weddings. Sampling evenly across
-    # whatever the category currently holds cannot fail that way.
-    def sample(xs, n=4):
-        if len(xs) <= n:
-            return list(xs)
-        step = len(xs) / n
-        return [xs[int(i * step)] for i in range(n)]
-
-    h, w, c = sample(HEADSHOTS), sample(WEDDINGS), sample(CONCERTS)
+    h, w, c = sample(shown(HEADSHOTS)), sample(shown(WEDDINGS)), sample(shown(CONCERTS))
     picks, k = [], 0
     while len(picks) < len(h) + len(w) + len(c):
         for src in (h, w, c):
@@ -1031,7 +1064,7 @@ def build_headshots():
         </div>
         <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
       </div>
-{gallery(HEADSHOTS, "(min-width: 48em) 30vw, 47vw")}
+{gallery(shown(HEADSHOTS), "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section container">
@@ -1091,7 +1124,7 @@ def build_events():
     # left in the folder is used (the 90s-party sequence was removed at
     # the source, not curated out here).
     hero_img = next(i for i in EVENTS if i["slug"] == "vancouver-event-photographer-13")
-    gallery_imgs = [i for i in EVENTS if i["slug"] != hero_img["slug"]]
+    gallery_imgs = shown(EVENTS, hero_img["slug"])
     page = dict(
         url="/vancouver-event-photographer/",
         title="Event Photographer Vancouver | Corporate Events | From $500",
@@ -1221,7 +1254,7 @@ def build_brand():
     # PHOTOS-JPEG/0326.jpg), via hero_portrait below -- kept out of
     # aspect.txt so it doesn't join the headshots gallery grid.
     hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-editorial-08")
-    picks = [HEADSHOTS[i] for i in (3, 9, 13, 18, 6, 20)]
+    picks = sample(shown(HEADSHOTS), 6)
     page = dict(
         url="/vancouver-brand-photography-video/",
         title="Brand Photography & Video Vancouver | From $650 | Oscar Leo Photography",
@@ -1454,7 +1487,7 @@ def build_concerts():
         </div>
         <p class="text-muted" data-reveal style="--i:1">Click any photograph to open it full-screen.</p>
       </div>
-{gallery(CONCERTS, "(min-width: 48em) 30vw, 47vw")}
+{gallery(shown(CONCERTS), "(min-width: 48em) 30vw, 47vw")}
     </section>
 
     <section class="section section--sunken" id="pricing">
@@ -1496,7 +1529,7 @@ def build_bts():
     # frames, spread as evenly across the ten productions as the source
     # material allowed.
     hero_img = next(i for i in BTS if i["slug"] == "vancouver-bts-44")
-    gallery_imgs = [i for i in BTS if i["slug"] != hero_img["slug"]]
+    gallery_imgs = shown(BTS, hero_img["slug"])
     page = dict(
         url="/vancouver-bts-unit-stills-photographer/",
         title="BTS & Unit Stills Photographer Vancouver | Film & Music",
@@ -1601,7 +1634,10 @@ def build_bts():
 
 
 def build_about():
-    hero_img = HEADSHOTS[16]
+    # Named, not HEADSHOTS[16]. An index silently repoints at a different
+    # photograph the moment the category changes size — syncing 59 new
+    # headshots in moved this hero onto an unrelated frame.
+    hero_img = next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-professional-06")
     page = dict(
         url="/about/",
         title="About Oscar Leo Photography | Vancouver Photography Studio",
@@ -1803,7 +1839,7 @@ def build_weddings():
     hero, answer paragraph, gallery, approach, price cards, add-ons, FAQ — using
     the existing components only. No new CSS."""
     hero_img = next(i for i in WEDDINGS if i["slug"] == "vancouver-wedding-20")
-    gallery_imgs = [i for i in WEDDINGS if i["slug"] != hero_img["slug"]]
+    gallery_imgs = shown(WEDDINGS, hero_img["slug"])
 
     page = dict(
         url="/vancouver-wedding-photographer/",

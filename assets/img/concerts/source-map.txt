@@ -45,3 +45,4 @@ vancouver-concert-44 <- Portfolio/Consert/vancouver Consert photographer-372.jpg
 vancouver-concert-45 <- Portfolio/Consert/vancouver Consert photographer-373.jpg
 vancouver-concert-46 <- Portfolio/Consert/vancouver Consert photographer-378.jpg
 vancouver-concert-47 <- Portfolio/Consert/vancouver Consert photographer-381.jpg
+vancouver-concert-48 <- Portfolio/Consert/00b9d316-2ec9-48a7-8c5a-a49319da5dab.JPG
