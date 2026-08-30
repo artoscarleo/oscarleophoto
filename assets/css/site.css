@@ -600,6 +600,15 @@ p:last-child { margin-bottom: 0; }
    baked crop would make these percentages measure against the cropped frame
    instead of the original, and the point would drift. */
 .hero.hero--bts-focus .hero__media img { object-position: 57% 34%; }
+/* Below 18/25 the <source> swaps in a different photograph entirely (see
+   build_bts) -- crew, camera and talent under the blossom. It is 2:3, always
+   wider than a phone's window, so the crop is horizontal and X is the only
+   control that bites. 50% keeps the camera rig on the left and the talent on
+   the right rather than favouring either. Kept in its own query so the
+   landscape value above stays tuned to the landscape frame. */
+@media (max-aspect-ratio: 18/25) {
+  .hero.hero--bts-focus .hero__media img { object-position: 50% 50%; }
+}
 /* The headshots hero mirrors the brand page: subject hard right, the wide
    empty backdrop on the left carrying the headline. The frame is served
    uncropped so that space survives.

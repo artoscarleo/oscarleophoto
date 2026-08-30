@@ -27,11 +27,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" fetchpriority="high"
+        media="(min-aspect-ratio: 18/25)"
         imagesrcset="../assets/img/bts/vancouver-bts-35-400.jpg?v=e6fef34e 400w, ../assets/img/bts/vancouver-bts-35-800.jpg?v=77e2c883 800w, ../assets/img/bts/vancouver-bts-35-1200.jpg?v=4135933b 1200w, ../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b 1800w"
         imagesizes="100vw" href="../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b">
+  <link rel="preload" as="image" fetchpriority="high"
+        media="(max-aspect-ratio: 18/25)"
+        imagesrcset="../assets/img/bts/vancouver-bts-47-400.jpg?v=5b45e721 400w, ../assets/img/bts/vancouver-bts-47-800.jpg?v=e5020e5b 800w, ../assets/img/bts/vancouver-bts-47-1200.jpg?v=b5329fab 1200w, ../assets/img/bts/vancouver-bts-47-1800.jpg?v=c134fc66 1800w" imagesizes="100vw">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Archivo:wght@300;400;500;600&display=swap">
-  <link rel="stylesheet" href="../assets/css/site.css?v=515290f5">
+  <link rel="stylesheet" href="../assets/css/site.css?v=a4974448">
 
   <!-- Marks that scripting is available before first paint, so the scroll
        reveals only hide content when they can also un-hide it. -->
@@ -116,10 +120,15 @@
   </div>
   <section class="hero hero--short hero--bts-focus">
     <div class="hero__media">
-      <img src="../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b" srcset="../assets/img/bts/vancouver-bts-35-400.jpg?v=e6fef34e 400w, ../assets/img/bts/vancouver-bts-35-800.jpg?v=77e2c883 800w, ../assets/img/bts/vancouver-bts-35-1200.jpg?v=4135933b 1200w, ../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b 1800w" sizes="100vw"
-           width="400" height="267"
-           fetchpriority="high" decoding="async"
-           alt="A camera operator framing a shot on a Vancouver set, with the boom operator and focus puller working beside him at a daylit window.">
+      <picture>
+        <source media="(max-aspect-ratio: 18/25)"
+                srcset="../assets/img/bts/vancouver-bts-47-400.jpg?v=5b45e721 400w, ../assets/img/bts/vancouver-bts-47-800.jpg?v=e5020e5b 800w, ../assets/img/bts/vancouver-bts-47-1200.jpg?v=b5329fab 1200w, ../assets/img/bts/vancouver-bts-47-1800.jpg?v=c134fc66 1800w" sizes="100vw"
+                width="1800" height="2700">
+        <img src="../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b" srcset="../assets/img/bts/vancouver-bts-35-400.jpg?v=e6fef34e 400w, ../assets/img/bts/vancouver-bts-35-800.jpg?v=77e2c883 800w, ../assets/img/bts/vancouver-bts-35-1200.jpg?v=4135933b 1200w, ../assets/img/bts/vancouver-bts-35-1800.jpg?v=70ed829b 1800w" sizes="100vw"
+             width="400" height="267"
+             fetchpriority="high" decoding="async"
+             alt="A film crew at work on location in Vancouver, the camera operator framing a shot while the boom operator holds the microphone overhead.">
+      </picture>
     </div>
     <div class="hero__inner">
       <span class="eyebrow" data-reveal>Behind the Scenes & Unit Stills</span>
@@ -613,34 +622,24 @@
                  alt="Camera rig and dolly track laid out on a production set.">
           </button>
           <button type="button" class="tile" data-lightbox-item
-                  data-full="../assets/img/bts/vancouver-bts-47-1800.jpg?v=c134fc66"
-                  data-reveal-img style="--i:5">
-            <img src="../assets/img/bts/vancouver-bts-47-800.jpg?v=e5020e5b"
-                 srcset="../assets/img/bts/vancouver-bts-47-400.jpg?v=5b45e721 400w, ../assets/img/bts/vancouver-bts-47-800.jpg?v=e5020e5b 800w, ../assets/img/bts/vancouver-bts-47-1200.jpg?v=b5329fab 1200w, ../assets/img/bts/vancouver-bts-47-1800.jpg?v=c134fc66 1800w"
-                 sizes="(min-width: 48em) 30vw, 47vw"
-                 width="400" height="600"
-                 loading="lazy" decoding="async"
-                 alt="Actors running a scene while the crew works around them.">
-          </button>
-          <button type="button" class="tile" data-lightbox-item
                   data-full="../assets/img/bts/vancouver-bts-48-1800.jpg?v=04e2b805"
-                  data-reveal-img style="--i:6">
+                  data-reveal-img style="--i:5">
             <img src="../assets/img/bts/vancouver-bts-48-800.jpg?v=4a5fa561"
                  srcset="../assets/img/bts/vancouver-bts-48-400.jpg?v=c3a4994f 400w, ../assets/img/bts/vancouver-bts-48-800.jpg?v=4a5fa561 800w, ../assets/img/bts/vancouver-bts-48-1200.jpg?v=ae0e1c8c 1200w, ../assets/img/bts/vancouver-bts-48-1800.jpg?v=04e2b805 1800w"
                  sizes="(min-width: 48em) 30vw, 47vw"
                  width="400" height="267"
                  loading="lazy" decoding="async"
-                 alt="Behind-the-scenes view of a lit interior set during filming.">
+                 alt="Actors running a scene while the crew works around them.">
           </button>
           <button type="button" class="tile" data-lightbox-item
                   data-full="../assets/img/bts/vancouver-bts-49-1800.jpg?v=9028d586"
-                  data-reveal-img style="--i:7">
+                  data-reveal-img style="--i:6">
             <img src="../assets/img/bts/vancouver-bts-49-800.jpg?v=c7190307"
                  srcset="../assets/img/bts/vancouver-bts-49-400.jpg?v=e94954db 400w, ../assets/img/bts/vancouver-bts-49-800.jpg?v=c7190307 800w, ../assets/img/bts/vancouver-bts-49-1200.jpg?v=737458b0 1200w, ../assets/img/bts/vancouver-bts-49-1800.jpg?v=9028d586 1800w"
                  sizes="(min-width: 48em) 30vw, 47vw"
                  width="400" height="600"
                  loading="lazy" decoding="async"
-                 alt="Crew and equipment between takes on a Vancouver production.">
+                 alt="Behind-the-scenes view of a lit interior set during filming.">
           </button>
         </div>
     </section>

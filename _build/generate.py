@@ -182,7 +182,7 @@ EVENTS = load_images("events")
 # Portfolio photographs and so must never appear in a gallery — Portfolio/ is
 # the source of truth for galleries, and heroes are excluded from that sync.
 HERO_RESERVED = {
-    "vancouver-bts-35",
+    "vancouver-bts-35", "vancouver-bts-47",
     "vancouver-concert-24", "vancouver-concert-30",
     "vancouver-concert-31", "vancouver-concert-34", "vancouver-concert-48",
     "vancouver-event-photographer-13",
@@ -418,6 +418,27 @@ def head(page):
     og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-48-1200.jpg")
     canonical = SITE_URL + page["url"]
 
+    # The hero is the LCP element, so it is preloaded. Where a page serves a
+    # different photograph to portrait windows, one unconditional preload would
+    # make a phone fetch the landscape frame it never shows and then the
+    # portrait one as well -- two hero-sized downloads on the connection least
+    # able to afford it. Splitting on the same aspect-ratio the <picture> uses
+    # keeps it to one either way.
+    alt_img = page.get("hero_portrait")
+    if alt_img:
+        switch = "1/1" if page.get("tall") else "18/25"
+        hero_preload = f"""  <link rel="preload" as="image" fetchpriority="high"
+        media="(min-aspect-ratio: {switch})"
+        imagesrcset="{page['hero_srcset']}"
+        imagesizes="100vw" href="{page['hero_src']}">
+  <link rel="preload" as="image" fetchpriority="high"
+        media="(max-aspect-ratio: {switch})"
+        imagesrcset="{alt_img['srcset']}" imagesizes="100vw">"""
+    else:
+        hero_preload = f"""  <link rel="preload" as="image" fetchpriority="high"
+        imagesrcset="{page['hero_srcset']}"
+        imagesizes="100vw" href="{page['hero_src']}">"""
+
     return f"""<!DOCTYPE html>
 <html lang="en-CA">
 <head>
@@ -446,9 +467,7 @@ def head(page):
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" fetchpriority="high"
-        imagesrcset="{page['hero_srcset']}"
-        imagesizes="100vw" href="{page['hero_src']}">
+{hero_preload}
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Archivo:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="{asset('/assets/css/site.css')}">
@@ -661,7 +680,26 @@ def hero(page):
              alt="{page['hero_alt']}">
       </picture>"""
     else:
-        media = f"""      <img src="{page['hero_src']}" srcset="{page['hero_srcset']}" sizes="100vw"
+        # No -wide- crop registered, but the page may still name a separate
+        # photograph for portrait windows. Art direction normally rides on the
+        # -wide- row above; doing it that way here would force a baked crop for
+        # the landscape frame, and object-position would then measure against
+        # that crop instead of the original -- which is exactly what the BTS
+        # hero avoids. So the portrait picture goes in a <source> of its own and
+        # the <img> keeps the uncropped landscape frame, focal point intact.
+        alt_img = page.get("hero_portrait")
+        if alt_img:
+            media = f"""      <picture>
+        <source media="(max-aspect-ratio: 18/25)"
+                srcset="{alt_img['srcset']}" sizes="100vw"
+                width="{alt_img['w']}" height="{alt_img['h']}">
+        <img src="{page['hero_src']}" srcset="{page['hero_srcset']}" sizes="100vw"
+             width="{page['hero_w']}" height="{page['hero_h']}"
+             fetchpriority="high" decoding="async"
+             alt="{page['hero_alt']}">
+      </picture>"""
+        else:
+            media = f"""      <img src="{page['hero_src']}" srcset="{page['hero_srcset']}" sizes="100vw"
            width="{page['hero_w']}" height="{page['hero_h']}"
            fetchpriority="high" decoding="async"
            alt="{page['hero_alt']}">"""
@@ -1561,7 +1599,13 @@ def build_bts():
         # marked would drift as the window changed. Cropping live from the
         # full frame keeps that point where he put it.
         hero_class="hero--bts-focus",
-        **hero_fields(hero_img, "A camera operator framing a shot on a Vancouver set, with the boom operator and focus puller working beside him at a daylit window.")
+        # A phone gets its own photograph rather than a slice of the landscape
+        # one: a tall window crops the operator frame down to roughly two
+        # thirds of its width, and this frame -- crew, camera and talent under
+        # the blossom -- reads as production work at that shape.
+        hero_portrait=(lambda im: {"srcset": srcset(im), "w": im["w"], "h": im["h"]})(
+            {"slug": "vancouver-bts-47", "folder": "bts", "w": 1800, "h": 2700}),
+        **hero_fields(hero_img, "A film crew at work on location in Vancouver, the camera operator framing a shot while the boom operator holds the microphone overhead.")
     )
 
     cards = "\n".join([
