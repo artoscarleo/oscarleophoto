@@ -996,17 +996,20 @@ def build_home():
 
 def build_headshots():
     # One photograph at every window shape (vancouver-portrait-showcase-04, in
-    # hero-picks/ — kept out of aspect.txt so it never joins the gallery grid).
+    # hero-picks/ — kept out of aspect.txt so it never joins the gallery grid),
+    # served as the full uncropped frame.
     #
-    # It deliberately has no -wide- row in hero-wide.txt and no hero_portrait:
-    # Oscar marked the subject as the point to hold centred as the window
-    # narrows, and both of those would break that. A baked -wide- crop makes
-    # object-position measure against the cropped frame rather than the
-    # original, so the anchor drifts; a separate phone photograph means the
-    # marked subject is not on screen there at all. Cropping live from the one
-    # frame is what keeps him centred from 360px up.
+    # The composition is the point: subject hard right, wide empty backdrop on
+    # the left for the headline to sit on, matching the brand page. An earlier
+    # pass cropped this frame to centre him, which threw that empty space away
+    # and put the headline over his body — reverted here.
+    #
+    # No -wide- row in hero-wide.txt and no hero_portrait, deliberately. Both
+    # would make object-position measure against a baked crop rather than the
+    # original, so his position would drift between breakpoints instead of
+    # holding.
     hero_img = {"slug": "vancouver-portrait-showcase-04", "folder": "hero-picks",
-                "w": 1800, "h": 1473, "ratio": 1800 / 1473}
+                "w": 1800, "h": 1013, "ratio": 1800 / 1013}
     page = dict(
         url="/vancouver-headshot-photographer/",
         title="Headshot Photographer Vancouver | From $395 | Oscar Leo Photography",
