@@ -282,6 +282,30 @@
     Array.prototype.forEach.call(wraps, initOne);
   }
 
+  /* Promote a deferred slide to a real one. Every frame but the first ships
+     with its URLs in data-src/data-srcset so the browser does not download six
+     full-screen photographs before it can paint one; this hands them over when
+     they are actually wanted. Safe to call twice. */
+  function hydrateSlide(img) {
+    if (!img || img.getAttribute('data-hydrated') === 'true') return;
+    var pic = img.parentNode;
+    if (pic && pic.tagName === 'PICTURE') {
+      Array.prototype.forEach.call(pic.querySelectorAll('source[data-srcset]'), function (srcEl) {
+        srcEl.setAttribute('srcset', srcEl.getAttribute('data-srcset'));
+        srcEl.removeAttribute('data-srcset');
+      });
+    }
+    if (img.getAttribute('data-srcset')) {
+      img.setAttribute('srcset', img.getAttribute('data-srcset'));
+      img.removeAttribute('data-srcset');
+    }
+    if (img.getAttribute('data-src')) {
+      img.setAttribute('src', img.getAttribute('data-src'));
+      img.removeAttribute('data-src');
+    }
+    img.setAttribute('data-hydrated', 'true');
+  }
+
   function initOne(wrap) {
     var slides = wrap.querySelectorAll('img');
     if (slides.length < 2) return;
@@ -302,12 +326,29 @@
       });
     }
 
+    // The order is shuffled on every visit, so the frame that ends up first is
+    // not the one the HTML made eager. Give it a real src at once, or the hero
+    // opens blank.
+    hydrateSlide(slides[0]);
+
+    // The rest can wait for the page to finish, then go out while the browser
+    // is idle -- off the critical path, but long before the five-second
+    // crossfade needs them.
+    var rest = function () {
+      Array.prototype.forEach.call(slides, hydrateSlide);
+    };
+    var whenIdle = window.requestIdleCallback || function (fn) { window.setTimeout(fn, 300); };
+    if (document.readyState === 'complete') whenIdle(rest);
+    else window.addEventListener('load', function () { whenIdle(rest); }, { once: true });
+
     var INTERVAL = 5000;
     var timer = null;
     var idx = 0;
 
     function show(i) {
       idx = (i + slides.length) % slides.length;
+      hydrateSlide(slides[idx]);
+      hydrateSlide(slides[(idx + 1) % slides.length]);
       Array.prototype.forEach.call(slides, function (img, n) {
         img.setAttribute('data-active', n === idx ? 'true' : 'false');
       });

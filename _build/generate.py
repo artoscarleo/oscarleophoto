@@ -651,12 +651,21 @@ def hero(page):
         for i, sl in enumerate(HERO_SLIDES):
             alt = HERO_SLIDE_ALT.get(sl["ht"]["slug"], "")
             eager = (i == 0)
+            # Only the first slide carries a real src. loading="lazy" does
+            # nothing for the others: every frame is stacked inside the hero,
+            # which is on screen, so the browser treats them all as visible and
+            # fetched six full-screen photographs before it could show one --
+            # about 900KB on the homepage. The rest hold their URLs in
+            # data-src/data-srcset and site.js promotes them once the page has
+            # loaded, well before the five-second crossfade reaches them.
+            src_attr = "src" if eager else "data-src"
+            set_attr = "srcset" if eager else "data-srcset"
             parts.append(f"""        <picture>
-          <source media="(min-aspect-ratio: 1/1)" srcset="{slide_srcset(sl, 'hw')}" sizes="100vw">
-          <img src="/assets/img/{sl['ht']['folder']}/{sl['ht']['slug']}-ht-800.jpg"
-               srcset="{slide_srcset(sl, 'ht')}" sizes="100vw"
+          <source media="(min-aspect-ratio: 1/1)" {'srcset' if eager else 'data-srcset'}="{slide_srcset(sl, 'hw')}" sizes="100vw">
+          <img {src_attr}="/assets/img/{sl['ht']['folder']}/{sl['ht']['slug']}-ht-800.jpg"
+               {set_attr}="{slide_srcset(sl, 'ht')}" sizes="100vw"
                alt="{alt if eager else ''}"{'' if eager else ' aria-hidden="true"'}
-               {'fetchpriority="high"' if eager else 'loading="lazy"'} decoding="async"
+               {'fetchpriority="high"' if eager else 'decoding="async"'} decoding="async"
                data-hero-index="{i}"{' data-active="true"' if eager else ''}>
         </picture>""")
         media = '      <div class="hero__slides" data-hero-slides>\n' + "\n".join(parts) + '\n      </div>'
