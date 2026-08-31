@@ -156,7 +156,6 @@ APPROACH_SLIDE = "vancouver-headshot-studio-01"
 
 APPROACH_SLIDE_ALT = {
     "vancouver-headshot-professional-14": "Studio portrait of a woman in a tailored jacket against a painted backdrop.",
-    "vancouver-wedding-bridal-portrait-11": "A bride having her veil arranged before the ceremony.",
     "vancouver-headshot-studio-01": "Studio portrait of a woman in an olive turtleneck against a green backdrop.",
     "vancouver-concert-30": "Two guitarists performing together in a small venue.",
 }
@@ -197,7 +196,6 @@ HERO_RESERVED = {
     "vancouver-headshot-studio-05x", "vancouver-headshot-studio-06x",
     "vancouver-wedding-08", "vancouver-wedding-20", "vancouver-wedding-27",
     "vancouver-wedding-30", "vancouver-wedding-34",
-    "vancouver-wedding-bridal-portrait-11",
 }
 
 

@@ -44,9 +44,11 @@ SLIDES = [
     ("headshots", "vancouver-headshot-studio-01", 0.30),
     # Alternates, kept so swapping the pick is a one-line change in generate.py.
     ("headshots", "vancouver-headshot-professional-14", 0.19),
-    ("weddings", "vancouver-wedding-bridal-portrait-11", 0.42),
-    ("concerts", "vancouver-concert-backstage-14", 0.45),
-    ("concerts", "vancouver-concert-lighting-27", 0.38),
+    # Three more alternates lived here — a bridal portrait and two concert
+    # frames — until the wedding and concert sets were replaced from
+    # Portfolio/. Their sources went with the old sets, so every run of this
+    # script died on the first missing file. Removed rather than left to fail
+    # again; the guard below covers the next time it happens.
 ]
 
 
@@ -115,6 +117,13 @@ def main():
     manifest = []
     for folder, slug, focus in SLIDES:
         src = os.path.join(IMG, folder, slug + "-1800.jpg")
+        # Portfolio/ is the source of truth for galleries, so a photograph
+        # named here can disappear when a category is replaced. Say so and
+        # carry on: one retired alternate should not stop the slide that is
+        # actually in use from being rebuilt.
+        if not os.path.exists(src):
+            print(f"  ! {slug}: no {os.path.basename(src)} on disk — skipping")
+            continue
         iw, ih = dims(src)
 
         for tag, ratio in SHAPES:

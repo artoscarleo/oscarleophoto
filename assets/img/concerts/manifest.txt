@@ -11,7 +11,6 @@ vancouver-concert-stage-10|2048|400,800,1200,1800
 vancouver-concert-live-music-11|3122|400,800,1200,1800
 vancouver-concert-crowd-12|4992|400,800,1200,1800
 vancouver-concert-performance-13|4992|400,800,1200,1800
-vancouver-concert-backstage-14|4992|400,800,1200,1800
 vancouver-concert-festival-15|3328|400,800,1200,1800
 vancouver-concert-band-16|4992|400,800,1200,1800
 vancouver-concert-venue-17|4992|400,800,1200,1800
@@ -24,7 +23,6 @@ vancouver-concert-backstage-23|4992|400,800,1200,1800
 vancouver-concert-festival-24|3328|400,800,1200,1800
 vancouver-concert-band-25|3328|400,800,1200,1800
 vancouver-concert-venue-26|3328|400,800,1200,1800
-vancouver-concert-lighting-27|4992|400,800,1200,1800
 vancouver-concert-stage-28|4896|400,800,1200,1800
 vancouver-concert-live-music-29|4992|400,800,1200,1800
 vancouver-concert-crowd-30|4896|400,800,1200,1800
