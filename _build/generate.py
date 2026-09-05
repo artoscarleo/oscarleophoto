@@ -415,6 +415,7 @@ def head(page):
 
     og_image = page.get("og_image", "/assets/img/concerts/vancouver-concert-48-1200.jpg")
     canonical = SITE_URL + page["url"]
+    robots_meta = f'\n  <meta name="robots" content="{page["robots"]}">' if page.get("robots") else ""
 
     # The hero is the LCP element, so it is preloaded. Where a page serves a
     # different photograph to portrait windows, one unconditional preload would
@@ -458,7 +459,7 @@ def head(page):
   <meta name="twitter:description" content="{page['desc']}">
   <meta name="twitter:image" content="{SITE_URL}{og_image}">
 
-  <meta name="theme-color" content="#FFFFFF">
+  <meta name="theme-color" content="#FFFFFF">{robots_meta}
 
   <!-- The studio mark, not the old OL monogram. It is baked onto an opaque
        cream tile rather than served transparent: a browser tab bar may be
@@ -2162,11 +2163,73 @@ def redirect_page(old_url, new_url):
 """
 
 
+def not_found_page():
+    """The page served when a URL does not exist.
+
+    GitHub Pages answers a missing path with its own 404. Cloudflare Pages,
+    with no 404.html present, falls back to serving index.html — with a 200.
+    That is a soft 404: every mistyped URL would look to Google like a real
+    page duplicating the homepage. This file is what makes the status honest
+    on either host.
+
+    It is built from the same head/header/footer as every other page so a
+    visitor who lands here still has the navigation to get somewhere useful.
+    """
+    page = dict(
+        url="/404.html",
+        title="Page not found | Oscar Leo Photography",
+        desc="That page does not exist. Browse headshots, events, brand, wedding, concert and behind-the-scenes photography in Vancouver.",
+        eyebrow="404",
+        h1_lines=["This page", "does not exist"],
+        hero_sub="The link may be old, or slightly mistyped. Everything below is still here.",
+        hero_actions=[("/", "Back to the homepage"), ("/contact/", "Get in touch")],
+        # Never index the 404 itself. A 404 status alone keeps it out of the
+        # index, but the tag costs nothing and covers the case where the file
+        # is fetched directly.
+        robots="noindex, follow",
+        **hero_fields(next(i for i in HEADSHOTS if i["slug"] == "vancouver-headshot-studio-23"),
+                      "A portrait lit against a plain studio backdrop, photographed in Vancouver.")
+    )
+    links = "\n".join(
+        f'          <li><a href="{u}">{n}</a></li>' for u, n, *_ in
+        [(url, name) for url, name, *_ in SERVICES] + [("/about/", "About"), ("/contact/", "Contact")]
+    )
+    body = f"""    <section class="section">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Where to next</p>
+        <ul class="service-list" data-reveal>
+{links}
+        </ul>
+      </div>
+    </section>
+"""
+    return page, body
+
+
 def main():
     for builder in BUILDERS:
         page, body = builder()
         path = write(page["url"], render(page, body))
         print("wrote", os.path.relpath(path, ROOT))
+
+    page, body = not_found_page()
+    # Deliberately NOT relativized. Every other page is written to a known
+    # depth, but this one is served in place of whatever URL was missing —
+    # /a/b/c/typo just as readily as /typo. Relative hrefs would resolve
+    # against that phantom directory and every link, stylesheet and
+    # photograph on the page would 404 in turn.
+    with open(os.path.join(ROOT, "404.html"), "w") as fh:
+        fh.write(stamp_images(render(page, body)))
+    print("wrote 404.html")
+
+    # Real 301s, which GitHub Pages could not do. The meta-refresh stubs are
+    # still written below so the site keeps working if it is ever served from
+    # somewhere that ignores this file; Cloudflare matches _redirects first.
+    with open(os.path.join(ROOT, "_redirects"), "w") as fh:
+        for old_url, new_url in REDIRECTS.items():
+            fh.write(f"{old_url.rstrip('/')} {new_url} 301\n")
+            fh.write(f"{old_url.rstrip('/')}/ {new_url} 301\n")
+    print(f"wrote _redirects ({len(REDIRECTS)} rules)")
 
     for old_url, new_url in REDIRECTS.items():
         d = os.path.join(ROOT, old_url.strip("/"))
