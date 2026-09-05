@@ -2238,15 +2238,11 @@ def main():
             fh.write(redirect_page(old_url, new_url))
         print(f"redirect {old_url} -> {new_url}")
 
-    # Written only after DNS was confirmed resolving to GitHub's four
-    # addresses. The order matters: this file makes GitHub Pages 301 the
-    # github.io URL to the custom domain, so if DNS still pointed elsewhere
-    # the redirect would land on the old host and the site would be
-    # unreachable at both addresses. That happened once — DNS first, CNAME
-    # second, always.
-    with open(os.path.join(ROOT, "CNAME"), "w") as fh:
-        fh.write("oscarleo.photography\n")
-    print("wrote CNAME -> oscarleo.photography")
+    # No CNAME file any more. That file is how GitHub Pages claims a custom
+    # domain, and the site is served by Cloudflare Pages now — oscarleo.photography
+    # is a CNAME to the Pages project, and GitHub is only the repository.
+    # Leaving it would have GitHub still asserting ownership of a domain it
+    # no longer answers for.
 
 
 if __name__ == "__main__":
